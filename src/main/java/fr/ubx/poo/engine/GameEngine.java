@@ -69,8 +69,6 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
-        game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-        game.forEach(go -> sprites.add(SpriteFactory.createGameObject(layer, go)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         
 
@@ -134,6 +132,15 @@ public final class GameEngine {
 
 
     private void update(long now) {
+    	if (game.getWorld().hasChanged()) {
+    		sprites.forEach(Sprite::remove);
+    		sprites.clear();
+    		
+    		game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+            game.forEach(go -> sprites.add(SpriteFactory.createGameObject(layer, go)));
+    		game.getWorld().setChanged();
+    		
+    	}
         player.update(now);
 
         if (player.isAlive() == false) {

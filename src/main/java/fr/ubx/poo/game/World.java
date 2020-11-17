@@ -19,6 +19,7 @@ public class World {
     private final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
     public final Dimension dimension;
+    private boolean changed=true;
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -37,6 +38,13 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
     
+    public boolean hasChanged() {
+    	return changed;
+    }
+    
+    public void setChanged() {
+    	this.changed=false;
+    }
 
     public Decor get(Position position) {
         return grid.get(position);
@@ -48,10 +56,12 @@ public class World {
 
     public void set(Position position, Decor decor) {
         grid.put(position, decor);
+        changed=true;
     }
 
     public void clear(Position position) {
         grid.remove(position);
+        changed=true;
     }
 
     public void forEach(BiConsumer<Position, Decor> fn) {

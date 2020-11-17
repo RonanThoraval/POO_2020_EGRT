@@ -6,6 +6,7 @@ package fr.ubx.poo.view.sprite;
 
 import static fr.ubx.poo.view.image.ImageResource.*;
 
+
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
@@ -14,8 +15,8 @@ import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Door;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.model.go.Heart;
-import fr.ubx.poo.model.go.Key;
+import fr.ubx.poo.model.decor.Heart;
+import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Princess;
@@ -33,6 +34,10 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(TREE), position);
         if (decor instanceof Box)
         	return new SpriteDecor(layer,factory.get(BOX),position);
+        if (decor instanceof Heart)
+        	return new SpriteDecor(layer,factory.get(HEART),position);
+        if (decor instanceof Key)
+        	return new SpriteDecor(layer,factory.get(KEY),position);
         return null;
     }
 
@@ -42,10 +47,6 @@ public final class SpriteFactory {
     
     public static Sprite createGameObject(Pane layer, GameObject go) {
     	ImageFactory factory= ImageFactory.getInstance();
-    	if (go instanceof Heart )
-    		return new SpriteGameObject(layer,factory.get(HEART),go);
-    	if (go instanceof Key )
-    		return new SpriteGameObject(layer,factory.get(KEY),go);
     	if (go instanceof Monster )
     		return new SpriteGameObject(layer,factory.get(MONSTER),go);
     	if (go instanceof Princess )
