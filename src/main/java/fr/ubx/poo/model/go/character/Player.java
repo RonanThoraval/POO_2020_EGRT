@@ -84,7 +84,7 @@ public class Player extends GameObject implements Movable {
     		} else if (this.game.getWorld().get(newPos) instanceof Heart || this.game.getWorld().get(newPos) instanceof Key 
     				|| this.game.getWorld().get(newPos) instanceof RangeBombPlus || this.game.getWorld().get(newPos) instanceof RangeBombMoins
     				|| this.game.getWorld().get(newPos) instanceof NbBombPlus || this.game.getWorld().get(newPos) instanceof NbBombMoins
-    				|| this.game.getWorld().get(newPos) instanceof DoorOpen){
+    				|| ( this.game.getWorld().get(newPos) instanceof DoorClosed && keys>0)){
     			return true ;
     		}
     		return false;
@@ -120,6 +120,8 @@ public class Player extends GameObject implements Movable {
             	if(nbBombs!=1) {
             	nbBombs--;
             	}
+            } else if (game.getWorld().get(nextPos) instanceof DoorClosed) {
+            	game.getWorld().set(nextPos, new DoorOpen());
             }
             		
             for (GameObject go : this.game.getGameObjects() )
