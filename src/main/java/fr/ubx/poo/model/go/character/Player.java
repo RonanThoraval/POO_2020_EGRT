@@ -145,6 +145,9 @@ public class Player extends GameObject implements Movable {
         	OpenDoor(direction);
         	}
         }
+        if (bombRequest) {
+        	PoseBomb();
+        }
     }
 
     public boolean isWinner() {
@@ -191,6 +194,10 @@ public class Player extends GameObject implements Movable {
 		game.getWorld().clear(newPos);
 		game.getWorld().set(newPos, new DoorOpen());
 		keys--;
+	}
+	
+	public void PoseBomb() {
+		new Bomb(this.game,getPosition());
 	}
 
 }

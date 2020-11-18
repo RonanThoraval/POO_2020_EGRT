@@ -69,7 +69,7 @@ public final class SpriteFactory {
     	if (go instanceof Princess )
     		return new SpriteGameObject(layer,factory.get(PRINCESS),go);
     	if (go instanceof Bomb )
-    		return new SpriteGameObject(layer,factory.get(BOMB),go);
+    		return new SpriteGameObject(layer,factory.get(BOMB4),go);
     	return null;
     }
     
