@@ -10,13 +10,18 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.DoorClosed;
+import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
-import fr.ubx.poo.model.go.Door;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
+import fr.ubx.poo.model.decor.NbBombMoins;
+import fr.ubx.poo.model.decor.NbBombPlus;
+import fr.ubx.poo.model.decor.RangeBombMoins;
+import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Princess;
@@ -38,6 +43,18 @@ public final class SpriteFactory {
         	return new SpriteDecor(layer,factory.get(HEART),position);
         if (decor instanceof Key)
         	return new SpriteDecor(layer,factory.get(KEY),position);
+        if (decor instanceof NbBombPlus)
+            return new SpriteDecor(layer, factory.get(NBBOMBPLUS), position);
+        if (decor instanceof NbBombMoins)
+            return new SpriteDecor(layer, factory.get(NBBOMBMOINS), position);
+        if (decor instanceof RangeBombPlus)
+            return new SpriteDecor(layer, factory.get(RANGEBOMBPLUS), position);
+        if (decor instanceof RangeBombMoins)
+            return new SpriteDecor(layer, factory.get(RANGEBOMBMOINS), position);
+        if (decor instanceof DoorOpen)
+            return new SpriteDecor(layer, factory.get(DOOROPEN), position);
+        if (decor instanceof DoorClosed)
+            return new SpriteDecor(layer, factory.get(DOORCLOSED), position);
         return null;
     }
 
@@ -53,8 +70,6 @@ public final class SpriteFactory {
     		return new SpriteGameObject(layer,factory.get(PRINCESS),go);
     	if (go instanceof Bomb )
     		return new SpriteGameObject(layer,factory.get(BOMB),go);
-    	if (go instanceof Door )
-    		return new SpriteGameObject(layer,factory.get(DOOR),go);
     	return null;
     }
     

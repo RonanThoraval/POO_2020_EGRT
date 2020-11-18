@@ -2,8 +2,13 @@ package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
+import fr.ubx.poo.model.decor.NbBombMoins;
+import fr.ubx.poo.model.decor.NbBombPlus;
+import fr.ubx.poo.model.decor.RangeBombMoins;
+import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 
@@ -41,6 +46,16 @@ public class WorldBuilder {
             	return new Heart();
             case Key :
             	return new Key();
+            case BombNumberInc :
+            	return new NbBombPlus();
+            case BombNumberDec :
+            	return new NbBombMoins();
+            case BombRangeInc :
+            	return new RangeBombPlus();
+            case BombRangeDec :
+            	return new RangeBombMoins();
+            case DoorNextClosed :
+            	return new DoorClosed();
             default:
                 return null;
         }

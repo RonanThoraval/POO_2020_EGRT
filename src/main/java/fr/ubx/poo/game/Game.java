@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
 
-import fr.ubx.poo.model.go.Door;
 import fr.ubx.poo.model.go.GameObject;
+import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.go.Monster;
@@ -64,8 +64,6 @@ public class Game {
 		switch(entity) {
 		case Monster : 
 			return new Monster(this,pos);
-		case DoorNextClosed :
-			return new Door(this,pos);
 		case Princess :
 			return new Princess(this,pos);
 		default:
