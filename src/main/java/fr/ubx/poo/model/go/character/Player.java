@@ -147,6 +147,7 @@ public class Player extends GameObject implements Movable {
         }
         if (bombRequest) {
         	PoseBomb();
+        	bombRequest=false;
         }
     }
 
@@ -197,7 +198,11 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	public void PoseBomb() {
-		new Bomb(this.game,getPosition());
+		if (nbBombs>1) {
+			game.addGameObject(new Bomb(this.game,getPosition()));
+			nbBombs=nbBombs-1;
+		} 
+		
 	}
 
 }

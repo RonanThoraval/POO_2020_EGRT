@@ -33,7 +33,8 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final List<Sprite> sprites = new ArrayList<>();
+    private final List<Sprite> spritesDecor = new ArrayList<>();
+    private List<Sprite> spritesGameObject=new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -139,15 +140,15 @@ public final class GameEngine {
 
     private void update(long now) {
     	if (game.getWorld().hasChanged()) {
-    		sprites.forEach(Sprite::remove);
-    		sprites.clear();
+    		spritesDecor.forEach(Sprite::remove);
+    		spritesDecor.clear();
     		
-    		game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-            game.forEach(go -> sprites.add(SpriteFactory.createGameObject(layer, go)));
+    		game.getWorld().forEach( (pos,d) -> spritesDecor.add(SpriteFactory.createDecor(layer, pos, d)));
     		game.getWorld().setChanged();
     		
     	}
         player.update(now);
+        game.forEach(go -> spritesGameObject.add(SpriteFactory.createGameObject(layer, go)));
 
         if (player.isAlive() == false) {
             gameLoop.stop();
@@ -158,11 +159,13 @@ public final class GameEngine {
             showMessage("Gagné", Color.BLUE);
         }
     }
-
+    
     private void render() {
-        sprites.forEach(Sprite::render);
+        spritesDecor.forEach(Sprite::render);
+        spritesGameObject.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
+        
     }
 
     public void start() {

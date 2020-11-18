@@ -101,6 +101,10 @@ public class Game {
     public List<GameObject> getGameObjects() {
     	return this.gameObjects;
     }
+    
+    public void addGameObject(GameObject go) {
+    	gameObjects.add(go);
+    }
 
 
 }
