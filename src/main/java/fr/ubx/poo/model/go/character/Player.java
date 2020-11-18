@@ -17,6 +17,7 @@ import fr.ubx.poo.model.decor.NbBombMoins;
 import fr.ubx.poo.model.decor.NbBombPlus;
 import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
@@ -32,6 +33,7 @@ public class Player extends GameObject implements Movable {
     private int nbBombs =1;
     private int rangeBombs=1;
     private boolean winner;
+    private boolean bombRequest=false;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -84,7 +86,7 @@ public class Player extends GameObject implements Movable {
     		} else if (this.game.getWorld().get(newPos) instanceof Heart || this.game.getWorld().get(newPos) instanceof Key 
     				|| this.game.getWorld().get(newPos) instanceof RangeBombPlus || this.game.getWorld().get(newPos) instanceof RangeBombMoins
     				|| this.game.getWorld().get(newPos) instanceof NbBombPlus || this.game.getWorld().get(newPos) instanceof NbBombMoins
-    				|| ( this.game.getWorld().get(newPos) instanceof DoorClosed && keys>0)){
+    				|| this.game.getWorld().get(newPos) instanceof DoorOpen){
     			return true ;
     		}
     		return false;
@@ -120,10 +122,7 @@ public class Player extends GameObject implements Movable {
             	if(nbBombs!=1) {
             	nbBombs--;
             	}
-            } else if (game.getWorld().get(nextPos) instanceof DoorClosed) {
-            	game.getWorld().set(nextPos, new DoorOpen());
             }
-            		
             for (GameObject go : this.game.getGameObjects() )
         		if (go instanceof Monster && go.getPosition().equals(nextPos)) {
         			lives=lives-1;
@@ -175,6 +174,10 @@ public class Player extends GameObject implements Movable {
 		OpenDoorRequest=true;
 	}
 	
+	public void requestBomb() {
+		bombRequest=true;
+	}
+	
 	public boolean canOpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
 		if(game.getWorld().get(newPos) instanceof DoorClosed && keys!=0) {
@@ -186,7 +189,7 @@ public class Player extends GameObject implements Movable {
 	public void OpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
 		game.getWorld().clear(newPos);
-		game.getWorld().set(direction.nextPosition(newPos), new DoorOpen());
+		game.getWorld().set(newPos, new DoorOpen());
 		keys--;
 	}
 
