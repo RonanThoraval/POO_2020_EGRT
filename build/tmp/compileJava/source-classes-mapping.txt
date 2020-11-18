@@ -71,21 +71,21 @@ fr/ubx/poo/view/sprite/SpriteMonster.java
  fr.ubx.poo.view.sprite.SpriteMonster
 fr/ubx/poo/model/go/Monster.java
  fr.ubx.poo.model.go.Monster
-fr/ubx/poo/engine/StatusBar.java
- fr.ubx.poo.engine.StatusBar
-fr/ubx/poo/view/sprite/SpritePlayer.java
- fr.ubx.poo.view.sprite.SpritePlayer
-fr/ubx/poo/model/go/GameObject.java
- fr.ubx.poo.model.go.GameObject
-fr/ubx/poo/engine/GameEngine.java
- fr.ubx.poo.engine.GameEngine
- fr.ubx.poo.engine.GameEngine$1
- fr.ubx.poo.engine.GameEngine$2
 fr/ubx/poo/model/go/character/Player.java
  fr.ubx.poo.model.go.character.Player
+fr/ubx/poo/view/sprite/SpritePlayer.java
+ fr.ubx.poo.view.sprite.SpritePlayer
 fr/ubx/poo/view/sprite/SpriteBomb1.java
  fr.ubx.poo.view.sprite.SpriteBomb1
 fr/ubx/poo/view/sprite/SpriteFactory.java
  fr.ubx.poo.view.sprite.SpriteFactory
+fr/ubx/poo/engine/StatusBar.java
+ fr.ubx.poo.engine.StatusBar
+fr/ubx/poo/engine/GameEngine.java
+ fr.ubx.poo.engine.GameEngine
+ fr.ubx.poo.engine.GameEngine$1
+ fr.ubx.poo.engine.GameEngine$2
+fr/ubx/poo/model/go/GameObject.java
+ fr.ubx.poo.model.go.GameObject
 fr/ubx/poo/model/go/Bomb.java
  fr.ubx.poo.model.go.Bomb

@@ -198,10 +198,10 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	public void PoseBomb() {
+		game.addGameObject(new Bomb(this.game,getPosition()));
 		if (nbBombs>1) {
-			game.addGameObject(new Bomb(this.game,getPosition()));
-			nbBombs=nbBombs-1;
-		} 
+			nbBombs=nbBombs-1; 
+		}
 		
 	}
 
