@@ -25,12 +25,14 @@ import fr.ubx.poo.model.go.Bomb4;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends GameObject implements Movable {
 
     private final boolean alive = true;
-    private List<Bomb> listBomb;
+    private List<Bomb> listBomb=new ArrayList<>();
     private boolean OpenDoorRequest = false;
     Direction direction;
     private boolean moveRequested = false;
@@ -156,7 +158,7 @@ public class Player extends GameObject implements Movable {
         		PoseBomb(now);
         		bombRequest=false;
         	//}
-        }/*
+        }
         for(int i=0; i<listBomb.size();i++) {
         	if(now- listBomb.get(i).getStart()>=5) {
         		listBomb.remove(i);
@@ -178,7 +180,7 @@ public class Player extends GameObject implements Movable {
         		listBomb.set(i,b);
         		game.replaceGameObject(i, b);
         	}
-        }*/
+        }
     }
 
     public boolean isWinner() {
