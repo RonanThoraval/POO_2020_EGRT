@@ -1,14 +1,14 @@
 fr/ubx/poo/model/decor/DoorOpen.java
  fr.ubx.poo.model.decor.DoorOpen
-fr/ubx/poo/game/WorldBuilder.java
- fr.ubx.poo.game.WorldBuilder
- fr.ubx.poo.game.WorldBuilder$1
+fr/ubx/poo/view/image/ImageFactory.java
+ fr.ubx.poo.view.image.ImageFactory
+ fr.ubx.poo.view.image.ImageFactory$Holder
 fr/ubx/poo/model/decor/RangeBombMoins.java
  fr.ubx.poo.model.decor.RangeBombMoins
 fr/ubx/poo/model/decor/RangeBombPlus.java
  fr.ubx.poo.model.decor.RangeBombPlus
-fr/ubx/poo/view/image/ImageResource.java
- fr.ubx.poo.view.image.ImageResource
+fr/ubx/poo/model/decor/DoorClosed.java
+ fr.ubx.poo.model.decor.DoorClosed
 fr/ubx/poo/model/decor/NbBombPlus.java
  fr.ubx.poo.model.decor.NbBombPlus
 fr/ubx/poo/model/Entity.java
@@ -27,9 +27,8 @@ fr/ubx/poo/model/decor/Stone.java
  fr.ubx.poo.model.decor.Stone
 fr/ubx/poo/model/decor/Box.java
  fr.ubx.poo.model.decor.Box
-fr/ubx/poo/view/image/ImageFactory.java
- fr.ubx.poo.view.image.ImageFactory
- fr.ubx.poo.view.image.ImageFactory$Holder
+fr/ubx/poo/view/sprite/Sprite.java
+ fr.ubx.poo.view.sprite.Sprite
 fr/ubx/poo/engine/Input.java
  fr.ubx.poo.engine.Input
 fr/ubx/poo/view/sprite/SpriteDecor.java
@@ -48,54 +47,45 @@ fr/ubx/poo/game/Direction.java
  fr.ubx.poo.game.Direction$4
 fr/ubx/poo/model/decor/Decor.java
  fr.ubx.poo.model.decor.Decor
-fr/ubx/poo/Main.java
- fr.ubx.poo.Main
+fr/ubx/poo/game/WorldEntity.java
+ fr.ubx.poo.game.WorldEntity
 fr/ubx/poo/model/decor/Tree.java
  fr.ubx.poo.model.decor.Tree
 fr/ubx/poo/game/WorldStatic.java
  fr.ubx.poo.game.WorldStatic
-fr/ubx/poo/view/sprite/Sprite.java
- fr.ubx.poo.view.sprite.Sprite
-fr/ubx/poo/game/WorldEntity.java
- fr.ubx.poo.game.WorldEntity
-fr/ubx/poo/model/decor/DoorClosed.java
- fr.ubx.poo.model.decor.DoorClosed
-fr/ubx/poo/model/go/character/Princess.java
- fr.ubx.poo.model.go.character.Princess
-fr/ubx/poo/model/go/Bomb3.java
- fr.ubx.poo.model.go.Bomb3
+fr/ubx/poo/game/WorldBuilder.java
+ fr.ubx.poo.game.WorldBuilder
+ fr.ubx.poo.game.WorldBuilder$1
+fr/ubx/poo/model/decor/Princess.java
+ fr.ubx.poo.model.decor.Princess
+fr/ubx/poo/view/image/ImageResource.java
+ fr.ubx.poo.view.image.ImageResource
 fr/ubx/poo/view/sprite/SpriteGameObject.java
  fr.ubx.poo.view.sprite.SpriteGameObject
+fr/ubx/poo/model/go/Bomb.java
+ fr.ubx.poo.model.go.Bomb
 fr/ubx/poo/game/Game.java
  fr.ubx.poo.game.Game
  fr.ubx.poo.game.Game$1
 fr/ubx/poo/view/sprite/SpriteMonster.java
  fr.ubx.poo.view.sprite.SpriteMonster
-fr/ubx/poo/model/go/Bomb1.java
- fr.ubx.poo.model.go.Bomb1
+fr/ubx/poo/view/sprite/SpriteBomb.java
+ fr.ubx.poo.view.sprite.SpriteBomb
 fr/ubx/poo/model/go/Monster.java
  fr.ubx.poo.model.go.Monster
 fr/ubx/poo/model/go/character/Player.java
  fr.ubx.poo.model.go.character.Player
-fr/ubx/poo/model/go/character/Explosion.java
- fr.ubx.poo.model.go.character.Explosion
 fr/ubx/poo/view/sprite/SpritePlayer.java
  fr.ubx.poo.view.sprite.SpritePlayer
-fr/ubx/poo/model/go/Bomb4.java
- fr.ubx.poo.model.go.Bomb4
-fr/ubx/poo/view/sprite/SpriteBomb1.java
- fr.ubx.poo.view.sprite.SpriteBomb1
 fr/ubx/poo/view/sprite/SpriteFactory.java
  fr.ubx.poo.view.sprite.SpriteFactory
 fr/ubx/poo/engine/StatusBar.java
  fr.ubx.poo.engine.StatusBar
-fr/ubx/poo/model/go/Bomb2.java
- fr.ubx.poo.model.go.Bomb2
+fr/ubx/poo/model/go/GameObject.java
+ fr.ubx.poo.model.go.GameObject
+fr/ubx/poo/Main.java
+ fr.ubx.poo.Main
 fr/ubx/poo/engine/GameEngine.java
  fr.ubx.poo.engine.GameEngine
  fr.ubx.poo.engine.GameEngine$1
  fr.ubx.poo.engine.GameEngine$2
-fr/ubx/poo/model/go/GameObject.java
- fr.ubx.poo.model.go.GameObject
-fr/ubx/poo/model/go/Bomb.java
- fr.ubx.poo.model.go.Bomb

@@ -24,7 +24,7 @@ import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
 
@@ -55,7 +55,8 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(DOOROPEN), position);
         if (decor instanceof DoorClosed)
             return new SpriteDecor(layer, factory.get(DOORCLOSED), position);
-        
+        if (decor instanceof Princess)
+        	return new SpriteDecor(layer,factory.get(PRINCESS),position);
         return null;
     }
 
@@ -63,15 +64,13 @@ public final class SpriteFactory {
         return new SpritePlayer(layer, player);
     }
     
-    public static Sprite createGameObject(Pane layer, GameObject go) {
+    public static SpriteBomb createBomb(Pane layer, Bomb bomb) {
+    	return new SpriteBomb(layer, bomb);
+    }
+    
+    public static SpriteMonster createMonster(Pane layer, Monster monster) {
     	ImageFactory factory= ImageFactory.getInstance();
-    	if (go instanceof Monster )
-    		return new SpriteGameObject(layer,factory.get(MONSTER),go);
-    	if (go instanceof Princess )
-    		return new SpriteGameObject(layer,factory.get(PRINCESS),go);
-    	if (go instanceof Bomb )
-    		return new SpriteGameObject(layer,factory.get(BOMB4),go);
-    	return null;
+    	return new SpriteMonster(layer,monster);
     }
     
 }

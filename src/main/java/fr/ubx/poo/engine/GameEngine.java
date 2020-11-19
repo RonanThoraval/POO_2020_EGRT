@@ -6,9 +6,12 @@ package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
+import fr.ubx.poo.view.sprite.SpriteBomb;
 import fr.ubx.poo.view.sprite.SpriteFactory;
+import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
@@ -34,7 +37,8 @@ public final class GameEngine {
     private final Game game;
     private final Player player;
     private final List<Sprite> spritesDecor = new ArrayList<>();
-    private List<Sprite> spritesGameObject=new ArrayList<>();
+    private List<SpriteMonster> spritesMonster=new ArrayList<>();
+    private List<SpriteBomb> spritesBomb=new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -148,7 +152,29 @@ public final class GameEngine {
     		
     	}
         player.update(now);
-        game.forEach(go -> spritesGameObject.add(SpriteFactory.createGameObject(layer, go)));
+        
+        game.getMonsters().forEach(go -> spritesMonster.add(SpriteFactory.createMonster(layer, go)));
+        
+        //update les bombes existantes, crée celles qui ne le sont pas
+        for (Bomb bomb : player.getListBombs() ) {
+        	if (bomb.getCreated()) {
+        		if (!bomb.explosed()) {
+            		bomb.update(now);
+        		}
+        	} else {
+        		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
+        		bomb.setCreated();
+        	}	
+        }
+        
+        
+        //enlève les sprites des bombes explosées
+        for (SpriteBomb s : spritesBomb) {
+        	if (s.getBomb().explosed()) {
+        		s.remove();
+        		spritesBomb.remove(s);
+        	}
+        }
 
         if (player.isAlive() == false) {
             gameLoop.stop();
@@ -162,7 +188,8 @@ public final class GameEngine {
     
     private void render() {
         spritesDecor.forEach(Sprite::render);
-        spritesGameObject.forEach(Sprite::render);
+        spritesMonster.forEach(SpriteMonster::render);
+        spritesBomb.forEach(SpriteBomb::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
         

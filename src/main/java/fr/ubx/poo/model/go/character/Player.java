@@ -15,19 +15,17 @@ import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.NbBombMoins;
 import fr.ubx.poo.model.decor.NbBombPlus;
+import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Bomb;
-import fr.ubx.poo.model.go.Bomb1;
-import fr.ubx.poo.model.go.Bomb2;
-import fr.ubx.poo.model.go.Bomb3;
-import fr.ubx.poo.model.go.Bomb4;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Player extends GameObject implements Movable {
 
@@ -69,6 +67,10 @@ public class Player extends GameObject implements Movable {
     	return keys;
     }
     
+    public List<Bomb> getListBombs() {
+    	return listBomb;
+    }
+    
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -94,7 +96,7 @@ public class Player extends GameObject implements Movable {
     		} else if (this.game.getWorld().get(newPos) instanceof Heart || this.game.getWorld().get(newPos) instanceof Key 
     				|| this.game.getWorld().get(newPos) instanceof RangeBombPlus || this.game.getWorld().get(newPos) instanceof RangeBombMoins
     				|| this.game.getWorld().get(newPos) instanceof NbBombPlus || this.game.getWorld().get(newPos) instanceof NbBombMoins
-    				|| this.game.getWorld().get(newPos) instanceof DoorOpen){
+    				|| this.game.getWorld().get(newPos) instanceof DoorOpen || this.game.getWorld().get(newPos) instanceof Princess){
     			return true ;
     		}
     		return false;
@@ -131,8 +133,8 @@ public class Player extends GameObject implements Movable {
             	nbBombs--;
             	}
             }
-            for (GameObject go : this.game.getGameObjects() )
-        		if (go instanceof Monster && go.getPosition().equals(nextPos)) {
+            for (Monster monster : this.game.getMonsters() )
+        		if ( monster.getPosition().equals(nextPos)) {
         			lives=lives-1;
         		}
             
@@ -154,32 +156,8 @@ public class Player extends GameObject implements Movable {
         	}
         }
         if (bombRequest) {
-        	//if(canPoseBomb(getPosition())) {
         		PoseBomb(now);
         		bombRequest=false;
-        	//}
-        }
-        for(int i=0; i<listBomb.size();i++) {
-        	if(now-  listBomb.get(i).getEtat()>=5) {
-        		listBomb.remove(i);
-        		game.removeGameObject(i);
-        	} else if(now- listBomb.get(i).getS()>=4) {
-        		Explosion b= new Explosion(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
-        		listBomb.set(i,b);
-        		game.replaceGameObject(i, b);
-        	} else if( now- listBomb.get(i).getStart()>=3) {
-        		Bomb1 b= new Bomb1(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
-        		listBomb.set(i,b);
-        		game.replaceGameObject(i,b);
-        	} else if(now- listBomb.get(i).getStart()>=2) {
-        		Bomb2 b= new Bomb2(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
-        		listBomb.set(i,b);
-        		game.replaceGameObject(i, b);
-        	} else if(now- listBomb.get(i).getStart()>=1) {
-        		Bomb3 b= new Bomb3(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
-        		listBomb.set(i,b);
-        		game.replaceGameObject(i, b);
-        	}
         }
     }
 
@@ -187,10 +165,9 @@ public class Player extends GameObject implements Movable {
     	if (lives==0) {
     		return false;
     	}
-    	for (GameObject go : this.game.getGameObjects())
-    		if (go instanceof Princess && go.getPosition().equals(this.getPosition())) {
-    			return true;
-    		}
+    	if (game.getWorld().get(getPosition()) instanceof Princess) {
+    		return true;
+    	}
     	return false;
     	
     }
@@ -233,12 +210,22 @@ public class Player extends GameObject implements Movable {
 		//return nbBombs!=0 && (game.getGameObject(position) instanceof Bomb);
 		return true;
 	}
+	
+	
+	public void removeBomb(Bomb b) {
+		listBomb.remove(b);
+	}
 	public void PoseBomb(long now) {
-		game.addGameObject(new Bomb(this.game,getPosition(),now));
-		listBomb.add(new Bomb(this.game,getPosition(),now));
+		long start=now;
+		Bomb b=new Bomb(this.game,getPosition(),start);
+		listBomb.add(b);
 		nbBombs=nbBombs-1;
-		
-				
+			
+	}
+	
+	public void decreateBombs() {
+		for (Bomb b : listBomb)
+			b.decreate();
 	}
 
 }

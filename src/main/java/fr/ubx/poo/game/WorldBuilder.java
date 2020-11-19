@@ -7,6 +7,7 @@ import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.NbBombMoins;
 import fr.ubx.poo.model.decor.NbBombPlus;
+import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.decor.Stone;
@@ -56,6 +57,8 @@ public class WorldBuilder {
             	return new RangeBombMoins();
             case DoorNextClosed :
             	return new DoorClosed();
+            case Princess :
+            	return new Princess();
             default:
                 return null;
         }

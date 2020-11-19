@@ -25,6 +25,10 @@ public final class ImageFactory {
     private final ImageResource[] BombsEtat = new ImageResource[] {
     		BOMB4, BOMB3, BOMB2, BOMB1, EXPLOSION,
     };
+    
+    private final ImageResource[] monsters= new ImageResource[] {
+    		MONSTER_DOWN, MONSTER_UP, MONSTER_LEFT,MONSTER_RIGHT,
+    };
 
     private ImageFactory() {
         images = new Image[ImageResource.values().length];
@@ -63,6 +67,10 @@ public final class ImageFactory {
     
     public Image getBomb(int etat) {
     	return get(BombsEtat[etat]);
+    }
+    
+    public Image getMonster() {
+    	return get(monsters[0]);
     }
 
     /**

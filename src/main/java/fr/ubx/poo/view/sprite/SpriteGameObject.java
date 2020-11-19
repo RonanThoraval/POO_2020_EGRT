@@ -26,4 +26,8 @@ public class SpriteGameObject extends Sprite {
     	
     }
     
+    public GameObject getGameObject() {
+    	return go;
+    }
+    
 }

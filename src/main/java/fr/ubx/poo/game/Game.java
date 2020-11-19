@@ -20,19 +20,19 @@ import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.decor.Princess;
 
 public class Game {
 
     private final World world;
-    private final List<GameObject> gameObjects;
+    private final List<Monster> monsters;
     private final Player player;
     private final String worldPath;
     public int initPlayerLives;
 
     public Game(String worldPath) {
         world = new WorldStatic();
-        gameObjects=build(world.getRaw());
+        monsters=build(world.getRaw());
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
@@ -45,35 +45,33 @@ public class Game {
         }
     }
     
-    public List<GameObject> build(WorldEntity[][] raw) {
-    	List<GameObject> gameObjects=new ArrayList<>();
+    public List<Monster> build(WorldEntity[][] raw) {
+    	List<Monster> monsters=new ArrayList<>();
 		for (int x=0 ; x<world.dimension.width ; x++) {
 			for (int y=0 ; y<world.dimension.height ; y++) {
 				Position pos=new Position(x,y);
-				GameObject object=processEntity(raw[y][x],pos);
-				if (object!=null) {
-					System.out.println(object);
-					gameObjects.add(object);
+				Monster monster=processEntity(raw[y][x],pos);
+				if (monster!=null) {
+					System.out.println(monster);
+					monsters.add(monster);
 				}
 			}
 		}
-		return gameObjects;
+		return monsters;
 	}
 	
-	public GameObject processEntity(WorldEntity entity,Position pos) {
+	public Monster processEntity(WorldEntity entity,Position pos) {
 		switch(entity) {
 		case Monster : 
 			return new Monster(this,pos);
-		case Princess :
-			return new Princess(this,pos);
 		default:
 			return null;
 		}
 	}
     
-	public void forEach(Consumer <GameObject> go) {
-		gameObjects.forEach(go);
-	} 
+	public List<Monster> getMonsters() {
+		return monsters;
+	}
 
     public int getInitPlayerLives() {
         return initPlayerLives;
@@ -98,27 +96,22 @@ public class Game {
         return this.player;
     }
     
-    public List<GameObject> getGameObjects() {
-    	return this.gameObjects;
+    
+    public void addMonster(Monster monster) {
+    	monsters.add(monster);
     }
     
-    public void addGameObject(GameObject go) {
-    	gameObjects.add(go);
+    public void removeMonster(Monster monster ){
+    	monsters.remove(monster);
     }
     
-    public void replaceGameObject(int i,GameObject go) {
-    	gameObjects.set(i,go);
-    }
-    public void removeGameObject(int i) {
-    	gameObjects.remove(i);
-    }
-    public GameObject getGameObject(Position position) {
+/*    public GameObject getGameObject(Position position) {
     	for(int i=0; i<gameObjects.size();i++) {
     		if (gameObjects.get(i).getPosition()==position) {
     			return gameObjects.get(i);
     		} 
     	}
     	return null;
-    }
+    } */
 
 }

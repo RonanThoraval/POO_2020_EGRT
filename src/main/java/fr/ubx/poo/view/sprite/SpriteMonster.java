@@ -17,8 +17,8 @@ public class SpriteMonster extends SpriteGameObject {
 
     @Override
     public void updateImage() {
-       // Monster monster = (Monster) go;
-       // setImage(ImageFactory.getInstance().getMonster());
+        Monster monster = (Monster) go;
+        setImage(ImageFactory.getInstance().getMonster());
     }
 
 }
