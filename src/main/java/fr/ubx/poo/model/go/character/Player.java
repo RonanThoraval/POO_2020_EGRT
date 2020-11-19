@@ -18,13 +18,19 @@ import fr.ubx.poo.model.decor.NbBombPlus;
 import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Bomb;
+import fr.ubx.poo.model.go.Bomb1;
+import fr.ubx.poo.model.go.Bomb2;
+import fr.ubx.poo.model.go.Bomb3;
+import fr.ubx.poo.model.go.Bomb4;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
+import java.util.List;
 
 public class Player extends GameObject implements Movable {
 
     private final boolean alive = true;
+    private List<Bomb> listBomb;
     private boolean OpenDoorRequest = false;
     Direction direction;
     private boolean moveRequested = false;
@@ -146,9 +152,33 @@ public class Player extends GameObject implements Movable {
         	}
         }
         if (bombRequest) {
-        	PoseBomb();
-        	bombRequest=false;
-        }
+        	//if(canPoseBomb(getPosition())) {
+        		PoseBomb(now);
+        		bombRequest=false;
+        	//}
+        }/*
+        for(int i=0; i<listBomb.size();i++) {
+        	if(now- listBomb.get(i).getStart()>=5) {
+        		listBomb.remove(i);
+        		game.removeGameObject(i);
+        	} else if(now- listBomb.get(i).getStart()>=4) {
+        		Explosion b= new Explosion(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
+        		listBomb.set(i,b);
+        		game.replaceGameObject(i, b);
+        	} else if( now- listBomb.get(i).getStart()>=3) {
+        		Bomb1 b= new Bomb1(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
+        		listBomb.set(i,b);
+        		game.replaceGameObject(i,b);
+        	} else if(now- listBomb.get(i).getStart()>=2) {
+        		Bomb2 b= new Bomb2(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
+        		listBomb.set(i,b);
+        		game.replaceGameObject(i, b);
+        	} else if(now- listBomb.get(i).getStart()>=1) {
+        		Bomb3 b= new Bomb3(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
+        		listBomb.set(i,b);
+        		game.replaceGameObject(i, b);
+        	}
+        }*/
     }
 
     public boolean isWinner() {
@@ -197,12 +227,16 @@ public class Player extends GameObject implements Movable {
 		keys--;
 	}
 	
-	public void PoseBomb() {
-		game.addGameObject(new Bomb(this.game,getPosition()));
-		if (nbBombs>1) {
-			nbBombs=nbBombs-1; 
-		}
+	public boolean canPoseBomb(Position position) {
+		//return nbBombs!=0 && (game.getGameObject(position) instanceof Bomb);
+		return true;
+	}
+	public void PoseBomb(long now) {
+		game.addGameObject(new Bomb(this.game,getPosition(),now));
+		listBomb.add(new Bomb4(this.game,getPosition(),now));
+		nbBombs=nbBombs-1;
 		
+				
 	}
 
 }

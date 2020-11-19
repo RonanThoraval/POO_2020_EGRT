@@ -105,6 +105,20 @@ public class Game {
     public void addGameObject(GameObject go) {
     	gameObjects.add(go);
     }
-
+    
+    public void replaceGameObject(int i,GameObject go) {
+    	gameObjects.set(i,go);
+    }
+    public void removeGameObject(int i) {
+    	gameObjects.remove(i);
+    }
+    public GameObject getGameObject(Position position) {
+    	for(int i=0; i<gameObjects.size();i++) {
+    		if (gameObjects.get(i).getPosition()==position) {
+    			return gameObjects.get(i);
+    		} 
+    	}
+    	return null;
+    }
 
 }
