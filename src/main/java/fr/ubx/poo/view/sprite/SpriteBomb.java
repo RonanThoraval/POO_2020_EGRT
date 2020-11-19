@@ -7,9 +7,9 @@ import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
 
-public class SpriteBomb1 extends SpriteGameObject {
+public class SpriteBomb extends SpriteGameObject {
 	
-	public SpriteBomb1(Pane layer, Bomb bomb) {
+	public SpriteBomb(Pane layer, Bomb bomb) {
         super(layer, null, bomb);
         updateImage();
         
@@ -18,8 +18,8 @@ public class SpriteBomb1 extends SpriteGameObject {
 
     @Override
     public void updateImage() {
-       // Monster monster = (Monster) go;
-       // setImage(ImageFactory.getInstance().getMonster());
+        Bomb b = (Bomb) go;
+        setImage(ImageFactory.getInstance().getBomb(b.getEtat()));
     }
 
 }

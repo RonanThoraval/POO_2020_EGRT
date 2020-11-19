@@ -21,6 +21,10 @@ public final class ImageFactory {
             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3, DIGIT_4,
             DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
     };
+    
+    private final ImageResource[] BombsEtat = new ImageResource[] {
+    		BOMB4, BOMB3, BOMB2, BOMB1, EXPLOSION,
+    };
 
     private ImageFactory() {
         images = new Image[ImageResource.values().length];
@@ -57,6 +61,9 @@ public final class ImageFactory {
         return get(directions[direction.ordinal()]);
     }
     
+    public Image getBomb(int etat) {
+    	return get(BombsEtat[etat]);
+    }
 
     /**
      * Holder

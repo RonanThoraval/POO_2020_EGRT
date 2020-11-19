@@ -160,10 +160,10 @@ public class Player extends GameObject implements Movable {
         	//}
         }
         for(int i=0; i<listBomb.size();i++) {
-        	if(now- listBomb.get(i).getStart()>=5) {
+        	if(now-  listBomb.get(i).getEtat()>=5) {
         		listBomb.remove(i);
         		game.removeGameObject(i);
-        	} else if(now- listBomb.get(i).getStart()>=4) {
+        	} else if(now- listBomb.get(i).getS()>=4) {
         		Explosion b= new Explosion(this.game, listBomb.get(i).getPosition(), listBomb.get(i).getStart());
         		listBomb.set(i,b);
         		game.replaceGameObject(i, b);
@@ -235,7 +235,7 @@ public class Player extends GameObject implements Movable {
 	}
 	public void PoseBomb(long now) {
 		game.addGameObject(new Bomb(this.game,getPosition(),now));
-		listBomb.add(new Bomb4(this.game,getPosition(),now));
+		listBomb.add(new Bomb(this.game,getPosition(),now));
 		nbBombs=nbBombs-1;
 		
 				

@@ -55,6 +55,7 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(DOOROPEN), position);
         if (decor instanceof DoorClosed)
             return new SpriteDecor(layer, factory.get(DOORCLOSED), position);
+        
         return null;
     }
 

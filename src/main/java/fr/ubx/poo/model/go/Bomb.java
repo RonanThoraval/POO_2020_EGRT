@@ -5,14 +5,19 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject {
-	long start;
-	public Bomb(Game game, Position position, long start ) {
+	int etat;
+	
+	public Bomb(Game game, Position position) {
 		super(game,position);
-		this.start=start;
+		this.etat=0;
 	}
 	
-	public long getStart() {
-		return start;
+	public int getEtat() {
+		return etat;
+	}
+	
+	public void setEtat(int etat) {
+		this.etat=etat;
 	}
 	
 	public String toString() {
