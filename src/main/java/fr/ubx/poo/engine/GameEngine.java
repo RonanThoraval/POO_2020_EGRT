@@ -27,6 +27,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -171,11 +172,19 @@ public final class GameEngine {
         //enlève les sprites des bombes explosées
         for (SpriteBomb s : spritesBomb) {
         	if (s.getBomb().explosed()) {
-        		s.remove();
         		spritesBomb.remove(s);
+        		s.remove();
         		player.increaseNbBombs();
         	}
         }
+       /* Iterator<SpriteBomb> iterator = spritesBomb.iterator();
+        while(iterator.hasNext()) {
+        	if(iterator.next().getBomb().explosed()) {
+        		spritesBomb.remove(iterator.next());
+        		iterator.next().remove();
+        		player.increaseNbBombs();
+        	}
+        }*/
 
         if (player.isAlive() == false) {
             gameLoop.stop();

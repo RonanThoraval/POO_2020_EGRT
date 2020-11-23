@@ -60,8 +60,8 @@ fr/ubx/poo/game/Direction.java
  fr.ubx.poo.game.Direction$4
 fr/ubx/poo/game/World.java
  fr.ubx.poo.game.World
-fr/ubx/poo/Main.java
- fr.ubx.poo.Main
+fr/ubx/poo/model/go/Bomb.java
+ fr.ubx.poo.model.go.Bomb
 fr/ubx/poo/model/go/Monster.java
  fr.ubx.poo.model.go.Monster
 fr/ubx/poo/model/go/character/Player.java
@@ -79,13 +79,13 @@ fr/ubx/poo/view/sprite/SpriteMonster.java
  fr.ubx.poo.view.sprite.SpriteMonster
 fr/ubx/poo/engine/StatusBar.java
  fr.ubx.poo.engine.StatusBar
+fr/ubx/poo/view/sprite/SpriteBomb.java
+ fr.ubx.poo.view.sprite.SpriteBomb
+fr/ubx/poo/model/go/GameObject.java
+ fr.ubx.poo.model.go.GameObject
+fr/ubx/poo/Main.java
+ fr.ubx.poo.Main
 fr/ubx/poo/engine/GameEngine.java
  fr.ubx.poo.engine.GameEngine
  fr.ubx.poo.engine.GameEngine$1
  fr.ubx.poo.engine.GameEngine$2
-fr/ubx/poo/model/go/GameObject.java
- fr.ubx.poo.model.go.GameObject
-fr/ubx/poo/view/sprite/SpriteBomb.java
- fr.ubx.poo.view.sprite.SpriteBomb
-fr/ubx/poo/model/go/Bomb.java
- fr.ubx.poo.model.go.Bomb
