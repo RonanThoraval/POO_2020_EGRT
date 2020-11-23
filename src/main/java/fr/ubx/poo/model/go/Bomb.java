@@ -49,9 +49,6 @@ public class Bomb extends GameObject {
 	}
 	
 	public void update(long now) {
-		/*if (now - start>=6*Math.pow(10,9)) {
-			explosed=true;
-		}*/
 		if(now-  start>=5*Math.pow(10,9)) {
 			explosed=true;
     		etat=5;

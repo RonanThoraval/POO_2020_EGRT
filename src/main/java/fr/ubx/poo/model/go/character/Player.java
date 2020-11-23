@@ -59,6 +59,10 @@ public class Player extends GameObject implements Movable {
     	return nbBombs;
     }
     
+    public void increaseNbBombs() {
+    	nbBombs++;
+    }
+    
     public int getRangeBombs() {
     	return rangeBombs;
     }
@@ -148,16 +152,18 @@ public class Player extends GameObject implements Movable {
             if (canMove(direction)) {
                 doMove(direction);
             }
+            moveRequested = false;
         }
-        moveRequested = false;
         if (OpenDoorRequest) {
         	if(canOpenDoor(direction)) {
         	OpenDoor(direction);
         	}
         }
         if (bombRequest) {
+        	if(canPoseBomb()) {
         		PoseBomb(now);
-        		bombRequest=false;
+        	}
+        	bombRequest=false;
         }
     }
 
@@ -206,9 +212,8 @@ public class Player extends GameObject implements Movable {
 		keys--;
 	}
 	
-	public boolean canPoseBomb(Position position) {
-		//return nbBombs!=0 && (game.getGameObject(position) instanceof Bomb);
-		return true;
+	public boolean canPoseBomb() {
+		return nbBombs!=0;
 	}
 	
 	

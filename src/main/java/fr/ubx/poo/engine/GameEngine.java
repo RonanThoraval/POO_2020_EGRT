@@ -173,6 +173,7 @@ public final class GameEngine {
         	if (s.getBomb().explosed()) {
         		s.remove();
         		spritesBomb.remove(s);
+        		player.increaseNbBombs();
         	}
         }
 
