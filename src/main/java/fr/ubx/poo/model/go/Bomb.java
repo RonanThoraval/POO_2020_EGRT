@@ -1,5 +1,8 @@
 package fr.ubx.poo.model.go;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.go.character.Player;
@@ -19,6 +22,7 @@ public class Bomb extends GameObject {
 	public int getEtat() {
 		return etat;
 	}
+	
 	
 	public void setEtat(int etat) {
 		this.etat=etat;
@@ -61,6 +65,64 @@ public class Bomb extends GameObject {
     	} else if(now- start>=1*Math.pow(10,9)) {
     		etat=1;
     	}
+	}
+	
+	public boolean hasNorth() {
+		return (getPosition().y!=0);
+	}
+	
+	public boolean hasSouth() {
+		return (getPosition().y!=(game.getWorld().dimension.height)-1);
+	}
+	
+	public boolean hasWest() {
+		return (getPosition().x!=0);
+	}
+	
+	public boolean hasEast() {
+		return (getPosition().x!=(game.getWorld().dimension.width)-1);
+	}
+	
+	
+	public List<Position> positionsAroundBomb(int range) {
+		List<Position> l=new ArrayList<>();
+		int y=getPosition().y;
+		int x=getPosition().x;
+		if (hasNorth()) {
+			Position p1=new Position(x,y-1);
+			l.add(p1);
+		}
+		if (hasSouth()) {
+			Position p2=new Position(x,y+1);
+			l.add(p2);
+		}
+		if (hasWest()) {
+			Position p3=new Position(x-1,y);
+			l.add(p3);
+		}
+		if (hasEast()) {
+			Position p4=new Position(x+1,y);
+			l.add(p4);
+		}
+		if (hasNorth() && hasWest()) {
+			Position p5=new Position(x-1,y-1);
+			l.add(p5);
+		}
+		if (hasNorth() && hasEast()) {
+			Position p6=new Position(x+1,y-1);
+			l.add(p6);
+		}if (hasSouth() && hasWest()) {
+			Position p7=new Position(x-1,y+1);
+			l.add(p7);
+		}
+		if (hasSouth() && hasEast()) {
+			Position p8=new Position(x+1,y+1);
+			l.add(p8);
+		}
+		return l;
+		
+		
+		
 	}
 
 	
