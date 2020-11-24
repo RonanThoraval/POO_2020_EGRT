@@ -105,13 +105,5 @@ public class Game {
     	monsters.remove(monster);
     }
     
-/*    public GameObject getGameObject(Position position) {
-    	for(int i=0; i<gameObjects.size();i++) {
-    		if (gameObjects.get(i).getPosition()==position) {
-    			return gameObjects.get(i);
-    		} 
-    	}
-    	return null;
-    } */
 
 }

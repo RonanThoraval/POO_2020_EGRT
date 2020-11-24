@@ -12,6 +12,8 @@ import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.decor.Stone;
+import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.Monster;
@@ -144,6 +146,38 @@ public final class GameEngine {
             }
         }.start();
     }
+    
+    
+    
+    private boolean isBehindSomething(Position bombPosition,List<Position> positionsAround, Position position) {
+    	if (Math.abs(bombPosition.x-position.x)<=1 && Math.abs(bombPosition.y-position.y)<=1) {
+    		return false;
+    	}
+    	for (Position p : positionsAround) {
+    		if (((p.x==position.x) && (Math.abs(bombPosition.y-position.y)>Math.abs(bombPosition.y-p.y)))
+    			|| ((p.y==position.y) && (Math.abs(bombPosition.x-position.x)>Math.abs(bombPosition.x-p.x)))) {
+    				return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    private void bombDamage(Position bombPosition, List<Position> positionsAround) {
+    	Iterator<Position> iterator=positionsAround.iterator();
+    	while (iterator.hasNext()) {
+    		Position next=iterator.next();
+    		
+    		if ((game.getWorld().get(next)!=null) 
+    			&& !(game.getWorld().get(next) instanceof Tree) 
+    			&& !(game.getWorld().get(next) instanceof Stone)
+    			&& !(isBehindSomething(bombPosition,positionsAround,next))) {
+    				System.out.println(game.getWorld().get(next));
+        			game.getWorld().clear(next);
+    		}
+    		//gérer bombDamage sur les monstres
+    	}
+    	
+    }
 
 
     private void update(long now) {
@@ -160,16 +194,20 @@ public final class GameEngine {
         game.getMonsters().forEach(go -> spritesMonster.add(SpriteFactory.createMonster(layer, go)));
         
         //update les bombes existantes, crée celles qui ne le sont pas
-        for (Bomb bomb : player.getListBombs() ) {
+        Iterator<Bomb> iter=player.getListBombs().iterator();
+        while (iter.hasNext()) {
+        	Bomb bomb=iter.next();
         	if (bomb.getCreated()) {
         		if (!bomb.explosed()) { 
             		bomb.update(now);
         		}else {
         			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
+        			bombDamage(bomb.getPosition(),positionsAround);
         			for (Position p : positionsAround) {
+        				System.out.println(p);
         				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
         			}
-        		    player.removeBomb(bomb);
+        		    iter.remove();
         		}
         	} else {
         		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
@@ -178,10 +216,11 @@ public final class GameEngine {
         }
         
        
-        
+        //update les explosions
         for (SpriteExplosion s : spritesExplosion)
         	s.getExplosion().update(now);
         
+        //enlève les explosions déjà apparues
         Iterator<SpriteExplosion> it=spritesExplosion.iterator();
         while (it.hasNext()) {
         	SpriteExplosion next=it.next();
