@@ -170,21 +170,15 @@ public final class GameEngine {
         
         
         //enlève les sprites des bombes explosées
-        for (SpriteBomb s : spritesBomb) {
-        	if (s.getBomb().explosed()) {
-        		spritesBomb.remove(s);
-        		s.remove();
+        Iterator<SpriteBomb> iterator = spritesBomb.iterator();
+        while(iterator.hasNext()) {
+        	SpriteBomb next = iterator.next();
+        	if(next.getBomb().explosed()) {
+        		next.remove();
+        		iterator.remove();
         		player.increaseNbBombs();
         	}
         }
-       /* Iterator<SpriteBomb> iterator = spritesBomb.iterator();
-        while(iterator.hasNext()) {
-        	if(iterator.next().getBomb().explosed()) {
-        		spritesBomb.remove(iterator.next());
-        		iterator.next().remove();
-        		player.increaseNbBombs();
-        	}
-        }*/
 
         if (player.isAlive() == false) {
             gameLoop.stop();
