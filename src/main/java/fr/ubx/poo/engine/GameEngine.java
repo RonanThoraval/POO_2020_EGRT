@@ -12,6 +12,10 @@ import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.DoorClosed;
+import fr.ubx.poo.model.decor.DoorOpen;
+import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
@@ -45,6 +49,7 @@ public final class GameEngine {
     private List<SpriteMonster> spritesMonster=new ArrayList<>();
     private List<SpriteBomb> spritesBomb=new ArrayList<>();
     private List<SpriteExplosion> spritesExplosion=new ArrayList<>();
+    private List<Position> positionToSupp=new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -149,20 +154,48 @@ public final class GameEngine {
     
     
     
-    private boolean isBehindSomething(Position bombPosition,List<Position> positionsAround, Position position) {
+    private boolean isBehindSomething(Position bombPosition, Position position) {
     	if (Math.abs(bombPosition.x-position.x)<=1 && Math.abs(bombPosition.y-position.y)<=1) {
     		return false;
     	}
-    	for (Position p : positionsAround) {
-    		if (((p.x==position.x) && (Math.abs(bombPosition.y-position.y)>Math.abs(bombPosition.y-p.y)))
-    			|| ((p.y==position.y) && (Math.abs(bombPosition.x-position.x)>Math.abs(bombPosition.x-p.x)))) {
-    				return true;
+    	
+    	if(position.x==bombPosition.x) {
+    		if(position.y>bombPosition.y) {
+    			for(int i=1; i<position.y-bombPosition.y; i++) {
+    				Position p = new Position(bombPosition.x,bombPosition.y+i);
+    				if( game.getWorld().get(p) instanceof Decor) {
+    					return true;
+    				}
+    			}
+    		}else {
+    			for(int i=1; i<bombPosition.y-position.y; i++) {
+    				Position p = new Position(bombPosition.x,bombPosition.y-i);
+    				if( game.getWorld().get(p) instanceof Decor) {
+    					return true;
+    				}
+    			}
+    		}
+    	}else {
+    		if(position.x>bombPosition.x) {
+    			for(int i=1; i<position.x-bombPosition.x; i++) {
+    				Position p = new Position(bombPosition.x+i,bombPosition.y);
+    				if( game.getWorld().get(p) instanceof Decor) {
+    					return true;
+    				}
+    			}
+    		}else {
+    			for(int i=1; i<bombPosition.x-position.x; i++) {
+    				Position p = new Position(bombPosition.x-i,bombPosition.y);
+    				if( game.getWorld().get(p) instanceof Decor) {
+    					return true;
+    				}
+    			}
     		}
     	}
     	return false;
     }
     
-    private void bombDamage(Position bombPosition, List<Position> positionsAround) {
+    private void bombDamage(Position bombPosition, List<Position> positionsAround, long truc) {
     	Iterator<Position> iterator=positionsAround.iterator();
     	while (iterator.hasNext()) {
     		Position next=iterator.next();
@@ -170,9 +203,13 @@ public final class GameEngine {
     		if ((game.getWorld().get(next)!=null) 
     			&& !(game.getWorld().get(next) instanceof Tree) 
     			&& !(game.getWorld().get(next) instanceof Stone)
-    			&& !(isBehindSomething(bombPosition,positionsAround,next))) {
-    				System.out.println(game.getWorld().get(next));
-        			game.getWorld().clear(next);
+    			&& !(game.getWorld().get(next) instanceof Key)
+    			&& !(game.getWorld().get(next) instanceof DoorClosed)
+    			&& !(game.getWorld().get(next) instanceof DoorOpen)
+    			&& !(isBehindSomething(bombPosition,next))) {
+    			positionToSupp.add(next);
+    			
+        			
     		}
     		//gérer bombDamage sur les monstres
     	}
@@ -202,11 +239,13 @@ public final class GameEngine {
             		bomb.update(now);
         		}else {
         			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
-        			bombDamage(bomb.getPosition(),positionsAround);
-        			for (Position p : positionsAround) {
-        				System.out.println(p);
-        				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
-        			}
+        			bombDamage(bomb.getPosition(),positionsAround,now);
+        			Iterator<Position> iterator2=positionToSupp.iterator();
+        	    	while(iterator2.hasNext()) {
+        	    	game.getWorld().clear(iterator2.next());
+        			//for(Position p : positionsAround)
+        				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,iterator2.next(),now)));
+        	    	}
         		    iter.remove();
         		}
         	} else {
