@@ -168,12 +168,27 @@ public final class GameEngine {
         			for(int i=1; i<=player.getRangeBombs(); i++) {
         				Position p = new Position(bomb.getPosition().x+i,bomb.getPosition().y);
         				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
+        		        player.removeBomb(bomb);;
         			}
         		}
         	} else {
         		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
         		bomb.setCreated();
         	}	
+        }
+        
+       
+        
+        for (SpriteExplosion s : spritesExplosion)
+        	s.getExplosion().update(now);
+        
+        Iterator<SpriteExplosion> it=spritesExplosion.iterator();
+        while (it.hasNext()) {
+        	SpriteExplosion next=it.next();
+        	if (next.getExplosion().getExplosed()) {
+        		next.remove();
+        		it.remove();
+        	}
         }
         
         
@@ -202,6 +217,7 @@ public final class GameEngine {
         spritesDecor.forEach(Sprite::render);
         spritesMonster.forEach(SpriteMonster::render);
         spritesBomb.forEach(SpriteBomb::render);
+        spritesExplosion.forEach(SpriteExplosion::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
         

@@ -21,9 +21,11 @@ import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
+import fr.ubx.poo.view.sprite.SpriteExplosion;
 import fr.ubx.poo.game.Game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -217,8 +219,24 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	
+	public void removeBombExplosed() {
+		Iterator<Bomb> it=listBomb.iterator();
+    	while (it.hasNext()) {
+    		Bomb next=it.next();
+    		if (next.explosed()) {
+    			it.remove();
+    		}
+    	}
+	}
+	
 	public void removeBomb(Bomb b) {
-		listBomb.remove(b);
+		Iterator<Bomb> iterator=listBomb.iterator();
+		while (iterator.hasNext()) {
+			Bomb next=iterator.next();
+			if (next==b) {
+				iterator.remove();
+			}
+		}
 	}
 	public void PoseBomb(long now) {
 		long start=now;
