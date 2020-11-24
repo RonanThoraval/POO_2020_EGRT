@@ -20,12 +20,12 @@ public class SpriteExplosion extends SpriteGameObject {
 
     @Override
     public void updateImage() {
-        setImage(ImageFactory.getInstance().getBomb(5));
+        setImage(ImageFactory.getInstance().getBomb(4));
     }
     
 
-    public Bomb getBomb() {
-    	Bomb b=(Bomb) go;
+    public Explosion getExplosion() {
+    	Explosion b=(Explosion) go;
     	return b;
     }
 

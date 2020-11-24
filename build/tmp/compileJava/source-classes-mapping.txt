@@ -81,15 +81,15 @@ fr/ubx/poo/view/sprite/SpritePlayer.java
  fr.ubx.poo.view.sprite.SpritePlayer
 fr/ubx/poo/model/decor/Key.java
  fr.ubx.poo.model.decor.Key
-fr/ubx/poo/Main.java
- fr.ubx.poo.Main
-fr/ubx/poo/view/sprite/SpriteExplosion.java
- fr.ubx.poo.view.sprite.SpriteExplosion
-fr/ubx/poo/view/sprite/SpriteFactory.java
- fr.ubx.poo.view.sprite.SpriteFactory
 fr/ubx/poo/model/go/Explosion.java
  fr.ubx.poo.model.go.Explosion
 fr/ubx/poo/engine/GameEngine.java
  fr.ubx.poo.engine.GameEngine
  fr.ubx.poo.engine.GameEngine$1
  fr.ubx.poo.engine.GameEngine$2
+fr/ubx/poo/Main.java
+ fr.ubx.poo.Main
+fr/ubx/poo/view/sprite/SpriteExplosion.java
+ fr.ubx.poo.view.sprite.SpriteExplosion
+fr/ubx/poo/view/sprite/SpriteFactory.java
+ fr.ubx.poo.view.sprite.SpriteFactory

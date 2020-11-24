@@ -162,12 +162,13 @@ public final class GameEngine {
         //update les bombes existantes, crée celles qui ne le sont pas
         for (Bomb bomb : player.getListBombs() ) {
         	if (bomb.getCreated()) {
-        		if (!bomb.explosed()) {
+        		if (!bomb.explosed()) { 
             		bomb.update(now);
-        		}
-        		for(int i=0; i<=player.getRangeBombs(); i++) {
-        			Position p = new Position(bomb.getPosition().x+i,bomb.getPosition().y);
-        			spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
+        		}else {
+        			for(int i=1; i<=player.getRangeBombs(); i++) {
+        				Position p = new Position(bomb.getPosition().x+i,bomb.getPosition().y);
+        				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
+        			}
         		}
         	} else {
         		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
