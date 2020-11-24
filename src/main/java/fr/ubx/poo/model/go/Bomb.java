@@ -88,41 +88,25 @@ public class Bomb extends GameObject {
 		List<Position> l=new ArrayList<>();
 		int y=getPosition().y;
 		int x=getPosition().x;
-		if (hasNorth()) {
-			Position p1=new Position(x,y-1);
-			l.add(p1);
-		}
-		if (hasSouth()) {
-			Position p2=new Position(x,y+1);
-			l.add(p2);
-		}
-		if (hasWest()) {
-			Position p3=new Position(x-1,y);
-			l.add(p3);
-		}
-		if (hasEast()) {
-			Position p4=new Position(x+1,y);
-			l.add(p4);
-		}
-		if (hasNorth() && hasWest()) {
-			Position p5=new Position(x-1,y-1);
-			l.add(p5);
-		}
-		if (hasNorth() && hasEast()) {
-			Position p6=new Position(x+1,y-1);
-			l.add(p6);
-		}if (hasSouth() && hasWest()) {
-			Position p7=new Position(x-1,y+1);
-			l.add(p7);
-		}
-		if (hasSouth() && hasEast()) {
-			Position p8=new Position(x+1,y+1);
-			l.add(p8);
+		for(int i=0; i<=range; i++) {
+			if (hasNorth()) {
+				Position p1=new Position(x,y-i);
+				l.add(p1);
+			}
+			if (hasSouth()) {
+				Position p2=new Position(x,y+i);
+				l.add(p2);
+			}
+			if (hasWest()) {
+				Position p3=new Position(x-i,y);
+				l.add(p3);
+			}
+			if (hasEast()) {
+				Position p4=new Position(x+i,y);
+				l.add(p4);
+			}
 		}
 		return l;
-		
-		
-		
 	}
 
 	

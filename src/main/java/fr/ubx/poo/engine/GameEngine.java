@@ -165,13 +165,11 @@ public final class GameEngine {
         		if (!bomb.explosed()) { 
             		bomb.update(now);
         		}else {
-        			for(int i=1; i<=player.getRangeBombs(); i++) {
-        				List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
-        				for (Position p : positionsAround) {
-        					spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
-        				}
-        		        player.removeBomb(bomb);;
+        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
+        			for (Position p : positionsAround) {
+        				spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
         			}
+        		    player.removeBomb(bomb);
         		}
         	} else {
         		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
