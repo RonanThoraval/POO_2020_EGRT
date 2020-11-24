@@ -7,11 +7,13 @@ package fr.ubx.poo.engine;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteBomb;
+import fr.ubx.poo.view.sprite.SpriteExplosion;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.go.Bomb;
+import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
@@ -40,6 +42,7 @@ public final class GameEngine {
     private final List<Sprite> spritesDecor = new ArrayList<>();
     private List<SpriteMonster> spritesMonster=new ArrayList<>();
     private List<SpriteBomb> spritesBomb=new ArrayList<>();
+    private List<SpriteExplosion> spritesExplosion=new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -161,6 +164,10 @@ public final class GameEngine {
         	if (bomb.getCreated()) {
         		if (!bomb.explosed()) {
             		bomb.update(now);
+        		}
+        		for(int i=0; i<=player.getRangeBombs(); i++) {
+        			Position p = new Position(bomb.getPosition().x+i,bomb.getPosition().y);
+        			spritesExplosion.add(SpriteFactory.createExplosion(layer, new Explosion(game,p,now)));
         		}
         	} else {
         		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));

@@ -18,7 +18,8 @@ public class Position {
         this.x = position.x;
         this.y = position.y;
     }
-
+    
+   
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

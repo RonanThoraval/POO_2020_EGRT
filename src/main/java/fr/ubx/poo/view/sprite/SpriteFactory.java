@@ -15,6 +15,7 @@ import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
+import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
@@ -66,6 +67,10 @@ public final class SpriteFactory {
     
     public static SpriteBomb createBomb(Pane layer, Bomb bomb) {
     	return new SpriteBomb(layer, bomb);
+    }
+    
+    public static SpriteExplosion createExplosion(Pane layer, Explosion explosion) {
+    	return new SpriteExplosion(layer,explosion);
     }
     
     public static SpriteMonster createMonster(Pane layer, Monster monster) {
