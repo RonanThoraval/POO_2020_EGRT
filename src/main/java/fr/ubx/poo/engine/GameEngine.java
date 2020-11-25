@@ -172,14 +172,14 @@ public final class GameEngine {
     		if(position.y>bombPosition.y) {
     			for(int i=1; i<position.y-bombPosition.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y+i);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.y-position.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y-i);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
@@ -188,14 +188,14 @@ public final class GameEngine {
     		if(position.x>bombPosition.x) {
     			for(int i=1; i<position.x-bombPosition.x; i++) {
     				Position p = new Position(bombPosition.x+i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.x-position.x; i++) {
     				Position p = new Position(bombPosition.x-i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
@@ -226,6 +226,10 @@ public final class GameEngine {
     				iteratorMonster.remove();
     				monster.setDeath();
     			}
+    		}
+    		
+    		if (!isBehindSomething(bombPosition,player.getPosition()) && player.getPosition().equals(bombPosition)) {
+    			player.decreaseLives();
     		}
     	}
     	
@@ -265,9 +269,6 @@ public final class GameEngine {
         			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
         			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround);
         			for (Position p : positionToSupp) {
-        				if (p.equals(player.getPosition()) || bomb.getPosition().equals(player.getPosition())) {
-        					player.decreaseLives();
-        				}
         				Explosion exp = new Explosion(game,p,now);
         				spritesExplosion.add(SpriteFactory.createExplosion(layer,exp));
         				game.addExplosion(exp);
