@@ -163,7 +163,7 @@ public final class GameEngine {
     		if(position.y>bombPosition.y) {
     			for(int i=1; i<position.y-bombPosition.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y+i);
-    				if( game.getWorld().get(p) instanceof Decor) {
+    				if( game.getWorld().get(p) instanceof Decor || gam) {
     					return true;
     				}
     			}
