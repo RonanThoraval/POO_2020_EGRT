@@ -67,21 +67,6 @@ public class Bomb extends GameObject {
     	}
 	}
 	
-	public boolean hasNorth() {
-		return (getPosition().y!=0);
-	}
-	
-	public boolean hasSouth() {
-		return (getPosition().y!=(game.getWorld().dimension.height)-1);
-	}
-	
-	public boolean hasWest() {
-		return (getPosition().x!=0);
-	}
-	
-	public boolean hasEast() {
-		return (getPosition().x!=(game.getWorld().dimension.width)-1);
-	}
 	
 	
 	public List<Position> positionsAroundBomb(int range) {
@@ -89,20 +74,21 @@ public class Bomb extends GameObject {
 		int y=getPosition().y;
 		int x=getPosition().x;
 		for(int i=0; i<=range; i++) {
-			if (hasNorth()) {
-				Position p1=new Position(x,y-i);
+			Position p1=new Position(x,y-i);
+			Position p2=new Position(x,y+i);
+			Position p3=new Position(x-i,y);
+			Position p4=new Position(x+i,y);
+			
+			if (p1.inside(this.game.getWorld().dimension)) {
 				l.add(p1);
 			}
-			if (hasSouth()) {
-				Position p2=new Position(x,y+i);
+			if (p2.inside(this.game.getWorld().dimension)) {
 				l.add(p2);
 			}
-			if (hasWest()) {
-				Position p3=new Position(x-i,y);
+			if (p3.inside(this.game.getWorld().dimension)) {
 				l.add(p3);
 			}
-			if (hasEast()) {
-				Position p4=new Position(x+i,y);
+			if (p4.inside(this.game.getWorld().dimension)) {
 				l.add(p4);
 			}
 		}
