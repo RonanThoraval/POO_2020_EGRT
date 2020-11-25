@@ -154,6 +154,15 @@ public final class GameEngine {
     
     
     
+    private boolean isMonsterHere(Position p) {
+    	for (Monster monster : game.getMonsters()) {
+    		if (monster.getPosition().equals(p)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     private boolean isBehindSomething(Position bombPosition, Position position) {
     	if (Math.abs(bombPosition.x-position.x)<=1 && Math.abs(bombPosition.y-position.y)<=1) {
     		return false;
@@ -163,14 +172,14 @@ public final class GameEngine {
     		if(position.y>bombPosition.y) {
     			for(int i=1; i<position.y-bombPosition.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y+i);
-    				if( game.getWorld().get(p) instanceof Decor) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.y-position.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y-i);
-    				if( game.getWorld().get(p) instanceof Decor) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
     					return true;
     				}
     			}
@@ -179,14 +188,14 @@ public final class GameEngine {
     		if(position.x>bombPosition.x) {
     			for(int i=1; i<position.x-bombPosition.x; i++) {
     				Position p = new Position(bombPosition.x+i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.x-position.x; i++) {
     				Position p = new Position(bombPosition.x-i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor) {
+    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p)) {
     					return true;
     				}
     			}
@@ -210,7 +219,14 @@ public final class GameEngine {
     			positionToSupp.add(next);
         			
     		}
-    		//gérer bombDamage sur les monstres
+    		Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
+    		while (iteratorMonster.hasNext()) {
+    			Monster monster=iteratorMonster.next();
+    			if (monster.getPosition().equals(next) && !(isBehindSomething(bombPosition,next))) {
+    				iteratorMonster.remove();
+    				monster.setDeath();
+    			}
+    		}
     	}
     	
     	Iterator<Position> iterator2=positionToSupp.iterator();
@@ -249,6 +265,9 @@ public final class GameEngine {
         			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
         			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround);
         			for (Position p : positionToSupp) {
+        				if (p.equals(player.getPosition()) || bomb.getPosition().equals(player.getPosition())) {
+        					player.decreaseLives();
+        				}
         				Explosion exp = new Explosion(game,p,now);
         				spritesExplosion.add(SpriteFactory.createExplosion(layer,exp));
         				game.addExplosion(exp);

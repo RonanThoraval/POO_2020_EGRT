@@ -50,13 +50,15 @@ public class Monster extends GameObject implements Movable {
 	}
 	
 	public void doMove(Direction direction) {
-    	Position nextPos = direction.nextPosition(getPosition());
-        for (Explosion explosion : this.game.getExplosion() ) {
+		if (canMove(direction) ) {
+	    	Position nextPos = direction.nextPosition(getPosition());
+	        setPosition(nextPos);
+		}
+       /* for (Explosion explosion : this.game.getExplosion() ) {
         	if ( explosion.getPosition().equals(nextPos)) {
         		setDeath();
         	}
-        }
-        setPosition(nextPos);
+        }*/
 	}
 	
 	/*public void update(long now) {
