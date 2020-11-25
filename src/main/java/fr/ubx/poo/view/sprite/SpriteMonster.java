@@ -1,6 +1,7 @@
 package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
@@ -18,7 +19,12 @@ public class SpriteMonster extends SpriteGameObject {
     @Override
     public void updateImage() {
         Monster monster = (Monster) go;
-        setImage(ImageFactory.getInstance().getMonster());
+        setImage(ImageFactory.getInstance().getMonster(monster.getDirection()));
+    }
+    
+    public Monster getMonster() {
+    	Monster m=(Monster) go;
+    	return m;
     }
 
 }

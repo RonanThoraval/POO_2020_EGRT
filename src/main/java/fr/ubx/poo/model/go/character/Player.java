@@ -52,6 +52,10 @@ public class Player extends GameObject implements Movable {
     public int getLives() {
         return lives;
     }
+    
+    public void decreaseLives() {
+    	lives--;
+    }
 
     public Direction getDirection() {
         return direction;
@@ -141,7 +145,7 @@ public class Player extends GameObject implements Movable {
             }
             for (Monster monster : this.game.getMonsters() )
         		if ( monster.getPosition().equals(nextPos)) {
-        			lives=lives-1;
+        			decreaseLives();
         		}
             
             setPosition(nextPos);

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
 
+import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
@@ -26,6 +27,7 @@ public class Game {
 
     private final World world;
     private final List<Monster> monsters;
+    private List<Explosion> explosions = new ArrayList<>();
     private final Player player;
     private final String worldPath;
     public int initPlayerLives;
@@ -63,7 +65,7 @@ public class Game {
 	public Monster processEntity(WorldEntity entity,Position pos) {
 		switch(entity) {
 		case Monster : 
-			return new Monster(this,pos);
+			return new Monster(this,pos,0);
 		default:
 			return null;
 		}
@@ -71,6 +73,10 @@ public class Game {
     
 	public List<Monster> getMonsters() {
 		return monsters;
+	}
+	
+	public List<Explosion> getExplosion(){
+		return explosions;
 	}
 
     public int getInitPlayerLives() {
@@ -96,6 +102,13 @@ public class Game {
         return this.player;
     }
     
+    public void addExplosion(Explosion explosion) {
+    	explosions.add(explosion);
+    }
+    
+    public void removeExplosion(Explosion explosion) {
+    	explosions.remove(explosion);
+    }
     
     public void addMonster(Monster monster) {
     	monsters.add(monster);

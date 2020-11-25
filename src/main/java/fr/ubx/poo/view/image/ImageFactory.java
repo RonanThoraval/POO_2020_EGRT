@@ -27,7 +27,7 @@ public final class ImageFactory {
     };
     
     private final ImageResource[] monsters= new ImageResource[] {
-    		MONSTER_DOWN, MONSTER_UP, MONSTER_LEFT,MONSTER_RIGHT,
+    		MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN,MONSTER_LEFT,
     };
 
     private ImageFactory() {
@@ -69,8 +69,8 @@ public final class ImageFactory {
     	return get(BombsEtat[etat]);
     }
     
-    public Image getMonster() {
-    	return get(monsters[0]);
+    public Image getMonster(Direction direction) {
+    	return get(monsters[direction.ordinal()]);
     }
 
     /**
