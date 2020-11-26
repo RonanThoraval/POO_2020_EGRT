@@ -73,7 +73,7 @@ public class Bomb extends GameObject {
 		List<Position> l=new ArrayList<>();
 		int y=getPosition().y;
 		int x=getPosition().x;
-		for(int i=0; i<=range; i++) {
+		for(int i=1; i<=range; i++) {
 			Position p1=new Position(x,y-i);
 			Position p2=new Position(x,y+i);
 			Position p3=new Position(x-i,y);
@@ -92,6 +92,7 @@ public class Bomb extends GameObject {
 				l.add(p4);
 			}
 		}
+		l.add(getPosition());
 		return l;
 	}
 

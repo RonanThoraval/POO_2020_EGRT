@@ -61,20 +61,21 @@ public class Monster extends GameObject implements Movable {
         }*/
 	}
 	
-	/*public void update(long now) {
+	public void update(long now) {
 		if((now-start)>=2*Math.pow(10,9)) {
 			direction = Direction.random();
-			System.out.println(canMove(direction));
 			while(!canMove(direction)) {
 				direction = Direction.random();
-				System.out.println(canMove(direction));
 			}
 			doMove(direction);
+			if(getPosition().equals(this.game.getPlayer().getPosition())) {
+				this.game.getPlayer().decreaseLives();
+			}
+			start = now;
 		}
-		start = now;
-    }*/
+    }
 	
-	public void update(long now) {
+	/*public void update(long now) {
 		if((now-start)>=2*Math.pow(10,9)) {
 			direction = Direction.random();
 			if(canMove(direction)) {
@@ -86,7 +87,7 @@ public class Monster extends GameObject implements Movable {
 			
 		start = now;
 		}
-	}
+	}*/
 }
 
 

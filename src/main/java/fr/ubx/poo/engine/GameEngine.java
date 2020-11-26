@@ -156,6 +156,8 @@ public final class GameEngine {
     
     private boolean isMonsterHere(Position p) {
     	for (Monster monster : game.getMonsters()) {
+    		System.out.println(monster.getPosition());
+			System.out.println(p);
     		if (monster.getPosition().equals(p)) {
     			return true;
     		}
@@ -216,26 +218,37 @@ public final class GameEngine {
     			&& !(game.getWorld().get(next) instanceof DoorClosed)
     			&& !(game.getWorld().get(next) instanceof DoorOpen)
     			&& !(isBehindSomething(bombPosition,next))) {
+    			
+    			Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
+        		while (iteratorMonster.hasNext()) {
+        			Monster monster=iteratorMonster.next();
+        			if (monster.getPosition().equals(next) && !(isBehindSomething(bombPosition,next))) {
+        				monster.setDeath();
+        			}
+        		}
+    			if (player.getPosition().equals(next)) {
+        			player.decreaseLives();
+        		}
     			positionToSupp.add(next);
         			
     		}
-    		Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
-    		while (iteratorMonster.hasNext()) {
-    			Monster monster=iteratorMonster.next();
-    			if (monster.getPosition().equals(next) && !(isBehindSomething(bombPosition,next))) {
-    				iteratorMonster.remove();
-    				monster.setDeath();
-    			}
-    		}
     		
-    		if (!isBehindSomething(bombPosition,player.getPosition()) && player.getPosition().equals(bombPosition)) {
-    			player.decreaseLives();
-    		}
+    		
+    		
     	}
     	
+    	Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
+		while (iteratorMonster.hasNext()) {
+			Monster monster=iteratorMonster.next();
+			if (!monster.isAlive()) {
+				iteratorMonster.remove();
+			}
+		}
+    	
     	Iterator<Position> iterator2=positionToSupp.iterator();
-    	while(iterator2.hasNext())
-    	game.getWorld().clear(iterator2.next());
+    	while(iterator2.hasNext()) {
+    		game.getWorld().clear(iterator2.next());
+    	}
     	
     	return positionToSupp;
     	
@@ -263,7 +276,7 @@ public final class GameEngine {
         while (iter.hasNext()) {
         	Bomb bomb=iter.next();
         	if (bomb.getCreated()) {
-        		if (!bomb.explosed()) { 
+        		if (!bomb.explosed()) {
             		bomb.update(now);
         		}else {
         			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
