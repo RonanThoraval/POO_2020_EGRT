@@ -48,7 +48,7 @@ public class Game {
     	//Ce qui m'embête bien
     	monsters = new List<Monster>[p.getNbLevels()];
     	for(int i = 0; i<p.getNbLevels(); i++) {
-    		world[i]=new WorldConstructor(p,i);
+    		world[i]=new WorldConstructor(p,i+1);  //Les fichiers level commencent à level1
     		monsters[i]=build(world[i].getRaw(),i);
     		this.worldPath = worldPath;
     		loadConfig(worldPath);
