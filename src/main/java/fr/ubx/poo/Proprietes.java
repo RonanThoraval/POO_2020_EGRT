@@ -10,7 +10,8 @@ public class Proprietes {
 	private int nbLevels;
 	private int PlayerLives;
 	
-	public void setProprietes() throws IOException {
+	
+	public void Proprietes() throws IOException {
 	BufferedReader lecteurAvecBuffer = null;
 	String ligne;
     try

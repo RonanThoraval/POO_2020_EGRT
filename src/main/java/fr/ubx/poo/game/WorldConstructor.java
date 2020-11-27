@@ -11,12 +11,12 @@ import fr.ubx.poo.Proprietes;
 
 public class WorldConstructor extends World{
 
-	public WorldConstructor(WorldEntity[][] raw) {
-		super(raw);
+	public WorldConstructor(Proprietes p, int level) throws IOException {
+		super(WorldConstruct(p,level));
 	}
 															// si on ne met pas throws blabla, et qu'on enlève le "int j=0;"
 															// pas de problème, mais avec le "int j=0;", il le faut. Pourquoi ?
-	public WorldEntity[][] WorldConstruct(Proprietes p, int level) throws IOException {
+	public static WorldEntity[][] WorldConstruct(Proprietes p, int level) throws IOException {
 		//Pour connaitre la taille de de notre jeu, il faudrait parcourir une
 		//première fois le fichier, pour récuperer sa taille (bof bof)
 		WorldEntity[][] mapEntities = new WorldEntity[999999999][999999999];

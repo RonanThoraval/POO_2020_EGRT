@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.GameObject;
+import fr.ubx.poo.Proprietes;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
@@ -25,26 +26,29 @@ import fr.ubx.poo.model.decor.Princess;
 
 public class Game {
 
-    private final World world;
-    private final List<Monster> monsters;
+    private final World[] world;
+    private final List<Monster>[] monsters;
     private List<Explosion> explosions = new ArrayList<>();
     private final Player player;
     private final String worldPath;
     public int initPlayerLives;
 
     public Game(String worldPath) {
-        world = new WorldStatic();
-        monsters=build(world.getRaw());
-        this.worldPath = worldPath;
-        loadConfig(worldPath);
-        Position positionPlayer = null;
-        try {
-            positionPlayer = world.findPlayer();
-            player = new Player(this, positionPlayer);
-        } catch (PositionNotFoundException e) {
-            System.err.println("Position not found : " + e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
+    	Proprietes p = new Proprietes();
+    	for(int i = 0; i<p.getNbLevels(); i++) {
+    		world[i]=new WorldConstructor(p,i);
+    		monsters[i]=build(world[i].getRaw());
+    		this.worldPath = worldPath;
+    		loadConfig(worldPath);
+    		Position positionPlayer = null;
+    		try {
+    			positionPlayer = world[0].findPlayer();
+    			player = new Player(this, positionPlayer);
+    		} catch (PositionNotFoundException e) {
+    			System.err.println("Position not found : " + e.getLocalizedMessage());
+    			throw new RuntimeException(e);
+    		}
+    	}
     }
     
     public List<Monster> build(WorldEntity[][] raw) {
