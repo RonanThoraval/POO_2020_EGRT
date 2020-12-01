@@ -35,7 +35,7 @@ import fr.ubx.poo.model.decor.Princess;
 public class Game {
 
     private final World[] world;
-    private final List<Monster>[] monsters;
+    private final List<ArrayList<Monster>> monsters;
     private List<Explosion> explosions = new ArrayList<>();
     private final Player player;
     private final String worldPath;
@@ -46,10 +46,10 @@ public class Game {
     	world = new World[p.getNbLevels()];
     	//Je ne sais absolument pas pourquoi, on peut pas faire un tableau de listes
     	//Ce qui m'embête bien
-    	monsters = new List<Monster>[p.getNbLevels()];
+    	monsters = new ArrayList<ArrayList<Monster>>();
     	for(int i = 0; i<p.getNbLevels(); i++) {
     		world[i]=new WorldConstructor(p,i+1);  //Les fichiers level commencent à level1
-    		monsters[i]=build(world[i].getRaw(),i);
+    		monsters.add(build(world[i].getRaw(),i));
     		this.worldPath = worldPath;
     		loadConfig(worldPath);
     		Position positionPlayer = null;
@@ -63,7 +63,7 @@ public class Game {
     	}
     }
     
-    public List<Monster> build(WorldEntity[][] raw, int i) {
+    public ArrayList<Monster> build(WorldEntity[][] raw, int i) {
     	List<Monster> monsters=new ArrayList<>();
 		for (int x=0 ; x<world[i].dimension.width ; x++) {
 			for (int y=0 ; y<world[i].dimension.height ; y++) {

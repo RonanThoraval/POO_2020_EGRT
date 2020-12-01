@@ -20,11 +20,12 @@ public class WorldConstructor extends World{
 		//Pour connaitre la taille de de notre jeu, il faudrait parcourir une
 		//première fois le fichier, pour récuperer sa taille (bof bof)
 		WorldEntity[][] mapEntities = new WorldEntity[999999999][999999999];
+		//connaitre la taille du fichier, divisée par le nombre de ligne
 			BufferedReader lecteurAvecBuffer = null;
 			String ligne;											//			  ||
 		    try														// 	    	  ||
 		      {									   //J'suis pas sûr du tout de ça \/
-			lecteurAvecBuffer = new BufferedReader(new FileReader(p.getPrefix() + "." + level));
+			lecteurAvecBuffer = new BufferedReader(new FileReader(p.getPrefix() + level + ".txt"));
 		      }
 		    catch(FileNotFoundException exc)
 		      {
