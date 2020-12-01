@@ -205,7 +205,7 @@ public final class GameEngine {
     	}
     	return false;
     }
-    
+
     private List<Position> bombDamage(Position bombPosition, List<Position> positionsAround) {
     	List<Position> positionToSupp=new ArrayList<>();
     	Iterator<Position> iterator=positionsAround.iterator();
