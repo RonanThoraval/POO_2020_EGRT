@@ -156,8 +156,6 @@ public final class GameEngine {
     
     private boolean isMonsterHere(Position p) {
     	for (Monster monster : game.getMonsters()) {
-    		System.out.println(monster.getPosition());
-			System.out.println(p);
     		if (monster.getPosition().equals(p)) {
     			return true;
     		}
@@ -229,12 +227,8 @@ public final class GameEngine {
     			if (player.getPosition().equals(next)) {
         			player.decreaseLives();
         		}
-    			positionToSupp.add(next);
-        			
+    			positionToSupp.add(next);		
     		}
-    		
-    		
-    		
     	}
     	
     	Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
@@ -249,9 +243,7 @@ public final class GameEngine {
     	while(iterator2.hasNext()) {
     		game.getWorld().clear(iterator2.next());
     	}
-    	
     	return positionToSupp;
-    	
     }
 
 
