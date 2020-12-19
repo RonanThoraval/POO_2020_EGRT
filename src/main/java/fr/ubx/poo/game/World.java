@@ -10,6 +10,10 @@ import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import javafx.scene.layout.Pane;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,52 @@ public class World {
         dimension = new Dimension(raw.length, raw[0].length);
         grid = WorldBuilder.build(raw, dimension);
     }
+    
+    public World(String prefix, int level, String path) throws IOException {
+    	this.raw=WorldConstruct(prefix,level,path);
+    	dimension=new Dimension(raw.length,raw[0].length);
+    	grid=WorldBuilder.build(raw, dimension);
+    	
+    }
+
+	public WorldEntity[][] WorldConstruct(String prefix, int level,String path) throws IOException {
+		BufferedReader lecteurAvecBuffer = null;
+		BufferedReader taille_du_fichier=null;
+		String ligne2;
+		String ligne;		
+		try {
+			lecteurAvecBuffer = new BufferedReader(new InputStreamReader( this.getClass().getResourceAsStream("/sample/"+prefix+level+".txt")));
+			taille_du_fichier=new BufferedReader(new InputStreamReader( this.getClass().getResourceAsStream("/sample/"+prefix+level+".txt")));
+			int nb_col=0;
+			int nb_ligne=0;
+			while ((ligne2 = taille_du_fichier.readLine()) != null) {
+				nb_ligne++;
+				nb_col=ligne2.length();
+			}
+			WorldEntity[][] mapEntities = new WorldEntity[nb_ligne][nb_col];
+			System.out.println("Nb_lignes = "+nb_ligne+" Nb_col = "+nb_col);
+			
+			int j=0;
+			System.out.println("Nb wolrd entity:" + WorldEntity.values().length);
+			while ((ligne = lecteurAvecBuffer.readLine()) != null) {
+				for( int i =0; i <ligne.length(); i++) {
+					for (WorldEntity e : WorldEntity.values()) {
+						if (e.getCode()==ligne.charAt(i)) {
+							mapEntities[j][i]=e;
+						}
+					}
+				}
+				j++;
+			}
+			lecteurAvecBuffer.close();
+			taille_du_fichier.close();
+			return mapEntities;
+	    }
+	    catch(FileNotFoundException exc) {
+		    System.out.println("Erreur d'ouverture");
+		   	return null;
+	    }	
+	}
 
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {

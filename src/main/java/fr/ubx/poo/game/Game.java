@@ -25,37 +25,39 @@ import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.decor.Princess;
 
 
-//Il va falloir réussir à gérer List<Explosion> en tant que tableau
-//comme List<Monster>[]  à mon avis, ou trouuver une alternative pour
-//stocker chaque donnée suivant les différents niveaux
+//Il va falloir rï¿½ussir ï¿½ gï¿½rer List<Explosion> en tant que tableau
+//comme List<Monster>[]  ï¿½ mon avis, ou trouuver une alternative pour
+//stocker chaque donnï¿½e suivant les diffï¿½rents niveaux
 
-//J'ai pas tout checké donc y'a sûrement des trucs faux ou qui n'ont pas
-//de sens peut-être
+//J'ai pas tout checkï¿½ donc y'a sï¿½rement des trucs faux ou qui n'ont pas
+//de sens peut-ï¿½tre
 
 public class Game {
 
     private final World[] world;
-    private final List<ArrayList<Monster>> monsters;
+    private final List<List<Monster>> monsters;
     private List<Explosion> explosions = new ArrayList<>();
-    private final Player player;
-    private final String worldPath;
+    //player devrait Ãªtre final et worldpath aussi
+    //player=null Ã  changer mais je vois pas d'autre solution pour l'instant
+    private Player player=null;
+    private String worldPath;
     public int initPlayerLives;
+    private int nb_levels;
+    private int current_level=0;
+    private String prefix;
 
-    public Game(String worldPath) {
-    	Proprietes p = new Proprietes();
-    	world = new World[p.getNbLevels()];
-    	//Je ne sais absolument pas pourquoi, on peut pas faire un tableau de listes
-    	//Ce qui m'embête bien
-    	monsters = new ArrayList<ArrayList<Monster>>();
-    	for(int i = 0; i<p.getNbLevels(); i++) {
-    		world[i]=new WorldConstructor(p,i+1);  //Les fichiers level commencent à level1
+    public Game(String worldPath) throws IOException {
+		this.worldPath = worldPath;
+		loadConfig(worldPath);
+    	world = new World[nb_levels];
+    	monsters = new ArrayList<List<Monster>>();
+    	for(int i = 0; i<nb_levels; i++) {
+    		world[i]=new WorldConstructor(prefix,i+1,worldPath);  //Les fichiers level commencent ï¿½ level1
     		monsters.add(build(world[i].getRaw(),i));
-    		this.worldPath = worldPath;
-    		loadConfig(worldPath);
     		Position positionPlayer = null;
     		try {
     			positionPlayer = world[0].findPlayer();
-    			player = new Player(this, positionPlayer);
+    			player = new Player(this, positionPlayer,initPlayerLives);
     		} catch (PositionNotFoundException e) {
     			System.err.println("Position not found : " + e.getLocalizedMessage());
     			throw new RuntimeException(e);
@@ -63,7 +65,7 @@ public class Game {
     	}
     }
     
-    public ArrayList<Monster> build(WorldEntity[][] raw, int i) {
+    public List<Monster> build(WorldEntity[][] raw, int i) {
     	List<Monster> monsters=new ArrayList<>();
 		for (int x=0 ; x<world[i].dimension.width ; x++) {
 			for (int y=0 ; y<world[i].dimension.height ; y++) {
@@ -87,8 +89,8 @@ public class Game {
 		}
 	}
     
-	public List<Monster> getMonsters(int level) {
-		return monsters[level];
+	public List<Monster> getMonsters() {
+		return monsters.get(current_level);
 	}
 	
 	public List<Explosion> getExplosion(){
@@ -105,13 +107,15 @@ public class Game {
             // load the configuration file
             prop.load(input);
             initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
+            nb_levels=Integer.parseInt(prop.getProperty("levels","1"));
+            prefix=prop.getProperty("prefix");
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
     }
 
-    public World getWorld(int level) {
-        return world[level];
+    public World getWorld() {
+        return world[current_level];
     }
 
     public Player getPlayer() {
@@ -127,11 +131,15 @@ public class Game {
     }
     
     public void addMonster(Monster monster, int level) {
-    	monsters[level].add(monster);
+    	monsters.get(current_level).add(monster);
     }
     
     public void removeMonster(Monster monster, int level){
-    	monsters[level].remove(monster);
+    	monsters.get(current_level).remove(monster);
+    }
+    
+    public int getCurrentLevel() {
+    	return current_level;
     }
     
 

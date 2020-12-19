@@ -37,17 +37,17 @@ public class Player extends GameObject implements Movable {
     private boolean OpenDoorRequest = false;
     Direction direction;
     private boolean moveRequested = false;
-    private int lives = 3;
+    private int lives;
     private int keys=0;
     private int nbBombs =1;
     private int rangeBombs=1;
     private boolean winner;
     private boolean bombRequest=false;
 
-    public Player(Game game, Position position) {
+    public Player(Game game, Position position, int lives) {
         super(game, position);
         this.direction = Direction.S;
-        this.lives = game.getInitPlayerLives();
+        this.lives = lives;
     }
 
     public int getLives() {

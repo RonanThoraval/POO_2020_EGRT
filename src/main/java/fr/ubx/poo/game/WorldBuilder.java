@@ -57,6 +57,10 @@ public class WorldBuilder {
             	return new RangeBombMoins();
             case DoorNextClosed :
             	return new DoorClosed();
+            case DoorPrevOpened :
+            	return new DoorClosed();
+            case DoorNextOpened :
+            	return new DoorClosed();
             case Princess :
             	return new Princess();
             default:
