@@ -9,6 +9,7 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Heart;
@@ -25,6 +26,7 @@ import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.view.sprite.SpriteExplosion;
 import fr.ubx.poo.game.Game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +35,7 @@ import java.util.function.Consumer;
 public class Player extends GameObject implements Movable {
 
     private final boolean alive = true;
-    private List<Bomb> listBomb=new ArrayList<>();
+    private List<List<Bomb>> listBomb=new ArrayList<>();
     private boolean OpenDoorRequest = false;
     Direction direction;
     private boolean moveRequested = false;
@@ -48,6 +50,9 @@ public class Player extends GameObject implements Movable {
         super(game, position);
         this.direction = Direction.S;
         this.lives = lives;
+        for (int i=0; i<game.getNbLevels(); i++) {
+        	listBomb.add(new ArrayList<>());
+        }
     }
 
     public int getLives() {
@@ -78,7 +83,7 @@ public class Player extends GameObject implements Movable {
     	return keys;
     }
     
-    public List<Bomb> getListBombs() {
+    public List<List<Bomb>> getListBombs() {
     	return listBomb;
     }
     
@@ -107,15 +112,18 @@ public class Player extends GameObject implements Movable {
     		} else if (this.game.getWorld().get(newPos) instanceof Heart || this.game.getWorld().get(newPos) instanceof Key 
     				|| this.game.getWorld().get(newPos) instanceof RangeBombPlus || this.game.getWorld().get(newPos) instanceof RangeBombMoins
     				|| this.game.getWorld().get(newPos) instanceof NbBombPlus || this.game.getWorld().get(newPos) instanceof NbBombMoins
-    				|| this.game.getWorld().get(newPos) instanceof DoorOpen || this.game.getWorld().get(newPos) instanceof Princess){
+    				|| this.game.getWorld().get(newPos) instanceof Princess){
     			return true ;
+    		} else if (this.game.getWorld().get(newPos) instanceof Door) {
+    			Door d=(Door) this.game.getWorld().get(newPos);
+    			return (d.getEtat()==3);
     		}
     		return false;
     	}
         return true;
     }
 
-    public void doMove(Direction direction) {
+    public void doMove(Direction direction) throws IOException {
     	if (canMove(direction)) {
     		Position nextPos = direction.nextPosition(getPosition());
             if (game.getWorld().get(nextPos) instanceof Box) {
@@ -143,18 +151,25 @@ public class Player extends GameObject implements Movable {
             	if(nbBombs!=1) {
             	nbBombs--;
             	}
+            } else if (game.getWorld().get(nextPos) instanceof Door) {
+            	Door d= (Door) game.getWorld().get(nextPos);
+            	if (d.getEtat()==3) {
+            		game.changeLevel();
+            		game.getWorld().setChanged(true);
+            		return ;
+            	}
             }
-            for (Monster monster : this.game.getMonsters() )
+            for (Monster monster : this.game.getMonsters() ) {
         		if ( monster.getPosition().equals(nextPos)) {
         			decreaseLives();
         		}
-            
+            }
             setPosition(nextPos);
     	}
         
     }
 
-    public void update(long now) {
+    public void update(long now) throws IOException {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
@@ -200,22 +215,31 @@ public class Player extends GameObject implements Movable {
 		OpenDoorRequest=true;
 	}
 	
+	public void setRequestOpenDoor(boolean b) {
+		OpenDoorRequest=false;
+	}
+	
 	public void requestBomb() {
 		bombRequest=true;
 	}
 	
 	public boolean canOpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
-		if(game.getWorld().get(newPos) instanceof DoorClosed && keys!=0) {
-			return true;
+		if(game.getWorld().get(newPos) instanceof Door && keys!=0) {
+			Door d=(Door) game.getWorld().get(newPos);
+			if (d.getEtat()==1) {
+				return (d.getEtat()==1);
+			}
 		}
 		return false;
 	}
 	
 	public void OpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
-		game.getWorld().clear(newPos);
-		game.getWorld().set(newPos, new DoorOpen());
+		Door d=(Door) game.getWorld().get(newPos);
+		game.getWorld().setChanged(true);
+		setRequestOpenDoor(false);
+		d.setEtat(3);
 		keys--;
 	}
 	
@@ -225,7 +249,7 @@ public class Player extends GameObject implements Movable {
 	
 	
 	public void removeBombExplosed() {
-		Iterator<Bomb> it=listBomb.iterator();
+		Iterator<Bomb> it=listBomb.get(game.getCurrentLevel()).iterator();
     	while (it.hasNext()) {
     		Bomb next=it.next();
     		if (next.explosed()) {
@@ -235,7 +259,7 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	public void removeBomb(Bomb b) {
-		Iterator<Bomb> iterator=listBomb.iterator();
+		Iterator<Bomb> iterator=listBomb.get(game.getCurrentLevel()).iterator();
 		while (iterator.hasNext()) {
 			Bomb next=iterator.next();
 			if (next==b) {
@@ -246,13 +270,13 @@ public class Player extends GameObject implements Movable {
 	public void PoseBomb(long now) {
 		long start=now;
 		Bomb b=new Bomb(this.game,getPosition(),start);
-		listBomb.add(b);
+		listBomb.get(game.getCurrentLevel()).add(b);
 		nbBombs=nbBombs-1;
 			
 	}
 	
 	public void decreateBombs() {
-		for (Bomb b : listBomb)
+		for (Bomb b : listBomb.get(game.getCurrentLevel()))
 			b.decreate();
 	}
 

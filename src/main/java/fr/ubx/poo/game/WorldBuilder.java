@@ -2,6 +2,7 @@ package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
@@ -56,11 +57,11 @@ public class WorldBuilder {
             case BombRangeDec :
             	return new RangeBombMoins();
             case DoorNextClosed :
-            	return new DoorClosed();
+            	return new Door(1);
             case DoorPrevOpened :
-            	return new DoorClosed();
+            	return new Door(2);
             case DoorNextOpened :
-            	return new DoorClosed();
+            	return new Door(3);
             case Princess :
             	return new Princess();
             default:

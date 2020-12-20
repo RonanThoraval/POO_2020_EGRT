@@ -13,6 +13,7 @@ import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Key;
@@ -34,6 +35,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -84,7 +86,7 @@ public final class GameEngine {
         input = new Input(scene);
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
-        // Create decor sprites
+        
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         
 
@@ -97,7 +99,12 @@ public final class GameEngine {
                 processInput(now);
 
                 // Do actions
-                update(now);
+                try {
+					update(now);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
                 // Graphic update
                 render();
@@ -213,8 +220,7 @@ public final class GameEngine {
     		if (!(game.getWorld().get(next) instanceof Tree) 
     			&& !(game.getWorld().get(next) instanceof Stone)
     			&& !(game.getWorld().get(next) instanceof Key)
-    			&& !(game.getWorld().get(next) instanceof DoorClosed)
-    			&& !(game.getWorld().get(next) instanceof DoorOpen)
+    			&& !(game.getWorld().get(next) instanceof Door)
     			&& !(isBehindSomething(bombPosition,next))) {
     			
     			Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
@@ -247,13 +253,30 @@ public final class GameEngine {
     }
 
 
-    private void update(long now) {
+    private void update(long now) throws IOException {
+    	if (game.hasChangedLevel()) {
+    		spritesDecor.forEach(Sprite::remove);
+    		spritesMonster.forEach(Sprite::remove);
+    		spritesBomb.forEach(Sprite::remove);
+    		spritesExplosion.forEach(Sprite::remove);
+    		
+    		spritesDecor.clear();
+    		spritesMonster.clear();
+    		spritesBomb.clear();
+    		spritesExplosion.clear();
+    		
+    		initialize(stage,game);
+    		
+    		game.getWorld().forEach( (pos,d) -> spritesDecor.add(SpriteFactory.createDecor(layer, pos, d)));
+    		game.setChangedLevel(false);
+    		
+    	}
     	if (game.getWorld().hasChanged()) {
     		spritesDecor.forEach(Sprite::remove);
     		spritesDecor.clear();
     		
     		game.getWorld().forEach( (pos,d) -> spritesDecor.add(SpriteFactory.createDecor(layer, pos, d)));
-    		game.getWorld().setChanged();
+    		game.getWorld().setChanged(false);
     		
     	}
         player.update(now);
@@ -264,7 +287,7 @@ public final class GameEngine {
         game.getMonsters().forEach(go -> spritesMonster.add(SpriteFactory.createMonster(layer, go)));
         
         //update les bombes existantes, crée celles qui ne le sont pas
-        Iterator<Bomb> iter=player.getListBombs().iterator();
+        Iterator<Bomb> iter=player.getListBombs().get(game.getCurrentLevel()).iterator();
         while (iter.hasNext()) {
         	Bomb bomb=iter.next();
         	if (bomb.getCreated()) {

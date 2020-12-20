@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.Proprietes;
 
 public class WorldConstructor extends World{
 

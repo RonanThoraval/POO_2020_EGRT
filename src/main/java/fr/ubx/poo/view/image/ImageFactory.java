@@ -29,6 +29,7 @@ public final class ImageFactory {
     private final ImageResource[] monsters= new ImageResource[] {
     		MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN,MONSTER_LEFT,
     };
+    
 
     private ImageFactory() {
         images = new Image[ImageResource.values().length];
@@ -71,6 +72,13 @@ public final class ImageFactory {
     
     public Image getMonster(Direction direction) {
     	return get(monsters[direction.ordinal()]);
+    }
+    
+    public Image getDoor(int etat) {
+    	if (etat==1) {
+    		return get(DOORCLOSED);
+    	}
+    	return get(DOOROPEN);
     }
 
     /**

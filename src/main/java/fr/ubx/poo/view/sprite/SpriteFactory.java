@@ -10,6 +10,7 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Stone;
@@ -52,10 +53,10 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(RANGEBOMBPLUS), position);
         if (decor instanceof RangeBombMoins)
             return new SpriteDecor(layer, factory.get(RANGEBOMBMOINS), position);
-        if (decor instanceof DoorOpen)
-            return new SpriteDecor(layer, factory.get(DOOROPEN), position);
-        if (decor instanceof DoorClosed)
-            return new SpriteDecor(layer, factory.get(DOORCLOSED), position);
+        if (decor instanceof Door) {
+        	Door d= (Door) decor;
+        	return new SpriteDoor(layer, factory.get(DOORCLOSED), position,d.getEtat());
+        } 
         if (decor instanceof Princess)
         	return new SpriteDecor(layer,factory.get(PRINCESS),position);
         return null;
@@ -74,7 +75,6 @@ public final class SpriteFactory {
     }
     
     public static SpriteMonster createMonster(Pane layer, Monster monster) {
-    	ImageFactory factory= ImageFactory.getInstance();
     	return new SpriteMonster(layer,monster);
     }
     

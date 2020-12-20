@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 
 import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.Proprietes;
 import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
@@ -36,7 +35,7 @@ public class Game {
 
     private final World[] world;
     private final List<List<Monster>> monsters;
-    private List<Explosion> explosions = new ArrayList<>();
+    private List<List<Explosion>> explosions = new ArrayList<>();
     //player devrait être final et worldpath aussi
     //player=null à changer mais je vois pas d'autre solution pour l'instant
     private Player player=null;
@@ -45,6 +44,7 @@ public class Game {
     private int nb_levels;
     private int current_level=0;
     private String prefix;
+    private boolean hasChangedLevel;
 
     public Game(String worldPath) throws IOException {
 		this.worldPath = worldPath;
@@ -54,6 +54,7 @@ public class Game {
     	for(int i = 0; i<nb_levels; i++) {
     		world[i]=new WorldConstructor(prefix,i+1,worldPath);  //Les fichiers level commencent � level1
     		monsters.add(build(world[i].getRaw(),i));
+    		explosions.add(new ArrayList<>());
     		Position positionPlayer = null;
     		try {
     			positionPlayer = world[0].findPlayer();
@@ -72,7 +73,6 @@ public class Game {
 				Position pos=new Position(x,y);
 				Monster monster=processEntity(raw[y][x],pos);
 				if (monster!=null) {
-					System.out.println(monster);
 					monsters.add(monster);
 				}
 			}
@@ -93,7 +93,7 @@ public class Game {
 		return monsters.get(current_level);
 	}
 	
-	public List<Explosion> getExplosion(){
+	public List<List<Explosion>> getExplosion(){
 		return explosions;
 	}
 
@@ -123,11 +123,11 @@ public class Game {
     }
     
     public void addExplosion(Explosion explosion) {
-    	explosions.add(explosion);
+    	explosions.get(current_level).add(explosion);
     }
     
     public void removeExplosion(Explosion explosion) {
-    	explosions.remove(explosion);
+    	explosions.get(current_level).remove(explosion);
     }
     
     public void addMonster(Monster monster, int level) {
@@ -142,5 +142,40 @@ public class Game {
     	return current_level;
     }
     
+    public Position findDoorPrevOpen() throws PositionNotFoundException {
+        for (int x = 0; x < world[current_level].dimension.width; x++) {
+            for (int y = 0; y < world[current_level].dimension.height; y++) {
+                if (world[current_level].getRaw()[y][x] == WorldEntity.DoorPrevOpened) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        throw new PositionNotFoundException("Player");
+    }
+    
+    public void changeLevel() throws IOException {
+    	current_level+=1;
+    	hasChangedLevel=true;
+    	try {
+    		System.out.println("avant"+player.getPosition());
+        	player.setPosition(findDoorPrevOpen());
+        	System.out.println("après"+player.getPosition());
+    	} catch (PositionNotFoundException e) {
+    		System.err.println("Position not found : " + e.getLocalizedMessage());
+			throw new RuntimeException(e);
+    	}
+    }
+    
+    public boolean hasChangedLevel() {
+    	return hasChangedLevel;
+    }
+    
+    public int getNbLevels() {
+    	return nb_levels;
+    }
+    
+    public void setChangedLevel(boolean b) {
+    	hasChangedLevel=b;
+    }
 
 }

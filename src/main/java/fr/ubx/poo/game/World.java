@@ -53,10 +53,8 @@ public class World {
 				nb_col=ligne2.length();
 			}
 			WorldEntity[][] mapEntities = new WorldEntity[nb_ligne][nb_col];
-			System.out.println("Nb_lignes = "+nb_ligne+" Nb_col = "+nb_col);
 			
 			int j=0;
-			System.out.println("Nb wolrd entity:" + WorldEntity.values().length);
 			while ((ligne = lecteurAvecBuffer.readLine()) != null) {
 				for( int i =0; i <ligne.length(); i++) {
 					for (WorldEntity e : WorldEntity.values()) {
@@ -92,8 +90,8 @@ public class World {
     	return changed;
     }
     
-    public void setChanged() {
-    	this.changed=false;
+    public void setChanged(boolean b) {
+    	this.changed=b;
     }
 
     public Decor get(Position position) {
