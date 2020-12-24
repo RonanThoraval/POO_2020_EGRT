@@ -14,8 +14,6 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.DoorClosed;
-import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;

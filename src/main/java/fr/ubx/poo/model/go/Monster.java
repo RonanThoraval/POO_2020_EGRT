@@ -4,16 +4,6 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.Box;
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.DoorOpen;
-import fr.ubx.poo.model.decor.Heart;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.NbBombMoins;
-import fr.ubx.poo.model.decor.NbBombPlus;
-import fr.ubx.poo.model.decor.Princess;
-import fr.ubx.poo.model.decor.RangeBombMoins;
-import fr.ubx.poo.model.decor.RangeBombPlus;
 
 public class Monster extends GameObject implements Movable {
 	private long start;

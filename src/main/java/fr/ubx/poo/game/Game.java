@@ -12,24 +12,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.function.Consumer;
-
 import fr.ubx.poo.model.go.Explosion;
-import fr.ubx.poo.model.go.GameObject;
-import fr.ubx.poo.model.decor.DoorClosed;
-import fr.ubx.poo.model.decor.Heart;
-import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.model.decor.Princess;
 
-
-//Il va falloir r�ussir � g�rer List<Explosion> en tant que tableau
-//comme List<Monster>[]  � mon avis, ou trouuver une alternative pour
-//stocker chaque donn�e suivant les diff�rents niveaux
-
-//J'ai pas tout check� donc y'a s�rement des trucs faux ou qui n'ont pas
-//de sens peut-�tre
 
 public class Game {
 
@@ -142,28 +128,28 @@ public class Game {
     	return current_level;
     }
     
-    public Position findDoorPrevOpen() throws PositionNotFoundException {
-        for (int x = 0; x < world[current_level].dimension.width; x++) {
-            for (int y = 0; y < world[current_level].dimension.height; y++) {
-                if (world[current_level].getRaw()[y][x] == WorldEntity.DoorPrevOpened) {
-                    return new Position(x, y);
-                }
-            }
-        }
-        throw new PositionNotFoundException("Player");
-    }
     
-    public void changeLevel() throws IOException {
-    	current_level+=1;
-    	hasChangedLevel=true;
-    	try {
-    		System.out.println("avant"+player.getPosition());
-        	player.setPosition(findDoorPrevOpen());
-        	System.out.println("après"+player.getPosition());
-    	} catch (PositionNotFoundException e) {
-    		System.err.println("Position not found : " + e.getLocalizedMessage());
-			throw new RuntimeException(e);
+    
+    public void changeLevel(String whichLevel) throws IOException {
+    	if (whichLevel=="next") {	
+    		current_level+=1;
+    		try {
+    			player.setPosition(world[current_level].findDoor("PrevOpened"));
+    		} catch (PositionNotFoundException e) {
+    			System.err.println("Position not found : " + e.getLocalizedMessage());
+    			throw new RuntimeException(e);
+    		}
     	}
+    	else if (whichLevel=="prev") {
+    		current_level=current_level-1;
+    		try {
+    			player.setPosition(world[current_level].findDoor("NextOpened"));
+    		} catch (PositionNotFoundException e) {
+    			System.err.println("Position not found : " + e.getLocalizedMessage());
+    			throw new RuntimeException(e);
+    		}
+    	}
+		hasChangedLevel=true;
     }
     
     public boolean hasChangedLevel() {

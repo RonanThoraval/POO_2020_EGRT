@@ -5,17 +5,12 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.go.Monster;
-import fr.ubx.poo.view.sprite.Sprite;
-import fr.ubx.poo.view.sprite.SpriteFactory;
-import javafx.scene.layout.Pane;
-
+import fr.ubx.poo.model.decor.Door;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -84,6 +79,25 @@ public class World {
             }
         }
         throw new PositionNotFoundException("Player");
+    }
+    
+    public Position findDoor(String DoorState) throws PositionNotFoundException {
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (get(new Position(x,y)) instanceof Door ) {
+                	Door d=(Door) get(new Position(x,y));
+                	if (DoorState=="NextOpened" && d.getEtat()==3) {
+                		return new Position(x,y);
+                	} else if (DoorState=="PrevOpened" && d.getEtat()==2) {
+                        return new Position(x, y);
+                		
+                	} else if (DoorState=="NextClosed" && d.getEtat()==1) {
+                		return new Position(x,y);
+                	}
+                }
+            }
+        }
+        throw new PositionNotFoundException(DoorState);
     }
     
     public boolean hasChanged() {

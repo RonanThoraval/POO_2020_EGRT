@@ -8,10 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
-import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.DoorClosed;
-import fr.ubx.poo.model.decor.DoorOpen;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.NbBombMoins;
@@ -20,17 +17,14 @@ import fr.ubx.poo.model.decor.Princess;
 import fr.ubx.poo.model.decor.RangeBombMoins;
 import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Bomb;
-import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
-import fr.ubx.poo.view.sprite.SpriteExplosion;
 import fr.ubx.poo.game.Game;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class Player extends GameObject implements Movable {
 
@@ -116,7 +110,7 @@ public class Player extends GameObject implements Movable {
     			return true ;
     		} else if (this.game.getWorld().get(newPos) instanceof Door) {
     			Door d=(Door) this.game.getWorld().get(newPos);
-    			return (d.getEtat()==3);
+    			return (d.getEtat()!=1);
     		}
     		return false;
     	}
@@ -154,7 +148,12 @@ public class Player extends GameObject implements Movable {
             } else if (game.getWorld().get(nextPos) instanceof Door) {
             	Door d= (Door) game.getWorld().get(nextPos);
             	if (d.getEtat()==3) {
-            		game.changeLevel();
+            		game.changeLevel("next");
+            		game.getWorld().setChanged(true);
+            		return ;
+            	}
+            	if (d.getEtat()==2) {
+            		game.changeLevel("prev");
             		game.getWorld().setChanged(true);
             		return ;
             	}
@@ -237,9 +236,9 @@ public class Player extends GameObject implements Movable {
 	public void OpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
 		Door d=(Door) game.getWorld().get(newPos);
+		d.setEtat(3);
 		game.getWorld().setChanged(true);
 		setRequestOpenDoor(false);
-		d.setEtat(3);
 		keys--;
 	}
 	

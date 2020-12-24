@@ -3,7 +3,6 @@ package fr.ubx.poo.game;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.DoorClosed;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.NbBombMoins;
