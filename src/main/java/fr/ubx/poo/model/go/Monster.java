@@ -47,10 +47,14 @@ public class Monster extends GameObject implements Movable {
 	}
 	
 	public void update(long now) {
-		if((now-start)>=2*Math.pow(10,9)) {
-			direction = Direction.random();
-			while(!canMove(direction)) {
+		if((now-start)>=(2-1.5*this.game.getCurrentLevel()/(this.game.getNbLevels()-1))*Math.pow(10,9)) {
+			if(Math.random() > (this.game.getCurrentLevel())/(this.game.getNbLevels()-1)) {
 				direction = Direction.random();
+				while(!canMove(direction)) {
+					direction = Direction.random();
+				}
+			}else {
+				direction = AI();
 			}
 			doMove(direction);
 			if(getPosition().equals(this.game.getPlayer().getPosition())) {
@@ -59,6 +63,43 @@ public class Monster extends GameObject implements Movable {
 			start = now;
 		}
     }
+	
+	public Direction DirAl(Direction a, Direction b) {
+		if (!canMove(a) && !canMove(b)) {
+			Direction c = Direction.random();
+			while(!canMove(c)) {
+				c = Direction.random();
+			}
+			return c;
+		}
+		if (canMove(a) && !canMove(b)) {
+			return a;
+		}
+		if (!canMove(a) && canMove(b)) {
+			return b;
+		}
+		if(Math.random()>1/2) {
+			return a;
+		}
+		return b;
+	}
+	
+	public Direction AI() {
+		int xp = this.game.getPlayer().getPosition().x;
+		int yp = this.game.getPlayer().getPosition().y;
+		int xm = getPosition().x;
+		int ym = getPosition().y;
+		if (xp > xm) {
+			if (yp > ym) {
+				return DirAl(Direction.E, Direction.S);
+			}
+			return DirAl(Direction.E, Direction.N);
+		}
+		if (yp > ym){
+			return DirAl(Direction.W, Direction.S);
+		}
+		return DirAl(Direction.W, Direction.N);
+	}
 
 }
 
