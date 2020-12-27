@@ -86,12 +86,12 @@ public class World {
             for (int y = 0; y < dimension.height; y++) {
                 if (get(new Position(x,y)) instanceof Door ) {
                 	Door d=(Door) get(new Position(x,y));
-                	if (DoorState=="NextOpened" && d.getEtat()==3) {
+                	if (DoorState=="NextOpened" && d.getState()==3) {
                 		return new Position(x,y);
-                	} else if (DoorState=="PrevOpened" && d.getEtat()==2) {
+                	} else if (DoorState=="PrevOpened" && d.getState()==2) {
                         return new Position(x, y);
                 		
-                	} else if (DoorState=="NextClosed" && d.getEtat()==1) {
+                	} else if (DoorState=="NextClosed" && d.getState()==1) {
                 		return new Position(x,y);
                 	}
                 }

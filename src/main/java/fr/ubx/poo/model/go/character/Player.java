@@ -110,7 +110,7 @@ public class Player extends GameObject implements Movable {
     			return true ;
     		} else if (this.game.getWorld().get(newPos) instanceof Door) {
     			Door d=(Door) this.game.getWorld().get(newPos);
-    			return (d.getEtat()!=1);
+    			return (d.getState()!=1);
     		}
     		return false;
     	}
@@ -147,12 +147,12 @@ public class Player extends GameObject implements Movable {
             	}
             } else if (game.getWorld().get(nextPos) instanceof Door) {
             	Door d= (Door) game.getWorld().get(nextPos);
-            	if (d.getEtat()==3) {
+            	if (d.getState()==3) {
             		game.changeLevel("next");
             		game.getWorld().setChanged(true);
             		return ;
             	}
-            	if (d.getEtat()==2) {
+            	if (d.getState()==2) {
             		game.changeLevel("prev");
             		game.getWorld().setChanged(true);
             		return ;
@@ -226,8 +226,8 @@ public class Player extends GameObject implements Movable {
 		Position newPos=direction.nextPosition(getPosition());
 		if(game.getWorld().get(newPos) instanceof Door && keys!=0) {
 			Door d=(Door) game.getWorld().get(newPos);
-			if (d.getEtat()==1) {
-				return (d.getEtat()==1);
+			if (d.getState()==1) {
+				return (d.getState()==1);
 			}
 		}
 		return false;
@@ -236,7 +236,7 @@ public class Player extends GameObject implements Movable {
 	public void OpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
 		Door d=(Door) game.getWorld().get(newPos);
-		d.setEtat(3);
+		d.setState(3);
 		game.getWorld().setChanged(true);
 		setRequestOpenDoor(false);
 		keys--;

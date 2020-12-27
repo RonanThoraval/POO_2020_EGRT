@@ -4,11 +4,14 @@ import fr.ubx.poo.game.Position;
 
 public class Door extends Decor {
 	private Position position;
-	private int etat;
+	
+	// Si state=1, DoorNextClosed
+	// Si state=2, DoorPrevOpened
+	// Si state=3, DoorNextOpened
+	private int state;
 	
 	public Door(int etat) {
-		this.position=position;
-		this.etat=etat;
+		this.state=etat;
 	}
 	
 	@Override
@@ -24,12 +27,12 @@ public class Door extends Decor {
 		this.position=p;
 	}
 	
-	public int getEtat() {
-		return etat;
+	public int getState() {
+		return state;
 	}
 	
-	public void setEtat(int etat) {
-		this.etat=etat;
+	public void setState(int state) {
+		this.state=state;
 	}
 
 }

@@ -52,7 +52,7 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(RANGEBOMBMOINS), position);
         if (decor instanceof Door) {
         	Door d= (Door) decor;
-        	return new SpriteDoor(layer, factory.get(DOORCLOSED), position,d.getEtat());
+        	return new SpriteDoor(layer, factory.get(DOORCLOSED), position,d.getState());
         } 
         if (decor instanceof Princess)
         	return new SpriteDecor(layer,factory.get(PRINCESS),position);
