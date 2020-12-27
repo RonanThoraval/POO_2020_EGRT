@@ -48,7 +48,7 @@ public class Player extends GameObject implements Movable {
         	listBomb.add(new ArrayList<>());
         }
     }
-
+    
     public int getLives() {
         return lives;
     }
@@ -119,40 +119,29 @@ public class Player extends GameObject implements Movable {
     		return false;
     	}
     	if (!this.game.getWorld().isEmpty(newPos)) {
-    		return this.game.getWorld().get(newPos).canPlayerGo(this.game.getPlayer());
+    		return this.game.getWorld().get(newPos).canPlayerGo(this);
     	}
-        return true;
+    	return true;
+        //return ( newPos.inside(this.game.getWorld().dimension) ) && ( this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canPlayerGo(this) );
     }
 
     public void doMove(Direction direction) throws IOException {
     	if (canMove(direction)) {
     		Position nextPos = direction.nextPosition(getPosition());
-    		if (!this.game.getWorld().isEmpty(nextPos)) {
-	            game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
-	            if (game.getWorld().get(nextPos) instanceof Door) {
-	            	Door d= (Door) game.getWorld().get(nextPos);
-	            	if (d.getState()==3) {
-	            		game.changeLevel("next");
-	            		game.getWorld().setChanged(true);
-	            		return ;
-	            	}
-	            	if (d.getState()==2) {
-	            		game.changeLevel("prev");
-	            		game.getWorld().setChanged(true);
-	            		return ;
-	            	}
-	            }
+    		if (this.game.getWorld().isEmpty(nextPos)) {
+	            for (Monster monster : this.game.getMonsters() ) {
+		        	if ( monster.getPosition().equals(nextPos)) {
+		        		decreaseLives();
+		        	}
+		        }
+	            setPosition(nextPos);
+    		}else {
+    			game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
     		}
-	        for (Monster monster : this.game.getMonsters() ) {
-	        	if ( monster.getPosition().equals(nextPos)) {
-	        		decreaseLives();
-	        	}
-	        }
-            setPosition(nextPos);
     	}
         
     }
-
+    
     public void update(long now) throws IOException {
         if (moveRequested) {
             if (canMove(direction)) {
@@ -164,6 +153,7 @@ public class Player extends GameObject implements Movable {
         	if(canOpenDoor(direction)) {
         	OpenDoor(direction);
         	}
+        	OpenDoorRequest=false;
         }
         if (bombRequest) {
         	if(canPoseBomb()) {
@@ -267,10 +257,12 @@ public class Player extends GameObject implements Movable {
 	public void manageBox(Position position) {
 		this.game.getWorld().clear(position);
     	this.game.getWorld().set(this.direction.nextPosition(position), new Box());
+    	setPosition(position);
 	}
 	
 	public void manage(Position position) {
 		this.game.getWorld().clear(position);
+		setPosition(position);
 	}
 
 }

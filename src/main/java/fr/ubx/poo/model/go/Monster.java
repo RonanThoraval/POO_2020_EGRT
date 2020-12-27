@@ -6,6 +6,10 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 
 public class Monster extends GameObject implements Movable {
+	private boolean triedN = false;
+	private boolean triedS = false;
+	private boolean triedE = false;
+	private boolean triedW = false;
 	private long start;
 	private boolean alive = true;
 	private Direction direction;
@@ -49,8 +53,22 @@ public class Monster extends GameObject implements Movable {
 	public void update(long now) {
 		if((now-start)>=(2-1.5*this.game.getCurrentLevel()/(this.game.getNbLevels()-1))*Math.pow(10,9)) {
 			if(Math.random() > (this.game.getCurrentLevel())/(this.game.getNbLevels()-1)) {
+				Direction initDirection = direction;
 				direction = Direction.random();
 				while(!canMove(direction)) {
+					if(direction==Direction.N) {
+						triedN=true;
+					} else if(direction==Direction.S) {
+						triedS=true;
+					} else if(direction==Direction.E) {
+						triedE=true;
+					} else if(direction==Direction.W) {
+						triedW=true;
+					}
+					if( triedN && triedS && triedE && triedW) {
+						direction = initDirection;
+						return;
+					}
 					direction = Direction.random();
 				}
 			}else {

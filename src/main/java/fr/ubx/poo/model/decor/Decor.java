@@ -4,6 +4,8 @@
 
 package fr.ubx.poo.model.decor;
 
+import java.io.IOException;
+
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.go.character.Player;
 
@@ -14,6 +16,6 @@ public abstract class Decor extends Entity {
 
 	public abstract boolean canPlayerGo(Player player);
 
-	public abstract void doPlayerGo(Player player);
+	public abstract void doPlayerGo(Player player) throws IOException;
 
 }

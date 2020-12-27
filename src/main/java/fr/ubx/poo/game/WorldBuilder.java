@@ -27,7 +27,7 @@ public class WorldBuilder {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 Position pos = new Position(x, y);
-                Decor decor = processEntity(raw[y][x]);
+                Decor decor = processEntity(raw[y][x], x, y);
                 if (decor != null)
                     builder.grid.put(pos, decor);
             }
@@ -35,7 +35,7 @@ public class WorldBuilder {
         return builder.grid;
     }
 
-    private static Decor processEntity(WorldEntity entity) {
+    private static Decor processEntity(WorldEntity entity, int x, int y) {
         switch (entity) {
             case Stone:
                 return new Stone();

@@ -1,10 +1,9 @@
 package fr.ubx.poo.model.decor;
 
-import fr.ubx.poo.game.Position;
+import java.io.IOException;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Door extends Decor {
-	private Position position;
 	
 	// Si state=1, DoorNextClosed
 	// Si state=2, DoorPrevOpened
@@ -20,14 +19,6 @@ public class Door extends Decor {
         return "NbBombMoins";
     }
 	
-	public Position getPosition() {
-		return this.position;
-	}
-	
-	public void setPosition(Position p) {
-		this.position=p;
-	}
-	
 	public int getState() {
 		return state;
 	}
@@ -38,14 +29,20 @@ public class Door extends Decor {
 
 	@Override
 	public boolean canPlayerGo(Player player) {
-		Door d=(Door) player.getGame().getWorld().get(position);
+		Door d=(Door) player.getGame().getWorld().get(player.getDirection().nextPosition(player.getPosition()));
 		return (d.getState()!=1);
 	}
 
 	@Override
-	public void doPlayerGo(Player player) {
-		// TODO Auto-generated method stub
-		
+	public void doPlayerGo(Player player) throws IOException {
+    	if (state==3) {
+    		player.getGame().changeLevel("next");
+    		player.getGame().getWorld().setChanged(true);
+    	}
+    	if (state==2) {
+    		player.getGame().changeLevel("prev");
+    		player.getGame().getWorld().setChanged(true);
+    	}
 	}
 	
 	
