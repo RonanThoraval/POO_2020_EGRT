@@ -32,4 +32,8 @@ public abstract class GameObject extends Entity {
     public String toString() {
     	return "";
     }
+    
+    public Game getGame() {
+    	return game;
+    }
 }

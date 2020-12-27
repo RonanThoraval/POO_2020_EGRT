@@ -56,6 +56,10 @@ public class Player extends GameObject implements Movable {
     public void decreaseLives() {
     	lives--;
     }
+    
+    public void increaseLives() {
+    	lives++;
+    }
 
     public Direction getDirection() {
         return direction;
@@ -69,12 +73,32 @@ public class Player extends GameObject implements Movable {
     	nbBombs++;
     }
     
+    public void decreaseNbBombs() {
+    	nbBombs--;
+    }
+    
     public int getRangeBombs() {
     	return rangeBombs;
     }
     
+    public void decreaseRangeBombs() {
+    	rangeBombs--;
+    }
+    
+    public void increaseRangeBombs() {
+    	rangeBombs++;
+    }
+    
     public int getKeys() {
     	return keys;
+    }
+    
+    public void increaseKeys() {
+    	keys++;
+    }
+    
+    public void decreaseKeys() {
+    	keys--;
     }
     
     public List<List<Bomb>> getListBombs() {
@@ -95,24 +119,7 @@ public class Player extends GameObject implements Movable {
     		return false;
     	}
     	if (!this.game.getWorld().isEmpty(newPos)) {
-    		if (this.game.getWorld().get(newPos) instanceof Box) {
-    			Position newPos2=direction.nextPosition(newPos);
-    			if (this.game.getWorld().isEmpty(newPos2) && newPos2.inside(this.game.getWorld().dimension)) {
-    				return true;
-    			}
-    			else {
-    				return false;
-    			}
-    		} else if (this.game.getWorld().get(newPos) instanceof Heart || this.game.getWorld().get(newPos) instanceof Key 
-    				|| this.game.getWorld().get(newPos) instanceof RangeBombPlus || this.game.getWorld().get(newPos) instanceof RangeBombMoins
-    				|| this.game.getWorld().get(newPos) instanceof NbBombPlus || this.game.getWorld().get(newPos) instanceof NbBombMoins
-    				|| this.game.getWorld().get(newPos) instanceof Princess){
-    			return true ;
-    		} else if (this.game.getWorld().get(newPos) instanceof Door) {
-    			Door d=(Door) this.game.getWorld().get(newPos);
-    			return (d.getState()!=1);
-    		}
-    		return false;
+    		return this.game.getWorld().get(newPos).canPlayerGo(this.game.getPlayer());
     	}
         return true;
     }
@@ -120,32 +127,8 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) throws IOException {
     	if (canMove(direction)) {
     		Position nextPos = direction.nextPosition(getPosition());
-            if (game.getWorld().get(nextPos) instanceof Box) {
-            	game.getWorld().clear(nextPos);
-            	game.getWorld().set(direction.nextPosition(nextPos), new Box());
-            } else if (game.getWorld().get(nextPos) instanceof Heart) {
-            	game.getWorld().clear(nextPos);
-            	lives++;
-            } else if (game.getWorld().get(nextPos) instanceof Key) {
-            	game.getWorld().clear(nextPos);
-            	keys++;
-            } else if (game.getWorld().get(nextPos) instanceof RangeBombPlus) {
-            	game.getWorld().clear(nextPos);
-            	rangeBombs++;
-            } else if (game.getWorld().get(nextPos) instanceof RangeBombMoins) {
-            	game.getWorld().clear(nextPos);
-            	if(rangeBombs!=1) {
-            	rangeBombs--;
-            	}
-            }else if (game.getWorld().get(nextPos) instanceof NbBombPlus) {
-            	game.getWorld().clear(nextPos);
-            	nbBombs++;
-            } else if (game.getWorld().get(nextPos) instanceof NbBombMoins) {
-            	game.getWorld().clear(nextPos);
-            	if(nbBombs!=1) {
-            	nbBombs--;
-            	}
-            } else if (game.getWorld().get(nextPos) instanceof Door) {
+            game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
+            if (game.getWorld().get(nextPos) instanceof Door) {
             	Door d= (Door) game.getWorld().get(nextPos);
             	if (d.getState()==3) {
             		game.changeLevel("next");

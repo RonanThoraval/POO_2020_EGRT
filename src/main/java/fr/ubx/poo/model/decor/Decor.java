@@ -5,10 +5,15 @@
 package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.model.go.character.Player;
 
 /***
  * A decor is an element that does not know its own position in the grid.
  */
-public class Decor extends Entity {
+public abstract class Decor extends Entity {
+
+	public abstract boolean canPlayerGo(Player player);
+
+	public abstract void doPlayerGo(Player player);
 
 }
