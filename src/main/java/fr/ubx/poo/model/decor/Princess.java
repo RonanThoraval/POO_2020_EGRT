@@ -22,4 +22,10 @@ public class Princess extends Decor {
 	public boolean canPlayerGo(Player player) {
 		return true;
 	}
+
+	@Override
+	public void doPlayerGo(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
 }

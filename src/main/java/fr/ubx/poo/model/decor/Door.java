@@ -38,8 +38,7 @@ public class Door extends Decor {
 
 	@Override
 	public boolean canPlayerGo(Player player) {
-		Position newPos=player.getDirection().nextPosition(getPosition());
-		Door d=(Door) player.getGame().getWorld().get(newPos);
+		Door d=(Door) player.getGame().getWorld().get(position);
 		return (d.getState()!=1);
 	}
 

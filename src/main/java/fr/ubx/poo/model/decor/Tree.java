@@ -18,8 +18,5 @@ public class Tree extends Decor {
 	}
 
 	@Override
-	public void doPlayerGo(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void doPlayerGo(Player player) {}
 }

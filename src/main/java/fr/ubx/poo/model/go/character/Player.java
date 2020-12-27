@@ -127,25 +127,27 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) throws IOException {
     	if (canMove(direction)) {
     		Position nextPos = direction.nextPosition(getPosition());
-            game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
-            if (game.getWorld().get(nextPos) instanceof Door) {
-            	Door d= (Door) game.getWorld().get(nextPos);
-            	if (d.getState()==3) {
-            		game.changeLevel("next");
-            		game.getWorld().setChanged(true);
-            		return ;
-            	}
-            	if (d.getState()==2) {
-            		game.changeLevel("prev");
-            		game.getWorld().setChanged(true);
-            		return ;
-            	}
-            }
-            for (Monster monster : this.game.getMonsters() ) {
-        		if ( monster.getPosition().equals(nextPos)) {
-        			decreaseLives();
-        		}
-            }
+    		if (!this.game.getWorld().isEmpty(nextPos)) {
+	            game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
+	            if (game.getWorld().get(nextPos) instanceof Door) {
+	            	Door d= (Door) game.getWorld().get(nextPos);
+	            	if (d.getState()==3) {
+	            		game.changeLevel("next");
+	            		game.getWorld().setChanged(true);
+	            		return ;
+	            	}
+	            	if (d.getState()==2) {
+	            		game.changeLevel("prev");
+	            		game.getWorld().setChanged(true);
+	            		return ;
+	            	}
+	            }
+    		}
+	        for (Monster monster : this.game.getMonsters() ) {
+	        	if ( monster.getPosition().equals(nextPos)) {
+	        		decreaseLives();
+	        	}
+	        }
             setPosition(nextPos);
     	}
         
@@ -260,6 +262,15 @@ public class Player extends GameObject implements Movable {
 	public void decreateBombs() {
 		for (Bomb b : listBomb.get(game.getCurrentLevel()))
 			b.decreate();
+	}
+
+	public void manageBox(Position position) {
+		this.game.getWorld().clear(position);
+    	this.game.getWorld().set(this.direction.nextPosition(position), new Box());
+	}
+	
+	public void manage(Position position) {
+		this.game.getWorld().clear(position);
 	}
 
 }

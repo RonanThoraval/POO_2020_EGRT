@@ -24,7 +24,7 @@ private Position position;
 	}
 	
 	public void doPlayerGo(Player player) {
-		player.getGame().getWorld().clear(position);
+		player.manage(position);
 		if(player.getNbBombs()!=1) {
 			player.decreaseNbBombs();
 		}

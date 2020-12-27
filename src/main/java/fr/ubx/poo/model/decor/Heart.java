@@ -25,7 +25,7 @@ private Position position;
 
 	@Override
 	public void doPlayerGo(Player player) {
-		player.getGame().getWorld().clear(position);
 		player.increaseLives();
+		player.manage(position);
 	}
 }

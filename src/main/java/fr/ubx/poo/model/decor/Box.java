@@ -27,8 +27,7 @@ public class Box extends Decor {
 
 	@Override
 	public void doPlayerGo(Player player) {
-		player.getGame().getWorld().clear(position);
-    	player.getGame().getWorld().set(player.getDirection().nextPosition(position), new Box());
+		player.manageBox(position);
 	}
 }
 
