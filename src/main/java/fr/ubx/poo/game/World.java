@@ -115,6 +115,7 @@ public class World {
     public WorldEntity[][] getRaw() {
     	return this.raw;
     }
+    
 
     public void set(Position position, Decor decor) {
         grid.put(position, decor);

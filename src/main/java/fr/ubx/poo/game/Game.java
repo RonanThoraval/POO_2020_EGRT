@@ -80,13 +80,15 @@ public class Game {
 		return monsters.get(current_level);
 	}
 	
-	public List<List<Monster>> getListMonsters() {
-		return monsters;
+	public List<Monster> getMonsters(int level) {
+		return monsters.get(level);
 	}
+	
 	
 	public List<List<Explosion>> getExplosion(){
 		return explosions;
 	}
+	
 
     public int getInitPlayerLives() {
         return initPlayerLives;
@@ -107,6 +109,10 @@ public class Game {
 
     public World getWorld() {
         return world[current_level];
+    }
+    
+    public World getWorld(int level) {
+    	return world[level];
     }
 
     public Player getPlayer() {

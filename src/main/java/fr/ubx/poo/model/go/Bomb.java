@@ -70,7 +70,7 @@ public class Bomb extends GameObject {
 	
 	
 	
-	public List<Position> positionsAroundBomb(int range) {
+	public List<Position> positionsAroundBomb(int range,int level) {
 		List<Position> l=new ArrayList<>();
 		int y=getPosition().y;
 		int x=getPosition().x;
@@ -80,16 +80,16 @@ public class Bomb extends GameObject {
 			Position p3=new Position(x-i,y);
 			Position p4=new Position(x+i,y);
 			
-			if (p1.inside(this.game.getWorld().dimension)) {
+			if (p1.inside(this.game.getWorld(level).dimension)) {
 				l.add(p1);
 			}
-			if (p2.inside(this.game.getWorld().dimension)) {
+			if (p2.inside(this.game.getWorld(level).dimension)) {
 				l.add(p2);
 			}
-			if (p3.inside(this.game.getWorld().dimension)) {
+			if (p3.inside(this.game.getWorld(level).dimension)) {
 				l.add(p3);
 			}
-			if (p4.inside(this.game.getWorld().dimension)) {
+			if (p4.inside(this.game.getWorld(level).dimension)) {
 				l.add(p4);
 			}
 		}
