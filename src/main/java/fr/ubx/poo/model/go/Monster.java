@@ -28,8 +28,8 @@ public class Monster extends GameObject implements Movable {
 	
 	public boolean canMove(Direction direction) {
     	Position newPos=direction.nextPosition(getPosition());
-    	return (newPos.inside(this.game.getWorld().dimension) && (this.game.getWorld().get(newPos)==null));
-	}
+    	return (newPos.inside(this.game.getWorld().dimension)) && 
+    	        (this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canMonsterGo());	}
 	
 	
 	public boolean isAlive() {
@@ -43,7 +43,7 @@ public class Monster extends GameObject implements Movable {
 	public void doMove(Direction direction) {
 		if (canMove(direction) ) {
 	    	Position nextPos = direction.nextPosition(getPosition());
-	        setPosition(nextPos);
+	    	setPosition(nextPos);
 		}
 	}
 	
@@ -68,6 +68,10 @@ public class Monster extends GameObject implements Movable {
 					}
 					direction = Direction.random();
 				}
+				triedN=false;
+				triedS=false;
+				triedE=false;
+				triedW=false;
 			}else {
 				direction = AI();
 			}

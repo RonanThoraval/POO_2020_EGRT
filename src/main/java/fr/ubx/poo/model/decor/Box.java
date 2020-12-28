@@ -27,4 +27,9 @@ public class Box extends Decor {
 	public void doPlayerGo(Player player) {
 		player.manageBox(player.getDirection().nextPosition(player.getPosition()));
 	}
+	
+	public boolean canMonsterGo() {
+		return false;
+	}
+
 }

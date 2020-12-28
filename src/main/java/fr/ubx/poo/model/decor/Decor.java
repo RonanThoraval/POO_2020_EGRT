@@ -24,4 +24,8 @@ public abstract class Decor extends Entity {
 		return true;
 	}
 
+	public boolean canMonsterGo() {
+		return true;
+	}
+
 }

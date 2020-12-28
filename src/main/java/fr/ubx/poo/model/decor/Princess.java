@@ -18,4 +18,9 @@ public class Princess extends Decor {
 	public boolean canExplose() {
 		return false;
 	}
+	
+	public boolean canMonsterGo() {
+		return false;
+	}
+
 }

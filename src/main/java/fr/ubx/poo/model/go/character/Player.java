@@ -111,14 +111,9 @@ public class Player extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
     	Position newPos=direction.nextPosition(getPosition());
-    	if (!newPos.inside(this.game.getWorld().dimension)) {
-    		return false;
-    	}
-    	if (!this.game.getWorld().isEmpty(newPos)) {
-    		return this.game.getWorld().get(newPos).canPlayerGo(this);
-    	}
-    	return true;
-        //return ( newPos.inside(this.game.getWorld().dimension) ) && ( this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canPlayerGo(this) );
+    	
+        return (newPos.inside(this.game.getWorld().dimension)) && 
+        (this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canPlayerGo(this));
     }
 
     public void doMove(Direction direction) throws IOException {

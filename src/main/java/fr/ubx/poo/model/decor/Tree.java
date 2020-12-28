@@ -24,4 +24,9 @@ public class Tree extends Decor {
 	public boolean canExplose() {
 		return false;
 	}
+	
+	public boolean canMonsterGo() {
+		return false;
+	}
+
 }
