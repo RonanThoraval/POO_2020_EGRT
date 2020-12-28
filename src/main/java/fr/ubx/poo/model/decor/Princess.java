@@ -15,7 +15,6 @@ public class Princess extends Decor {
 
 	@Override
 	public void doPlayerGo(Player player) {
-		// TODO Auto-generated method stub
-		
+		player.setWinner();
 	}
 }

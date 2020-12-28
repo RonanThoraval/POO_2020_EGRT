@@ -112,16 +112,8 @@ public class Game {
     	explosions.get(current_level).add(explosion);
     }
     
-    public void removeExplosion(Explosion explosion) {
-    	explosions.get(current_level).remove(explosion);
-    }
-    
     public void addMonster(Monster monster, int level) {
     	monsters.get(current_level).add(monster);
-    }
-    
-    public void removeMonster(Monster monster, int level){
-    	monsters.get(current_level).remove(monster);
     }
     
     public int getCurrentLevel() {

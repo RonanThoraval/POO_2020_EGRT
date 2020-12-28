@@ -31,9 +31,6 @@ public class Monster extends GameObject implements Movable {
     	return (newPos.inside(this.game.getWorld().dimension) && (this.game.getWorld().get(newPos)==null));
 	}
 	
-	public String toString() {
-		return "Monster";
-	}
 	
 	public boolean isAlive() {
 		return alive;

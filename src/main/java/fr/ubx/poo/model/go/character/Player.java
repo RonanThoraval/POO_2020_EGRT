@@ -37,7 +37,7 @@ public class Player extends GameObject implements Movable {
     private int keys=0;
     private int nbBombs =1;
     private int rangeBombs=1;
-    private boolean winner;
+    private boolean winner=false;
     private boolean bombRequest=false;
 
     public Player(Game game, Position position, int lives) {
@@ -99,6 +99,10 @@ public class Player extends GameObject implements Movable {
     
     public void decreaseKeys() {
     	keys--;
+    }
+    
+    public void setWinner() {
+    	winner=true;
     }
     
     public List<List<Bomb>> getListBombs() {
@@ -164,21 +168,11 @@ public class Player extends GameObject implements Movable {
     }
 
     public boolean isWinner() {
-    	if (lives==0) {
-    		return false;
-    	}
-    	if (game.getWorld().get(getPosition()) instanceof Princess) {
-    		return true;
-    	}
-    	return false;
-    	
+    	return winner;
     }
 
     public boolean isAlive() {
-    	if (lives==0) {
-    		return false;
-    	}
-    	return true;
+    	return (lives!=0);
     }
     
     public String toString() {
@@ -221,37 +215,12 @@ public class Player extends GameObject implements Movable {
 		return nbBombs!=0;
 	}
 	
-	
-	public void removeBombExplosed() {
-		Iterator<Bomb> it=listBomb.get(game.getCurrentLevel()).iterator();
-    	while (it.hasNext()) {
-    		Bomb next=it.next();
-    		if (next.explosed()) {
-    			it.remove();
-    		}
-    	}
-	}
-	
-	public void removeBomb(Bomb b) {
-		Iterator<Bomb> iterator=listBomb.get(game.getCurrentLevel()).iterator();
-		while (iterator.hasNext()) {
-			Bomb next=iterator.next();
-			if (next==b) {
-				iterator.remove();
-			}
-		}
-	}
 	public void PoseBomb(long now) {
 		long start=now;
 		Bomb b=new Bomb(this.game,getPosition(),start);
 		listBomb.get(game.getCurrentLevel()).add(b);
 		nbBombs=nbBombs-1;
 			
-	}
-	
-	public void decreateBombs() {
-		for (Bomb b : listBomb.get(game.getCurrentLevel()))
-			b.decreate();
 	}
 
 	public void manageBox(Position position) {

@@ -29,10 +29,6 @@ public abstract class GameObject extends Entity {
         this.position = position;
     }
     
-    public String toString() {
-    	return "";
-    }
-    
     public Game getGame() {
     	return game;
     }
