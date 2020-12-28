@@ -272,6 +272,7 @@ public final class GameEngine {
     	}
     	if (game.getWorld().hasChanged()) {
     		spritesDecor.clear();
+  
     		
     		game.getWorld().forEach( (pos,d) -> spritesDecor.get(game.getCurrentLevel()).add(SpriteFactory.createDecor(layer, pos, d)));
     		game.getWorld().setChanged(false);
