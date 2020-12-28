@@ -72,9 +72,6 @@ public class Monster extends GameObject implements Movable {
 				direction = AI();
 			}
 			doMove(direction);
-			if(getPosition().equals(this.game.getPlayer().getPosition())) {
-				this.game.getPlayer().decreaseLives();
-			}
 			start = now;
 		}
     }

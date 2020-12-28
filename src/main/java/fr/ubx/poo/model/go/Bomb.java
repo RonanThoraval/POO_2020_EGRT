@@ -10,6 +10,8 @@ public class Bomb extends GameObject {
 	long start;
 	int etat;
 	boolean explosed=false;
+	
+	//created indique si la bombe a été placée dans le jeu 
 	boolean created=false;
 	
 	public Bomb(Game game, Position position, long start) {

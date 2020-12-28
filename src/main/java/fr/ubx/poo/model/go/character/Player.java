@@ -139,6 +139,13 @@ public class Player extends GameObject implements Movable {
     }
     
     public void update(long now) throws IOException {
+    	for (Monster monster : game.getMonsters()) {
+    		if (getPosition().equals(monster.getPosition())) {
+    			decreaseLives();
+    		}
+    	}
+    	
+    	
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);

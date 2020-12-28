@@ -80,6 +80,10 @@ public class Game {
 		return monsters.get(current_level);
 	}
 	
+	public List<List<Monster>> getListMonsters() {
+		return monsters;
+	}
+	
 	public List<List<Explosion>> getExplosion(){
 		return explosions;
 	}
