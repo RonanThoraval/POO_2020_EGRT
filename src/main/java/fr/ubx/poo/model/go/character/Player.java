@@ -117,30 +117,21 @@ public class Player extends GameObject implements Movable {
     }
 
     public void doMove(Direction direction) throws IOException {
-    	if (canMove(direction)) {
-    		Position nextPos = direction.nextPosition(getPosition());
-    		if (this.game.getWorld().isEmpty(nextPos)) {
-	            for (Monster monster : this.game.getMonsters() ) {
-		        	if ( monster.getPosition().equals(nextPos)) {
-		        		decreaseLives();
-		        	}
-		        }
-	            setPosition(nextPos);
-    		}else {
-    			game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
-    		}
+    	Position nextPos = direction.nextPosition(getPosition());
+    	if (this.game.getWorld().isEmpty(nextPos)) {
+            for (Monster monster : this.game.getMonsters() ) {
+            	if ( monster.getPosition().equals(nextPos)) {
+		       		decreaseLives();
+		       	}
+		    }
+	        setPosition(nextPos);
+    	}else {
+   			game.getWorld().get(nextPos).doPlayerGo(this.game.getPlayer());
     	}
         
     }
     
     public void update(long now) throws IOException {
-    	for (Monster monster : game.getMonsters()) {
-    		if (getPosition().equals(monster.getPosition())) {
-    			decreaseLives();
-    		}
-    	}
-    	
-    	
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);

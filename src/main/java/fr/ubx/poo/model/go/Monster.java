@@ -44,6 +44,9 @@ public class Monster extends GameObject implements Movable {
 		if (canMove(direction) ) {
 	    	Position nextPos = direction.nextPosition(getPosition());
 	    	setPosition(nextPos);
+	    	if (game.getPlayer().getPosition().equals(getPosition())) {
+	    		game.getPlayer().decreaseLives();
+	    	}
 		}
 	}
 	
