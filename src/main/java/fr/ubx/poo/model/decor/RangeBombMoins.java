@@ -9,14 +9,11 @@ public class RangeBombMoins extends Decor{
         return "RangeBombMoins";
     }
 	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
-	
 	public void doPlayerGo(Player player) {
 		player.manage(player.getDirection().nextPosition(player.getPosition()));
-		if(player.getRangeBombs()!=1) {
+		if(player.getRangeBombs()>1) {
 			player.decreaseRangeBombs();
 		}
 	}
+	
 }

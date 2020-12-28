@@ -45,6 +45,8 @@ public class Door extends Decor {
     	}
 	}
 	
-	
+	public boolean canExplose() {
+		return false;
+	}
 
 }

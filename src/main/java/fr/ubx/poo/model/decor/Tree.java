@@ -19,4 +19,9 @@ public class Tree extends Decor {
 
 	@Override
 	public void doPlayerGo(Player player) {}
+
+	@Override
+	public boolean canExplose() {
+		return false;
+	}
 }

@@ -8,10 +8,6 @@ public class Heart extends Decor{
     public String toString() {
         return "Heart";
     }
-	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
 
 	@Override
 	public void doPlayerGo(Player player) {

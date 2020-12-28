@@ -177,14 +177,14 @@ public final class GameEngine {
     		if(position.y>bombPosition.y) {
     			for(int i=1; i<position.y-bombPosition.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y+i);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
+    				if( !game.getWorld().isEmpty(p) || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.y-position.y; i++) {
     				Position p = new Position(bombPosition.x,bombPosition.y-i);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
+    				if( !game.getWorld().isEmpty(p) || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
@@ -193,14 +193,14 @@ public final class GameEngine {
     		if(position.x>bombPosition.x) {
     			for(int i=1; i<position.x-bombPosition.x; i++) {
     				Position p = new Position(bombPosition.x+i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
+    				if( !game.getWorld().isEmpty(p) || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
     		}else {
     			for(int i=1; i<bombPosition.x-position.x; i++) {
     				Position p = new Position(bombPosition.x-i,bombPosition.y);
-    				if( game.getWorld().get(p) instanceof Decor || isMonsterHere(p) || player.getPosition().equals(p)) {
+    				if( !game.getWorld().isEmpty(p) || isMonsterHere(p) || player.getPosition().equals(p)) {
     					return true;
     				}
     			}
@@ -215,12 +215,7 @@ public final class GameEngine {
     	while (iterator.hasNext()) {
     		Position next=iterator.next();
     		
-    		if (!(game.getWorld().get(next) instanceof Tree) 
-    			&& !(game.getWorld().get(next) instanceof Stone)
-    			&& !(game.getWorld().get(next) instanceof Key)
-    			&& !(game.getWorld().get(next) instanceof Door)
-    			&& !(isBehindSomething(bombPosition,next))) {
-    			
+    		if (!isBehindSomething(bombPosition,next) && (game.getWorld().isEmpty(next) || game.getWorld().get(next).canExplose())) {
     			Iterator<Monster> iteratorMonster=game.getMonsters().iterator();
         		while (iteratorMonster.hasNext()) {
         			Monster monster=iteratorMonster.next();

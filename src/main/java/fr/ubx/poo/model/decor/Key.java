@@ -9,12 +9,13 @@ public class Key extends Decor{
         return "Key";
     }
 	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
-	
 	public void doPlayerGo(Player player) {
 		player.manage(player.getDirection().nextPosition(player.getPosition()));
 		player.increaseKeys();
+	}
+
+	@Override
+	public boolean canExplose() {
+		return false;
 	}
 }

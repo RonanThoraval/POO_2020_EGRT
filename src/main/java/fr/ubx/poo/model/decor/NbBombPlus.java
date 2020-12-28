@@ -9,12 +9,9 @@ public class NbBombPlus extends Decor{
         return "NbBombPlus";
     }
 	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
-	
 	public void doPlayerGo(Player player) {
 		player.manage(player.getDirection().nextPosition(player.getPosition()));
 		player.increaseNbBombs();
 	}
+
 }

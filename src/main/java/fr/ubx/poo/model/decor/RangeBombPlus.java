@@ -9,12 +9,9 @@ public class RangeBombPlus extends Decor{
         return "RangeBombPlus";
     }
 	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
-	
 	public void doPlayerGo(Player player) {
 		player.manage(player.getDirection().nextPosition(player.getPosition()));
 		player.increaseRangeBombs();
 	}
+
 }

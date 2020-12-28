@@ -8,13 +8,14 @@ public class Princess extends Decor {
     public String toString() {
         return "Princess";
     }
-	
-	public boolean canPlayerGo(Player player) {
-		return true;
-	}
 
 	@Override
 	public void doPlayerGo(Player player) {
 		player.setWinner();
+	}
+
+	@Override
+	public boolean canExplose() {
+		return false;
 	}
 }

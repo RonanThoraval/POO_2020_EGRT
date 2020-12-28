@@ -14,8 +14,14 @@ import fr.ubx.poo.model.go.character.Player;
  */
 public abstract class Decor extends Entity {
 
-	public abstract boolean canPlayerGo(Player player);
+	public boolean canPlayerGo(Player player) {
+		return true;
+	}
 
 	public abstract void doPlayerGo(Player player) throws IOException;
+
+	public boolean canExplose() {
+		return true;
+	}
 
 }
