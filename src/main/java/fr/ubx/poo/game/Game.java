@@ -29,6 +29,7 @@ public class Game {
     public int initPlayerLives;
     private int nb_levels;
     private int current_level=0;
+    private int before_level=0;
     private String prefix;
     private boolean hasChangedLevel;
 
@@ -108,8 +109,8 @@ public class Game {
         return this.player;
     }
     
-    public void addExplosion(Explosion explosion) {
-    	explosions.get(current_level).add(explosion);
+    public void addExplosion(int level, Explosion explosion) {
+    	explosions.get(level).add(explosion);
     }
     
     public void addMonster(Monster monster, int level) {
@@ -120,10 +121,14 @@ public class Game {
     	return current_level;
     }
     
+    public int getBeforeLevel() {
+    	return before_level;
+    }
     
     
     public void changeLevel(String whichLevel) throws IOException {
-    	if (whichLevel=="next") {	
+    	if (whichLevel=="next") {
+    		before_level =current_level;
     		current_level+=1;
     		try {
     			player.setPosition(world[current_level].findDoor("PrevOpened"));
@@ -133,6 +138,7 @@ public class Game {
     		}
     	}
     	else if (whichLevel=="prev") {
+    		before_level=current_level;
     		current_level=current_level-1;
     		try {
     			player.setPosition(world[current_level].findDoor("NextOpened"));

@@ -9,13 +9,6 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.Heart;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.NbBombMoins;
-import fr.ubx.poo.model.decor.NbBombPlus;
-import fr.ubx.poo.model.decor.Princess;
-import fr.ubx.poo.model.decor.RangeBombMoins;
-import fr.ubx.poo.model.decor.RangeBombPlus;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
@@ -23,7 +16,6 @@ import fr.ubx.poo.game.Game;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Player extends GameObject implements Movable {

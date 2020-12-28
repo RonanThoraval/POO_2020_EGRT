@@ -12,11 +12,6 @@ import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.view.sprite.SpriteMonster;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.Key;
-import fr.ubx.poo.model.decor.Stone;
-import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Explosion;
 import fr.ubx.poo.model.go.Monster;
@@ -45,10 +40,10 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final List<Sprite> spritesDecor = new ArrayList<>();
-    private List<SpriteMonster> spritesMonster=new ArrayList<>();
-    private List<SpriteBomb> spritesBomb=new ArrayList<>();
-    private List<SpriteExplosion> spritesExplosion=new ArrayList<>();
+    private final List<List<Sprite>> spritesDecor = new ArrayList<>();
+    private List<List<SpriteMonster>> spritesMonster=new ArrayList<>();
+    private List<List<SpriteBomb>> spritesBomb=new ArrayList<>();
+    private List<List<SpriteExplosion>> spritesExplosion=new ArrayList<>();
     
     private StatusBar statusBar;
     private Pane layer;
@@ -248,94 +243,112 @@ public final class GameEngine {
 
     private void update(long now) throws IOException {
     	if (game.hasChangedLevel()) {
-    		spritesDecor.forEach(Sprite::remove);
-    		spritesMonster.forEach(Sprite::remove);
-    		spritesBomb.forEach(Sprite::remove);
-    		spritesExplosion.forEach(Sprite::remove);
+    		
+    		List<Sprite> spritesDecorTemp = new ArrayList<>();
+    		List<SpriteMonster> spritesMonsterTemp = new ArrayList<>();
+    		List<SpriteBomb> spritesBombTemp = new ArrayList<>();
+    		List<SpriteExplosion> spritesExplosionTemp = new ArrayList<>();
+    		
+    		spritesDecor.get(game.getBeforeLevel()).forEach(s -> spritesDecorTemp.add(s));
+    		spritesMonster.get(game.getBeforeLevel()).forEach(s -> spritesMonsterTemp.add(s));
+    		spritesBomb.get(game.getBeforeLevel()).forEach(s -> spritesBombTemp.add(s));
+    		spritesExplosion.get(game.getBeforeLevel()).forEach(s -> spritesExplosionTemp.add(s));
     		
     		spritesDecor.clear();
     		spritesMonster.clear();
     		spritesBomb.clear();
     		spritesExplosion.clear();
     		
+    		spritesDecorTemp.forEach(s -> spritesDecor.get(game.getBeforeLevel()).add(s));
+    		spritesMonsterTemp.forEach(s -> spritesMonster.get(game.getBeforeLevel()).add(s));
+    		spritesBombTemp.forEach(s -> spritesBomb.get(game.getBeforeLevel()).add(s));
+    		spritesExplosionTemp.forEach(s -> spritesExplosion.get(game.getBeforeLevel()).add(s));
+    		
     		initialize(stage,game);
     		
-    		game.getWorld().forEach( (pos,d) -> spritesDecor.add(SpriteFactory.createDecor(layer, pos, d)));
+    		game.getWorld().forEach( (pos,d) -> spritesDecor.get(game.getCurrentLevel()).add(SpriteFactory.createDecor(layer, pos, d)));
     		game.setChangedLevel(false);
     		
     	}
     	if (game.getWorld().hasChanged()) {
-    		spritesDecor.forEach(Sprite::remove);
     		spritesDecor.clear();
     		
-    		game.getWorld().forEach( (pos,d) -> spritesDecor.add(SpriteFactory.createDecor(layer, pos, d)));
+    		game.getWorld().forEach( (pos,d) -> spritesDecor.get(game.getCurrentLevel()).add(SpriteFactory.createDecor(layer, pos, d)));
     		game.getWorld().setChanged(false);
-    		
-    	}
+    		}
+    	
         player.update(now);
         for(Monster monster : game.getMonsters()) {
         	monster.update(now);
         }
         
-        game.getMonsters().forEach(go -> spritesMonster.add(SpriteFactory.createMonster(layer, go)));
+        game.getMonsters().forEach(go -> spritesMonster.get(game.getCurrentLevel()).add(SpriteFactory.createMonster(layer, go)));
         
         //update les bombes existantes, crée celles qui ne le sont pas
-        Iterator<Bomb> iter=player.getListBombs().get(game.getCurrentLevel()).iterator();
-        while (iter.hasNext()) {
-        	Bomb bomb=iter.next();
-        	if (bomb.getCreated()) {
-        		if (!bomb.explosed()) {
-            		bomb.update(now);
-        		}else {
-        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
-        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround);
-        			for (Position p : positionToSupp) {
-        				Explosion exp = new Explosion(game,p,now);
-        				spritesExplosion.add(SpriteFactory.createExplosion(layer,exp));
-        				game.addExplosion(exp);
-        			}
-        		    iter.remove();
-        		}
-        	} else {
-        		spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
-        		bomb.setCreated();
-        	}	
+        for(int i =0; i< game.getNbLevels(); i++) {
+	        Iterator<Bomb> iter=player.getListBombs().get(i).iterator();
+	        while (iter.hasNext()) {
+	        	Bomb bomb=iter.next();
+	        	if (bomb.getCreated()) {
+	        		if (!bomb.explosed()) {
+	            		bomb.update(now);
+	        		}else {
+	        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs());
+	        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround);
+	        			for (Position p : positionToSupp) {
+	        				Explosion exp = new Explosion(game,p,now);
+	        				spritesExplosion.get(i).add(SpriteFactory.createExplosion(layer,exp));
+	        				game.addExplosion(i,exp);
+	        			}
+	        		    iter.remove();
+	        		}
+	        	} else {
+	        		spritesBomb.get(i).add(SpriteFactory.createBomb(layer, bomb));
+	        		bomb.setCreated();
+	        	}	
+	        }
         }
         
        
         //update les explosions
-        for (SpriteExplosion s : spritesExplosion)
-        	s.getExplosion().update(now);
+        for(int i=0; i<game.getNbLevels(); i++) {
+        	for (Explosion e : game.getExplosion().get(i))
+        		e.update(now);
+        }
         
         //enlève les explosions déjà apparues
-        Iterator<SpriteExplosion> it=spritesExplosion.iterator();
-        while (it.hasNext()) {
-        	SpriteExplosion next=it.next();
-        	if (next.getExplosion().getExplosed()) {
-        		next.remove();
-        		it.remove();
-        	}
+        for(int i =0; i<game.getNbLevels();i++) {
+	        Iterator<SpriteExplosion> it=spritesExplosion.get(i).iterator();
+	        while (it.hasNext()) {
+	        	SpriteExplosion next=it.next();
+	        	if (next.getExplosion().getExplosed()) {
+	        		next.remove();
+	        		it.remove();
+	        	}
+	        }
         }
-        
         
         //enlève les sprites des bombes explosées
-        Iterator<SpriteBomb> iterator = spritesBomb.iterator();
-        while(iterator.hasNext()) {
-        	SpriteBomb next = iterator.next();
-        	if(next.getBomb().explosed()) {
-        		next.remove();
-        		iterator.remove();
-        		player.increaseNbBombs();
-        	}
+        for(int i=0; i<game.getNbLevels(); i++) {
+	        Iterator<SpriteBomb> iterator = spritesBomb.get(i).iterator();
+	        while(iterator.hasNext()) {
+	        	SpriteBomb next = iterator.next();
+	        	if(next.getBomb().explosed()) {
+	        		next.remove();
+	        		iterator.remove();
+	        		player.increaseNbBombs();
+	        	}
+	        }
         }
-        
-        Iterator<SpriteMonster> iterator2 = spritesMonster.iterator();
-        while(iterator2.hasNext()) {
-        	SpriteMonster next2 = iterator2.next();
-        	if(!next2.getMonster().isAlive()) {
-        		next2.remove();
-        		iterator2.remove();
-        	}
+        for(int i=0; i<game.getNbLevels(); i++) {
+        Iterator<SpriteMonster> iterator2 = spritesMonster.get(i).iterator();
+	        while(iterator2.hasNext()) {
+	        	SpriteMonster next2 = iterator2.next();
+	        	if(!next2.getMonster().isAlive()) {
+	        		next2.remove();
+	        		iterator2.remove();
+	        	}
+	        }
         }
 
         if (player.isAlive() == false) {
@@ -346,13 +359,14 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
+        
     }
     
     private void render() {
-        spritesDecor.forEach(Sprite::render);
-        spritesMonster.forEach(SpriteMonster::render);
-        spritesBomb.forEach(SpriteBomb::render);
-        spritesExplosion.forEach(SpriteExplosion::render);
+        spritesDecor.get(game.getCurrentLevel()).forEach(Sprite::render);
+        spritesMonster.get(game.getCurrentLevel()).forEach(SpriteMonster::render);
+        spritesBomb.get(game.getCurrentLevel()).forEach(SpriteBomb::render);
+        spritesExplosion.get(game.getCurrentLevel()).forEach(SpriteExplosion::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
         
