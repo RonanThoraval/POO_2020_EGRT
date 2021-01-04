@@ -26,12 +26,18 @@ public class Monster extends GameObject implements Movable {
 		return direction;
 	}
 	
+	/**
+	 *@return true if the monster can go towards direction passed in parameters, false else
+	 */
 	public boolean canMove(Direction direction) {
     	Position newPos=direction.nextPosition(getPosition());
     	return (newPos.inside(this.game.getWorld().dimension)) && 
     	        (this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canMonsterGo());	}
 	
-	
+	/**
+	 * 
+	 * @return true if the monster is alive
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
@@ -40,12 +46,12 @@ public class Monster extends GameObject implements Movable {
 		alive=false;
 	}
 	
-	public void doMove(Direction direction) {
+	public void doMove(Direction direction, long now) {
 		if (canMove(direction) ) {
 	    	Position nextPos = direction.nextPosition(getPosition());
 	    	setPosition(nextPos);
 	    	if (game.getPlayer().getPosition().equals(getPosition())) {
-	    		game.getPlayer().decreaseLives();
+	    		game.getPlayer().decreaseLives(now);
 	    	}
 		}
 	}
@@ -78,29 +84,35 @@ public class Monster extends GameObject implements Movable {
 			}else {
 				direction = AI();
 			}
-			doMove(direction);
+			doMove(direction, now);
 			start = now;
 		}
     }
 	
-	public Direction DirAl(Direction a, Direction b) {
-		if (!canMove(a) && !canMove(b)) {
+	/**
+	 * 
+	 * @param direction1 
+	 * @param direction2
+	 * @return one of the both directions, selected randomly 
+	 */
+	public Direction DirAl(Direction direction1, Direction direction2) {
+		if (!canMove(direction1) && !canMove(direction1)) {
 			Direction c = Direction.random();
 			while(!canMove(c)) {
 				c = Direction.random();
 			}
 			return c;
 		}
-		if (canMove(a) && !canMove(b)) {
-			return a;
+		if (canMove(direction1) && !canMove(direction1)) {
+			return direction1;
 		}
-		if (!canMove(a) && canMove(b)) {
-			return b;
+		if (!canMove(direction1) && canMove(direction1)) {
+			return direction1;
 		}
 		if(Math.random()>1/2) {
-			return a;
+			return direction1;
 		}
-		return b;
+		return direction1;
 	}
 	
 	public Direction AI() {

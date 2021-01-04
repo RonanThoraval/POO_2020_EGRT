@@ -52,6 +52,9 @@ public class Door extends Decor {
 	public boolean canMonsterGo() {
 		return false;
 	}
-
+	
+	public boolean isDoor() {
+		return true;
+	}
 
 }

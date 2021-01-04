@@ -31,6 +31,8 @@ public class Player extends GameObject implements Movable {
     private int rangeBombs=1;
     private boolean winner=false;
     private boolean bombRequest=false;
+    private boolean invincible=false;
+    private long start;
 
     public Player(Game game, Position position, int lives) {
         super(game, position);
@@ -41,12 +43,22 @@ public class Player extends GameObject implements Movable {
         }
     }
     
+    /**
+     * 
+     * @return the player's numbers of lives
+     */
     public int getLives() {
         return lives;
     }
     
-    public void decreaseLives() {
-    	lives--;
+    
+    public void decreaseLives(long now) {
+    	if(!invincible) {
+    		invincible=true;
+    		lives--;
+    		start=now;
+    		System.out.println("a");
+    	}
     }
     
     public void increaseLives() {
@@ -57,10 +69,17 @@ public class Player extends GameObject implements Movable {
         return direction;
     }
     
+    /**
+     * 
+     * @return the actual player's numbers of bombs
+     */
     public int getNbBombs() {
     	return nbBombs;
     }
     
+    /*
+     * POUETTTETETTETTE
+     */
     public void increaseNbBombs() {
     	nbBombs++;
     }
@@ -69,6 +88,10 @@ public class Player extends GameObject implements Movable {
     	nbBombs--;
     }
     
+    /**
+     * 
+     * @return the player's range of bombs
+     */
     public int getRangeBombs() {
     	return rangeBombs;
     }
@@ -81,6 +104,10 @@ public class Player extends GameObject implements Movable {
     	rangeBombs++;
     }
     
+    /**
+     * 
+     * @return the player's number of keys
+     */
     public int getKeys() {
     	return keys;
     }
@@ -93,14 +120,23 @@ public class Player extends GameObject implements Movable {
     	keys--;
     }
     
+    
     public void setWinner() {
     	winner=true;
     }
     
+    /**
+     * 
+     * @return the list of player's bombs posed
+     */
     public List<List<Bomb>> getListBombs() {
     	return listBomb;
     }
     
+    /**
+     * 
+     * @param direction
+     */
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -109,6 +145,12 @@ public class Player extends GameObject implements Movable {
     }
 
     @Override
+    /**
+     * @param direction towards the player wants to go
+     * 
+     * @return true if the player can go towards direction passed in parameters, false else
+     * 
+     */
     public boolean canMove(Direction direction) {
     	Position newPos=direction.nextPosition(getPosition());
     	
@@ -116,12 +158,12 @@ public class Player extends GameObject implements Movable {
         (this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canPlayerGo(this));
     }
 
-    public void doMove(Direction direction) throws IOException {
+    public void doMove(Direction direction, long now) throws IOException {
     	Position nextPos = direction.nextPosition(getPosition());
     	if (this.game.getWorld().isEmpty(nextPos)) {
             for (Monster monster : this.game.getMonsters() ) {
             	if ( monster.getPosition().equals(nextPos)) {
-		       		decreaseLives();
+		       		decreaseLives(now);
 		       	}
 		    }
 	        setPosition(nextPos);
@@ -132,9 +174,14 @@ public class Player extends GameObject implements Movable {
     }
     
     public void update(long now) throws IOException {
+    	
+    	if(invincible && now-start>=Math.pow(10,9)) {
+    		invincible = false;
+    		System.out.println("b");
+    	}
         if (moveRequested) {
             if (canMove(direction)) {
-                doMove(direction);
+                doMove(direction, now);
             }
             moveRequested = false;
         }
@@ -152,10 +199,18 @@ public class Player extends GameObject implements Movable {
         }
     }
 
+    /**
+     * 
+     * @return true if the player has win the game, false else
+     */
     public boolean isWinner() {
     	return winner;
     }
 
+    /**
+     * 
+     * @return true if the player is alive (if his number of lives is not 0), false else
+     */
     public boolean isAlive() {
     	return (lives!=0);
     }
@@ -176,9 +231,15 @@ public class Player extends GameObject implements Movable {
 		bombRequest=true;
 	}
 	
+	/**
+	 * 
+	 * @param direction
+	 * 
+	 * @return true if the player can open the door he is looking at (if he has a key, and the door is not already open), false else 
+	 */
 	public boolean canOpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
-		if(game.getWorld().get(newPos) instanceof Door && keys!=0) {
+		if(game.getWorld().get(newPos).isDoor() && keys!=0) {
 			Door d=(Door) game.getWorld().get(newPos);
 			if (d.getState()==1) {
 				return (d.getState()==1);
@@ -196,6 +257,10 @@ public class Player extends GameObject implements Movable {
 		keys--;
 	}
 	
+	/**
+	 * 
+	 * @return true if the player can pose a bomb
+	 */
 	public boolean canPoseBomb() {
 		return nbBombs!=0;
 	}

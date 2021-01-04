@@ -209,7 +209,7 @@ public final class GameEngine {
     	return false;
     }
 
-    private List<Position> bombDamage(Position bombPosition, List<Position> positionsAround, int level) {
+    private List<Position> bombDamage(Position bombPosition, List<Position> positionsAround, int level,long now) {
     	List<Position> positionToSupp=new ArrayList<>();
     	Iterator<Position> iterator=positionsAround.iterator();
     	while (iterator.hasNext()) {
@@ -224,7 +224,7 @@ public final class GameEngine {
         			}
         		}
     			if (player.getPosition().equals(next)) {
-        			player.decreaseLives();
+        			player.decreaseLives(now);
         		}
     			positionToSupp.add(next);		
     		}
@@ -280,7 +280,7 @@ public final class GameEngine {
 	        		}else {
 	    	       		player.increaseNbBombs();
 	        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs(),i);
-	        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround,i);
+	        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround,i,now);
 	        			for (Position p : positionToSupp) {
 	        				Explosion exp = new Explosion(game,p,now);
 	        				game.addExplosion(i,exp);
