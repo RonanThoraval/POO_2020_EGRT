@@ -39,7 +39,7 @@ public class Game {
     	world = new World[nb_levels];
     	monsters = new ArrayList<List<Monster>>();
     	for(int i = 0; i<nb_levels; i++) {
-    		world[i]=new WorldConstructor(prefix,i+1,worldPath);  //Les fichiers level commencent � level1
+    		world[i]=new World(prefix,i+1,worldPath);  //Les fichiers level commencent � level1
     		monsters.add(build(world[i].getRaw(),i));
     		explosions.add(new ArrayList<>());
     		Position positionPlayer = null;
