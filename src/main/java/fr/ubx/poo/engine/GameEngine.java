@@ -158,7 +158,12 @@ public final class GameEngine {
     }
     
     
-    
+    /**
+     * 
+     * @param p
+     * @param level
+     * @return true if a monster is at the position p in level "level"
+     */
     private boolean isMonsterHere(Position p,int level) {
     	for (Monster monster : game.getMonsters(level)) {
     		if (monster.getPosition().equals(p)) {
@@ -168,6 +173,13 @@ public final class GameEngine {
     	return false;
     }
     
+    /**
+     * 
+     * @param bombPosition, the position of the bomb
+     * @param position, a position where the explosion can potentially go
+     * @param level
+     * @return true if something is between the bomb's position and the position past in parameters, false else
+     */
     private boolean isBehindSomething(Position bombPosition, Position position,int level) {
     	if (Math.abs(bombPosition.x-position.x)<=1 && Math.abs(bombPosition.y-position.y)<=1) {
     		return false;
@@ -209,6 +221,16 @@ public final class GameEngine {
     	return false;
     }
 
+    /**
+     * 
+     * @param bombPosition, the position of the bomb
+     * @param positionsAround, a list of potential positions of explosions
+     * @param level, the level where the actualization takes places
+     * @param now, the moment when/where the actualization takes places
+     * @return a list of positions where decor must be delete
+     * 
+     * This function kills also enemies and decrease lives' player when it is necessary
+     */
     private List<Position> bombDamage(Position bombPosition, List<Position> positionsAround, int level,long now) {
     	List<Position> positionToSupp=new ArrayList<>();
     	Iterator<Position> iterator=positionsAround.iterator();

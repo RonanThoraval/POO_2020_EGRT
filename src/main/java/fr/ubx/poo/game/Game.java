@@ -53,6 +53,12 @@ public class Game {
     	}
     }
     
+    /**
+     * 
+     * @param raw
+     * @param i, the level
+     * @return a list of monsters who are in the level
+     */
     public List<Monster> build(WorldEntity[][] raw, int i) {
     	List<Monster> monsters=new ArrayList<>();
 		for (int x=0 ; x<world[i].dimension.width ; x++) {
@@ -67,6 +73,12 @@ public class Game {
 		return monsters;
 	}
 	
+    /**
+     * 
+     * @param entity
+     * @param pos
+     * @return the monster if "entity" is a monster, null else
+     */
 	public Monster processEntity(WorldEntity entity,Position pos) {
 		switch(entity) {
 		case Monster : 
@@ -76,20 +88,35 @@ public class Game {
 		}
 	}
     
+	/**
+	 * 
+	 * @return the list of monster in the level where the player is
+	 */
 	public List<Monster> getMonsters() {
 		return monsters.get(current_level);
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @return the list of monsters in the level "level"
+	 */
 	public List<Monster> getMonsters(int level) {
 		return monsters.get(level);
 	}
 	
-	
+	/**
+	 * 
+	 * @return the lists of explosion of all levels
+	 */
 	public List<List<Explosion>> getExplosion(){
 		return explosions;
 	}
 	
-
+	/**
+	 * 
+	 * @return the initial numbers of lives of the player
+	 */
     public int getInitPlayerLives() {
         return initPlayerLives;
     }
@@ -107,14 +134,27 @@ public class Game {
         }
     }
 
+    /**
+     * 
+     * @return the world where the player is
+     */
     public World getWorld() {
         return world[current_level];
     }
     
+    /**
+     * 
+     * @param level
+     * @return return the world of level "level"
+     */
     public World getWorld(int level) {
     	return world[level];
     }
 
+    /**
+     * 
+     * @return return the player of the game
+     */
     public Player getPlayer() {
         return this.player;
     }
@@ -127,10 +167,18 @@ public class Game {
     	monsters.get(current_level).add(monster);
     }
     
+    /**
+     * 
+     * @return the "digit of level" where the player is
+     */
     public int getCurrentLevel() {
     	return current_level;
     }
     
+    /**
+     * 
+     * @return the "digit of level" before than player is in his actual level
+     */
     public int getBeforeLevel() {
     	return before_level;
     }
@@ -160,10 +208,18 @@ public class Game {
 		hasChangedLevel=true;
     }
     
+    /**
+     * 
+     * @return true if the player has changed of level
+     */
     public boolean hasChangedLevel() {
     	return hasChangedLevel;
     }
     
+    /**
+     * 
+     * @return the total numbers of level in the game
+     */
     public int getNbLevels() {
     	return nb_levels;
     }

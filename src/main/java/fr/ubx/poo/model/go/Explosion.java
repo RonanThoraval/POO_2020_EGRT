@@ -12,6 +12,10 @@ public class Explosion extends GameObject {
 		this.start=start;
 	}
 	
+	/**
+	 * 
+	 * @return the moment when the explosion has started
+	 */
 	public long getStart() {
 		return start;
 	}
@@ -20,12 +24,16 @@ public class Explosion extends GameObject {
 		return "Explosion";
 	}
 	
+	/**
+	 * 
+	 * @return true if the explosion is finished, false else
+	 */
 	public boolean getExplosed() {
 		return explosed;
 	}
 	
 	public void update(long now) {
-		if(now-  start>=1*Math.pow(10,9)) { //une seconde
+		if(now-  start>=1*Math.pow(10,9)) {
 			explosed=true;
 		}
 	}

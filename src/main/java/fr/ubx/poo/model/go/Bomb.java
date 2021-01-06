@@ -20,6 +20,10 @@ public class Bomb extends GameObject {
 		this.start=start;
 	}
 	
+	/**
+	 * 
+	 * @return the progress of the bomb explosion
+	 */
 	public int getEtat() {
 		return etat;
 	}
@@ -29,6 +33,10 @@ public class Bomb extends GameObject {
 		this.etat=etat;
 	}
 	
+	/**
+	 * 
+	 * @return the moment when the bomb has started to explode
+	 */
 	public long getStart() {
 		return start;
 	}
@@ -37,6 +45,10 @@ public class Bomb extends GameObject {
 		return "Bomb";
 	}
 	
+	/**
+	 * 
+	 * @return true if the bomb has exploded, false else
+	 */
 	public boolean explosed() {
 		return explosed;
 	}
@@ -45,6 +57,10 @@ public class Bomb extends GameObject {
 		created=true;
 	}
 	
+	/**
+	 * 
+	 * @return JE LAISSE ERELL LA FAIRE CELLE-La
+	 */
 	public boolean getCreated() {
 		return created;
 	}
@@ -69,7 +85,12 @@ public class Bomb extends GameObject {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param range, the range of bombs
+	 * @param level, the level where the player is
+	 * @return the list of all the possible cases where the explosion can be
+	 */
 	public List<Position> positionsAroundBomb(int range,int level) {
 		List<Position> l=new ArrayList<>();
 		int y=getPosition().y;

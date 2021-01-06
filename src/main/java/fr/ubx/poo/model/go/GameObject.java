@@ -15,7 +15,10 @@ public abstract class GameObject extends Entity {
     protected final Game game;
     private Position position;
 
-
+    /**
+     * 
+     * @return the position of the GameObject
+     */
     public Position getPosition() {
         return position;
     }
@@ -29,6 +32,10 @@ public abstract class GameObject extends Entity {
         this.position = position;
     }
     
+    /**
+     * 
+     * @return the game where the GameObject is
+     */
     public Game getGame() {
     	return game;
     }
