@@ -28,8 +28,4 @@ public abstract class Decor extends Entity {
 		return true;
 	}
 
-	public boolean isDoor() {
-		return false;
-	}
-
 }

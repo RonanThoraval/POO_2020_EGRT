@@ -239,7 +239,7 @@ public class Player extends GameObject implements Movable {
 	 */
 	public boolean canOpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
-		if(game.getWorld().get(newPos).isDoor() && keys!=0) {
+		if(game.getWorld().get(newPos) instanceof Door && keys!=0) {
 			Door d=(Door) game.getWorld().get(newPos);
 			if (d.getState()==1) {
 				return (d.getState()==1);

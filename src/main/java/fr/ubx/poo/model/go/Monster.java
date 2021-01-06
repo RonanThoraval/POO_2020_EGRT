@@ -57,37 +57,43 @@ public class Monster extends GameObject implements Movable {
 	}
 	
 	public void update(long now) {
-		if((now-start)>=(2-1.5*this.game.getCurrentLevel()/(this.game.getNbLevels()-1))*Math.pow(10,9)) {
-			if(Math.random() > (this.game.getCurrentLevel())/(this.game.getNbLevels()-1)) {
-				Direction initDirection = direction;
-				direction = Direction.random();
-				while(!canMove(direction)) {
-					if(direction==Direction.N) {
-						triedN=true;
-					} else if(direction==Direction.S) {
-						triedS=true;
-					} else if(direction==Direction.E) {
-						triedE=true;
-					} else if(direction==Direction.W) {
-						triedW=true;
-					}
-					if( triedN && triedS && triedE && triedW) {
-						direction = initDirection;
-						return;
-					}
-					direction = Direction.random();
-				}
-				triedN=false;
-				triedS=false;
-				triedE=false;
-				triedW=false;
+		if((now-start)>=(2-1.5*(float)(this.game.getCurrentLevel()/(this.game.getNbLevels()-1)))*Math.pow(10,9)) {
+			if(Math.random() > (float) (this.game.getCurrentLevel())/(this.game.getNbLevels()-1)) {
+				setAl();
 			}else {
-				direction = AI();
+				AI();
 			}
-			doMove(direction, now);
-			start = now;
+			if(canMove(direction)) {
+				doMove(direction, now);
+				start = now;
+			}
 		}
     }
+	
+	private void setAl() {
+		triedN=false;
+		triedS=false;
+		triedE=false;
+		triedW=false;
+		Direction initDirection = direction;
+		direction = Direction.random();
+		while(!canMove(direction)) {
+			if(direction==Direction.N) {
+				triedN=true;
+			} else if(direction==Direction.S) {
+				triedS=true;
+			} else if(direction==Direction.E) {
+				triedE=true;
+			} else if(direction==Direction.W) {
+				triedW=true;
+			}
+			if( triedN && triedS && triedE && triedW) {
+				direction = initDirection;
+				return;
+			}
+			direction=Direction.random();
+		}
+	}
 	
 	/**
 	 * 
@@ -95,41 +101,36 @@ public class Monster extends GameObject implements Movable {
 	 * @param direction2
 	 * @return one of the both directions, selected randomly 
 	 */
-	public Direction DirAl(Direction direction1, Direction direction2) {
-		if (!canMove(direction1) && !canMove(direction1)) {
-			Direction c = Direction.random();
-			while(!canMove(c)) {
-				c = Direction.random();
-			}
-			return c;
+	public void DirAl(Direction direction1, Direction direction2) {
+		if (!canMove(direction1) && !canMove(direction2)) {
+			setAl();
+		}else if (canMove(direction1) && !canMove(direction2)) {
+			direction= direction1;
+		}else if (!canMove(direction1) && canMove(direction2)) {
+			direction= direction2;
+		}else if(Math.random()>0.5) {
+			direction = direction1;
+		}else {
+		direction = direction2;
 		}
-		if (canMove(direction1) && !canMove(direction1)) {
-			return direction1;
-		}
-		if (!canMove(direction1) && canMove(direction1)) {
-			return direction1;
-		}
-		if(Math.random()>1/2) {
-			return direction1;
-		}
-		return direction1;
 	}
 	
-	public Direction AI() {
+	public void AI() {
 		int xp = this.game.getPlayer().getPosition().x;
 		int yp = this.game.getPlayer().getPosition().y;
 		int xm = getPosition().x;
 		int ym = getPosition().y;
 		if (xp > xm) {
 			if (yp > ym) {
-				return DirAl(Direction.E, Direction.S);
+				DirAl(Direction.E, Direction.S);
+			}else {
+				DirAl(Direction.E, Direction.N);
 			}
-			return DirAl(Direction.E, Direction.N);
+		}else if (yp > ym){
+			DirAl(Direction.W, Direction.S);
+		}else {
+			DirAl(Direction.W, Direction.N);
 		}
-		if (yp > ym){
-			return DirAl(Direction.W, Direction.S);
-		}
-		return DirAl(Direction.W, Direction.N);
 	}
 
 }
