@@ -46,6 +46,9 @@ public class Monster extends GameObject implements Movable {
 		alive=false;
 	}
 	
+	/**
+	 * Set the new Monster's position and decrease player's lives if necessary
+	 */
 	public void doMove(Direction direction, long now) {
 		if (canMove(direction) ) {
 	    	Position nextPos = direction.nextPosition(getPosition());
@@ -70,6 +73,10 @@ public class Monster extends GameObject implements Movable {
 		}
     }
 	
+	/**
+	 * Set a random direction for the monster
+	 * If the monster is blocked, he keeps his initial direction
+	 */
 	private void setAl() {
 		triedN=false;
 		triedS=false;
@@ -96,10 +103,12 @@ public class Monster extends GameObject implements Movable {
 	}
 	
 	/**
+	 * Set a random direction for the monster between two directions
+	 * If one of the two directions is not valid, the else is chosen/choose???
+	 * If the both directions are not valid, do like setAl
 	 * 
 	 * @param direction1 
 	 * @param direction2
-	 * @return one of the both directions, selected randomly 
 	 */
 	public void DirAl(Direction direction1, Direction direction2) {
 		if (!canMove(direction1) && !canMove(direction2)) {
@@ -115,6 +124,9 @@ public class Monster extends GameObject implements Movable {
 		}
 	}
 	
+	/**
+	 * Set a best monster's direction to go towards the player
+	 */
 	public void AI() {
 		int xp = this.game.getPlayer().getPosition().x;
 		int yp = this.game.getPlayer().getPosition().y;
