@@ -273,6 +273,10 @@ public class Player extends GameObject implements Movable {
 		return false;
 	}
 	
+	/**
+	 * Open the door and decrease the number of keys
+	 * @param direction
+	 */
 	public void OpenDoor(Direction direction) {
 		Position newPos=direction.nextPosition(getPosition());
 		Door d=(Door) game.getWorld().get(newPos);
@@ -290,6 +294,10 @@ public class Player extends GameObject implements Movable {
 		return nbBombs!=0;
 	}
 	
+	/**
+	 * Pose a bomb and decrease the number of bombs
+	 * @param now
+	 */
 	public void PoseBomb(long now) {
 		long start=now;
 		Bomb b=new Bomb(this.game,getPosition(),start);
