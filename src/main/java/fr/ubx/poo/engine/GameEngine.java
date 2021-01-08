@@ -222,12 +222,13 @@ public final class GameEngine {
     }
 
     /**
+     * This function kills enemies and decrease lives' player when it is necessary
      * 
      * @param bombPosition, the position of the bomb
      * @param positionsAround, a list of potential positions of explosions
      * @param level, the level where the actualization takes places
      * @param now, the moment when/where the actualization takes places
-     * @return a list of positions where decor must be delete
+     * @return a list of positions where decor must be deleted
      * 
      * This function kills also enemies and decrease lives' player when it is necessary
      */
@@ -348,6 +349,9 @@ public final class GameEngine {
         
     }
     
+    /**
+     * deletes the sprites of the Objects (bomb, monster, explosion) that don't exist anymore
+     */
     public void removeSpritesofMissingObjects() {
     	//enlève les sprites des explosions déjà apparues
 	    Iterator<SpriteExplosion> it=spritesExplosion.iterator();

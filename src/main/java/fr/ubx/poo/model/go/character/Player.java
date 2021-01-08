@@ -51,16 +51,21 @@ public class Player extends GameObject implements Movable {
         return lives;
     }
     
-    
+    /**
+     * Decrease the player's lives by one, when it's possible
+     * @param now
+     */
     public void decreaseLives(long now) {
     	if(!invincible) {
     		invincible=true;
     		lives--;
     		start=now;
-    		System.out.println("a");
     	}
     }
     
+    /**
+     * Increase the player's lives by one
+     */
     public void increaseLives() {
     	lives++;
     }
@@ -77,13 +82,16 @@ public class Player extends GameObject implements Movable {
     	return nbBombs;
     }
     
-    /*
-     * POUETTTETETTETTE
+    /**
+     * Increase the player's numbers of bombs by one
      */
     public void increaseNbBombs() {
     	nbBombs++;
     }
     
+    /**
+     * Decrease the player's numbers of bombs by one
+     */
     public void decreaseNbBombs() {
     	nbBombs--;
     }
@@ -96,10 +104,16 @@ public class Player extends GameObject implements Movable {
     	return rangeBombs;
     }
     
+    /**
+     * Decrease the player's range of bombs by one
+     */
     public void decreaseRangeBombs() {
     	rangeBombs--;
     }
     
+    /**
+     * Increase the player's range of bombs by one
+     */
     public void increaseRangeBombs() {
     	rangeBombs++;
     }
@@ -112,15 +126,23 @@ public class Player extends GameObject implements Movable {
     	return keys;
     }
     
+    /**
+     * Increase the player's numbers of keys by one
+     */
     public void increaseKeys() {
     	keys++;
     }
     
+    /**
+     * Decrease the player's numbers of keys by one
+     */
     public void decreaseKeys() {
     	keys--;
     }
     
-    
+    /**
+     * Set the player winner
+     */
     public void setWinner() {
     	winner=true;
     }
@@ -134,7 +156,7 @@ public class Player extends GameObject implements Movable {
     }
     
     /**
-     * 
+     * Set the direction asked, and say a move is requested
      * @param direction
      */
     public void requestMove(Direction direction) {
@@ -148,7 +170,7 @@ public class Player extends GameObject implements Movable {
     /**
      * @param direction towards the player wants to go
      * 
-     * @return true if the player can go towards direction passed in parameters, false else
+     * @return true if the player can go towards direction given in parameters, false else
      * 
      */
     public boolean canMove(Direction direction) {
@@ -158,6 +180,9 @@ public class Player extends GameObject implements Movable {
         (this.game.getWorld().isEmpty(newPos) || this.game.getWorld().get(newPos).canPlayerGo(this));
     }
 
+    /**
+     * Set the new player's position and decrease his lives if necessary
+     */
     public void doMove(Direction direction, long now) throws IOException {
     	Position nextPos = direction.nextPosition(getPosition());
     	if (this.game.getWorld().isEmpty(nextPos)) {
@@ -219,7 +244,7 @@ public class Player extends GameObject implements Movable {
     	return "Player";
     }
 
-	public void requestOpenDoor() {
+    public void requestOpenDoor() {
 		OpenDoorRequest=true;
 	}
 	
