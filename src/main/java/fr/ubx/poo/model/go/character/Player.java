@@ -300,7 +300,7 @@ public class Player extends GameObject implements Movable {
 	 */
 	public void PoseBomb(long now) {
 		long start=now;
-		Bomb b=new Bomb(this.game,getPosition(),start);
+		Bomb b=new Bomb(this.game,getPosition(),start,rangeBombs);
 		listBomb.get(game.getCurrentLevel()).add(b);
 		nbBombs=nbBombs-1;
 			

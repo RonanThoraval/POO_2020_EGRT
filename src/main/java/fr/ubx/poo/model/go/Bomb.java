@@ -10,14 +10,15 @@ public class Bomb extends GameObject {
 	long start; //Timer for when the bomb was created
 	int state; //State changes every second until bomb explodes
 	boolean exploded=false;
-	
-	//states if the bomb was already created in the game ( if  not, it has to be created ).
+	int range;
+	//states if the bomb was already created in the game ( if not, it has to be created ).
 	boolean created=false;
 	
-	public Bomb(Game game, Position position, long start) {
+	public Bomb(Game game, Position position, long start, int range) {
 		super(game,position);
 		this.state=0;
 		this.start=start;
+		this.range=range;
 	}
 	
 	/**
@@ -58,6 +59,9 @@ public class Bomb extends GameObject {
 		return exploded;
 	}
 	
+	public int getRange() {
+		return range;
+	}
 	/**
 	 * 
 	 * Sets the creation of the bomb

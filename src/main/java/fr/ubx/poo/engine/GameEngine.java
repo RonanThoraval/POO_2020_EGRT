@@ -307,7 +307,7 @@ public final class GameEngine {
 	        			//the bomb has exploded, we have to create the explosions around
 	    	       		player.increaseNbBombs();
 	    	       		//Search of the affected positions
-	        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs(),i);
+	        			List<Position> positionsAround=bomb.positionsAroundBomb(bomb.getRange(),i);
 	        			//Search of the affected objects
 	        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround,i,now);
 	        			for (Position p : positionToSupp) {
