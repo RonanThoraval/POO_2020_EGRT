@@ -18,6 +18,8 @@ public class World {
     private final Map<Position, Decor> grid;
     public final WorldEntity[][] raw;
     public final Dimension dimension;
+    
+    //changed states if the decor has been changed in the world.
     private boolean changed=true;
 
     public World(WorldEntity[][] raw) {
@@ -33,6 +35,15 @@ public class World {
     	
     }
 
+    /**
+     * 
+     * @param prefix, prefix of the files 
+     * @param level
+     * @param path, to find the files
+     * @return An array of WorldEntities, null if a file could not be loaded.
+     * @throws IOException
+     * The method construct a world from a coded file.
+     */
 	public WorldEntity[][] WorldConstruct(String prefix, int level,String path) throws IOException {
 		BufferedReader lecteurAvecBuffer = null;
 		BufferedReader taille_du_fichier=null;
@@ -81,6 +92,12 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
     
+    /**
+     * 
+     * @param DoorState, A String which states which type of door is searched
+     * @return the position of the door searched
+     * @throws PositionNotFoundException
+     */
     public Position findDoor(String DoorState) throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -100,10 +117,20 @@ public class World {
         throw new PositionNotFoundException(DoorState);
     }
     
+    /**
+     * 
+     * @return changed
+     * Getter for changed.
+     */
     public boolean hasChanged() {
     	return changed;
     }
     
+    /**
+     * 
+     * @param boolean b
+     * Setter for changed.
+     */
     public void setChanged(boolean b) {
     	this.changed=b;
     }

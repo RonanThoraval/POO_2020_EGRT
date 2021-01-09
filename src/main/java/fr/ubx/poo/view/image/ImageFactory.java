@@ -22,7 +22,7 @@ public final class ImageFactory {
             DIGIT_5, DIGIT_6, DIGIT_7, DIGIT_8, DIGIT_9,
     };
     
-    private final ImageResource[] BombsEtat = new ImageResource[] {
+    private final ImageResource[] BombsStates = new ImageResource[] {
     		BOMB4, BOMB3, BOMB2, BOMB1, EXPLOSION,
     };
     
@@ -67,7 +67,7 @@ public final class ImageFactory {
     }
     
     public Image getBomb(int etat) {
-    	return get(BombsEtat[etat]);
+    	return get(BombsStates[etat]);
     }
     
     public Image getMonster(Direction direction) {

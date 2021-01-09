@@ -5,9 +5,12 @@ import fr.ubx.poo.model.go.character.Player;
 
 public class Door extends Decor {
 	
-	// Si state=1, DoorNextClosed
-	// Si state=2, DoorPrevOpened
-	// Si state=3, DoorNextOpened
+	
+	/**
+	 *  If state=1, DoorNextClosed
+	 * If state=2, DoorPrevOpened
+	 * If state=3, DoorNextOpened
+	 */
 	private int state;
 	
 	public Door(int etat) {
@@ -19,10 +22,20 @@ public class Door extends Decor {
         return "NbBombMoins";
     }
 	
+	/**
+	 * 
+	 * @return state
+	 * Getter for state.
+	 */
 	public int getState() {
 		return state;
 	}
 	
+	/**
+	 * 
+	 * @param state
+	 * Setter for state.
+	 */
 	public void setState(int state) {
 		this.state=state;
 	}

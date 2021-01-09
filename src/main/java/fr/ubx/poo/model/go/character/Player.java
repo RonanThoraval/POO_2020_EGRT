@@ -45,14 +45,14 @@ public class Player extends GameObject implements Movable {
     
     /**
      * 
-     * @return the player's numbers of lives
+     * @return the player's number of lives
      */
     public int getLives() {
         return lives;
     }
     
     /**
-     * Decrease the player's lives by one, when it's possible
+     * Decreases the player's lives by one, when it's possible
      * @param now
      */
     public void decreaseLives(long now) {
@@ -64,7 +64,7 @@ public class Player extends GameObject implements Movable {
     }
     
     /**
-     * Increase the player's lives by one
+     * Increases the player's lives by one
      */
     public void increaseLives() {
     	lives++;
@@ -76,21 +76,21 @@ public class Player extends GameObject implements Movable {
     
     /**
      * 
-     * @return the actual player's numbers of bombs
+     * @return the current player's number of bombs
      */
     public int getNbBombs() {
     	return nbBombs;
     }
     
     /**
-     * Increase the player's numbers of bombs by one
+     * Increases the player's number of bombs by one
      */
     public void increaseNbBombs() {
     	nbBombs++;
     }
     
     /**
-     * Decrease the player's numbers of bombs by one
+     * Decreases the player's number of bombs by one
      */
     public void decreaseNbBombs() {
     	nbBombs--;
@@ -105,14 +105,14 @@ public class Player extends GameObject implements Movable {
     }
     
     /**
-     * Decrease the player's range of bombs by one
+     * Decreases the player's range of bombs by one
      */
     public void decreaseRangeBombs() {
     	rangeBombs--;
     }
     
     /**
-     * Increase the player's range of bombs by one
+     * Increases the player's range of bombs by one
      */
     public void increaseRangeBombs() {
     	rangeBombs++;
@@ -127,21 +127,21 @@ public class Player extends GameObject implements Movable {
     }
     
     /**
-     * Increase the player's numbers of keys by one
+     * Increases the player's number of keys by one
      */
     public void increaseKeys() {
     	keys++;
     }
     
     /**
-     * Decrease the player's numbers of keys by one
+     * Decreases the player's numbers of keys by one
      */
     public void decreaseKeys() {
     	keys--;
     }
     
     /**
-     * Set the player winner
+     * Sets the player winner
      */
     public void setWinner() {
     	winner=true;
@@ -149,14 +149,14 @@ public class Player extends GameObject implements Movable {
     
     /**
      * 
-     * @return the list of player's bombs posed
+     * @return the list of the player's bombs posed
      */
     public List<List<Bomb>> getListBombs() {
     	return listBomb;
     }
     
     /**
-     * Set the direction asked, and say a move is requested
+     * Sets the direction asked, and says if a move is requested
      * @param direction
      */
     public void requestMove(Direction direction) {
@@ -168,7 +168,7 @@ public class Player extends GameObject implements Movable {
 
     @Override
     /**
-     * @param direction towards the player wants to go
+     * @param direction where the player wants to go
      * 
      * @return true if the player can go towards direction given in parameters, false else
      * 
@@ -181,7 +181,7 @@ public class Player extends GameObject implements Movable {
     }
 
     /**
-     * Set the new player's position and decrease his lives if necessary
+     * Sets the new player's position and decreases his lives if necessary
      */
     public void doMove(Direction direction, long now) throws IOException {
     	Position nextPos = direction.nextPosition(getPosition());
@@ -226,7 +226,7 @@ public class Player extends GameObject implements Movable {
 
     /**
      * 
-     * @return true if the player has win the game, false else
+     * @return true if the player has won the game, false else
      */
     public boolean isWinner() {
     	return winner;
@@ -274,7 +274,7 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	/**
-	 * Open the door and decrease the number of keys
+	 * Opens the door and decreases the number of keys
 	 * @param direction
 	 */
 	public void OpenDoor(Direction direction) {
@@ -295,7 +295,7 @@ public class Player extends GameObject implements Movable {
 	}
 	
 	/**
-	 * Pose a bomb and decrease the number of bombs
+	 * Poses a bomb and decreases the number of bombs
 	 * @param now
 	 */
 	public void PoseBomb(long now) {
@@ -305,13 +305,23 @@ public class Player extends GameObject implements Movable {
 		nbBombs=nbBombs-1;
 			
 	}
-
+	
+	/**
+	 * 
+	 * @param position
+	 * Puts the box further.
+	 */
 	public void manageBox(Position position) {
 		this.game.getWorld().clear(position);
     	this.game.getWorld().set(this.direction.nextPosition(position), new Box());
     	setPosition(position);
 	}
 	
+	/**
+	 * 
+	 * @param position
+	 * For the bonus, the player removes the bonus, and takes its place.
+	 */
 	public void manage(Position position) {
 		this.game.getWorld().clear(position);
 		setPosition(position);

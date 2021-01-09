@@ -179,6 +179,7 @@ public final class GameEngine {
      * @param position, a position where the explosion can potentially go
      * @param level
      * @return true if something is between the bomb's position and the position past in parameters, false else
+     * If something is between the bomb and the object, the object can not be affected.
      */
     private boolean isBehindSomething(Position bombPosition, Position position,int level) {
     	if (Math.abs(bombPosition.x-position.x)<=1 && Math.abs(bombPosition.y-position.y)<=1) {
@@ -222,7 +223,6 @@ public final class GameEngine {
     }
 
     /**
-     * This function kills enemies and decrease lives' player when it is necessary
      * 
      * @param bombPosition, the position of the bomb
      * @param positionsAround, a list of potential positions of explosions
@@ -230,7 +230,7 @@ public final class GameEngine {
      * @param now, the moment when/where the actualization takes places
      * @return a list of positions where decor must be deleted
      * 
-     * This function kills also enemies and decrease lives' player when it is necessary
+     * This function also kills enemies and decrease player's lives when it is necessary
      */
     private List<Position> bombDamage(Position bombPosition, List<Position> positionsAround, int level,long now) {
     	List<Position> positionToSupp=new ArrayList<>();
@@ -268,8 +268,10 @@ public final class GameEngine {
     	return positionToSupp;
     }
     
+    
+    
     private void update(long now) throws IOException {
-    	// cas 1 : on entre dans un nouveau niveau
+    	// case 1 : new level
     	if (game.hasChangedLevel()) {
     		spritesDecor.clear();
     		spritesMonster.clear();
@@ -280,7 +282,7 @@ public final class GameEngine {
     		game.setChangedLevel(false);	
     	}
     	
-    	//cas 2 : le décor du niveau a été modifié
+    	//case 2 : Decor has been modified ( box has been moved, bonus has been taken )
     	if (game.getWorld().hasChanged()) {
     		spritesDecor.forEach(s -> s.remove());
     		spritesDecor.clear();
@@ -292,19 +294,24 @@ public final class GameEngine {
         player.update(now);
         
         
-        //update l'état des bombes et des explosions de tous les niveaux, et crée les sprites des nouvelles bombes et explosions
+        //update state of bombs and explosions of all levels, creates sprites of new bombs and explosions
         for (int i=0 ; i<game.getNbLevels(); i++) {
         	Iterator<Bomb> iter=player.getListBombs().get(i).iterator();
         	while (iter.hasNext()) {
 	        	Bomb bomb=iter.next();
-	        	if (bomb.getCreated()) {
-	        		if (!bomb.explosed()) {
+	        	if (bomb.hasBeenCreated()) {
+	        		if (!bomb.exploded()) {
+	        			//the bomb hasn't exploded yet, updates the sprite
 	            		bomb.update(now);
 	        		}else {
+	        			//the bomb has exploded, we have to create the explosions around
 	    	       		player.increaseNbBombs();
+	    	       		//Search of the affected positions
 	        			List<Position> positionsAround=bomb.positionsAroundBomb(player.getRangeBombs(),i);
+	        			//Search of the affected objects
 	        			List<Position> positionToSupp = bombDamage(bomb.getPosition(),positionsAround,i,now);
 	        			for (Position p : positionToSupp) {
+	        				//Apparition of explosions
 	        				Explosion exp = new Explosion(game,p,now);
 	        				game.addExplosion(i,exp);
 	        				if (i==game.getCurrentLevel()) {
@@ -312,11 +319,13 @@ public final class GameEngine {
 	        				}
 	        				
 	        			}
+	        			//the bomb doesn't exists in the game anymore, we have to remove it from the bombList
 	        		    iter.remove();
 	        		}
 	        	} else {
+	        		//the bomb hasn't been put in the game yet
         			spritesBomb.add(SpriteFactory.createBomb(layer, bomb));
-	        		bomb.setCreated();
+	        		bomb.setHasBeenCreated();
 	        	}	
 	        }
         	
@@ -324,18 +333,20 @@ public final class GameEngine {
         	while (iter2.hasNext()) {
         		Explosion exp=iter2.next();
         		if (exp.getExplosed()) {
+        			//deleting the already explosed
         			iter2.remove();
         		} else {
         			exp.update(now);
         		}
         	}
         	
-        	//update monstres
+        	//updating monsters
         	for(Monster monster : game.getMonsters()) {
             	monster.update(now);
             }
         }
         
+        //removal of dead/expired objects
         removeSpritesofMissingObjects();
 
         if (player.isAlive() == false) {
@@ -350,10 +361,10 @@ public final class GameEngine {
     }
     
     /**
-     * deletes the sprites of the Objects (bomb, monster, explosion) that don't exist anymore
+     * deletes sprites of the Objects (bomb, monster, explosion) that don't exist anymore
      */
     public void removeSpritesofMissingObjects() {
-    	//enlève les sprites des explosions déjà apparues
+    	//remove sprites of already seen explosions
 	    Iterator<SpriteExplosion> it=spritesExplosion.iterator();
 	    while (it.hasNext()) {
 	        SpriteExplosion next=it.next();
@@ -364,17 +375,17 @@ public final class GameEngine {
         }
         
         
-        //enlève les sprites des bombes explosées 
+        //remove sprites of exploded bombs 
 	    Iterator<SpriteBomb> iterator = spritesBomb.iterator();
 	    while(iterator.hasNext()) {
 	        SpriteBomb next = iterator.next();
-	       	if(next.getBomb().explosed()) {
+	       	if(next.getBomb().exploded()) {
 	       		next.remove();
 	       		iterator.remove();
 	       	}
         }
         
-	    //enlève les sprites des monstres morts
+	    //remove sprites of dead monsters
         Iterator<SpriteMonster> iterator2 = spritesMonster.iterator();
 	    while(iterator2.hasNext()) {
 	    	SpriteMonster next2 = iterator2.next();

@@ -22,12 +22,11 @@ public class Game {
     private final World[] world;
     private final List<List<Monster>> monsters;
     private List<List<Explosion>> explosions = new ArrayList<>();
-    //player devrait être final et worldpath aussi
-    //player=null à changer mais je vois pas d'autre solution pour l'instant
     private Player player=null;
-    private String worldPath;
+    private final String worldPath;
     public int initPlayerLives;
     private int nb_levels;
+    //current_level starts at 0, because it's easier for the lists.
     private int current_level=0;
     private int before_level=0;
     private String prefix;
@@ -90,7 +89,7 @@ public class Game {
     
 	/**
 	 * 
-	 * @return the list of monster in the level where the player is
+	 * @return the list of monsters in the level where the player is
 	 */
 	public List<Monster> getMonsters() {
 		return monsters.get(current_level);
@@ -107,7 +106,7 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return the lists of explosion of all levels
+	 * @return the lists of explosions of all levels
 	 */
 	public List<List<Explosion>> getExplosion(){
 		return explosions;
@@ -145,7 +144,7 @@ public class Game {
     /**
      * 
      * @param level
-     * @return return the world of level "level"
+     * @return the world of level "level"
      */
     public World getWorld(int level) {
     	return world[level];
@@ -153,16 +152,28 @@ public class Game {
 
     /**
      * 
-     * @return return the player of the game
+     * @return the player of the game
      */
     public Player getPlayer() {
         return this.player;
     }
     
+    /**
+     * 
+     * @param level
+     * @param explosion
+     * Adds an explosion in the level "level".
+     */
     public void addExplosion(int level, Explosion explosion) {
     	explosions.get(level).add(explosion);
     }
     
+    /**
+     * 
+     * @param monster
+     * @param level
+     * Adds an monster in the level "level".
+     */
     public void addMonster(Monster monster, int level) {
     	monsters.get(current_level).add(monster);
     }
@@ -177,13 +188,18 @@ public class Game {
     
     /**
      * 
-     * @return the "digit of level" before than player is in his actual level
+     * @return the the digit of the previous level where the player was.
      */
     public int getBeforeLevel() {
     	return before_level;
     }
     
-    
+    /**
+     * 
+     * @param whichLevel, a string ( "next" or "prev") which states if the player goes to the next or the previous level
+     * @throws IOException
+     * The method changes level, puts the player where the door is.
+     */
     public void changeLevel(String whichLevel) throws IOException {
     	if (whichLevel=="next") {
     		before_level =current_level;
@@ -210,7 +226,7 @@ public class Game {
     
     /**
      * 
-     * @return true if the player has changed of level
+     * @return true if the player has changed level.
      */
     public boolean hasChangedLevel() {
     	return hasChangedLevel;
@@ -218,12 +234,17 @@ public class Game {
     
     /**
      * 
-     * @return the total numbers of level in the game
+     * @return the total numbers of levels in the game.
      */
     public int getNbLevels() {
     	return nb_levels;
     }
     
+    /**
+     * 
+     * @param b, a boolean
+     * Sets b in hasChangedLevel.
+     */
     public void setChangedLevel(boolean b) {
     	hasChangedLevel=b;
     }

@@ -7,30 +7,35 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 
 public class Bomb extends GameObject {
-	long start;
-	int etat;
-	boolean explosed=false;
+	long start; //Timer for when the bomb was created
+	int state; //State changes every second until bomb explodes
+	boolean exploded=false;
 	
-	//created indique si la bombe a été placée dans le jeu 
+	//states if the bomb was already created in the game ( if  not, it has to be created ).
 	boolean created=false;
 	
 	public Bomb(Game game, Position position, long start) {
 		super(game,position);
-		this.etat=0;
+		this.state=0;
 		this.start=start;
 	}
 	
 	/**
 	 * 
 	 * @return the progress of the bomb explosion
+	 * Getter for state.
 	 */
-	public int getEtat() {
-		return etat;
+	public int getState() {
+		return state;
 	}
 	
-	
-	public void setEtat(int etat) {
-		this.etat=etat;
+	/**
+	 * 
+	 * @param state
+	 * Getter for state.
+	 */
+	public void setState(int state) {
+		this.state=state;
 	}
 	
 	/**
@@ -49,38 +54,44 @@ public class Bomb extends GameObject {
 	 * 
 	 * @return true if the bomb has exploded, false else
 	 */
-	public boolean explosed() {
-		return explosed;
+	public boolean exploded() {
+		return exploded;
 	}
 	
-	public void setCreated() {
+	/**
+	 * 
+	 * Sets the creation of the bomb
+	 */
+	public void setHasBeenCreated() {
 		created=true;
 	}
 	
 	/**
 	 * 
-	 * @return JE LAISSE ERELL LA FAIRE CELLE-La
+	 * @return True if the bomb has already been created in the game.
 	 */
-	public boolean getCreated() {
+	public boolean hasBeenCreated() {
 		return created;
 	}
 	
-	public void decreate() {
-		created=false;
-	}
 	
+	/**
+	 * 
+	 * @param now
+	 * Changes the state of the bomb every second until it explodes
+	 */
 	public void update(long now) {
 		if(now-  start>=5*Math.pow(10,9)) {
-			explosed=true;
-    		etat=5;
+			exploded=true;
+    		state=5;
     	} else if(now- start>=4*Math.pow(10,9)) {
-    		etat=4;
+    		state=4;
     	} else if( now- start>=3*Math.pow(10,9)) {
-    		etat=3;
+    		state=3;
     	} else if(now- start>=2*Math.pow(10,9)) {
-    		etat=2;
+    		state=2;
     	} else if(now- start>=1*Math.pow(10,9)) {
-    		etat=1;
+    		state=1;
     	}
 	}
 	

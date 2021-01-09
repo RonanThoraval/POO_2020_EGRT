@@ -5,7 +5,7 @@ import fr.ubx.poo.game.Position;
 
 public class Explosion extends GameObject {
 	long start;
-	boolean explosed=false;
+	boolean exploded=false;
 	
 	public Explosion(Game game, Position position, long start) {
 		super(game,position);
@@ -20,21 +20,23 @@ public class Explosion extends GameObject {
 		return start;
 	}
 	
-	public String toString() {
-		return "Explosion";
-	}
-	
 	/**
 	 * 
 	 * @return true if the explosion is finished, false else
 	 */
 	public boolean getExplosed() {
-		return explosed;
+		return exploded;
 	}
 	
+	
+	/**
+	 * 
+	 * @param now
+	 * An explosion lasts one second.
+	 */
 	public void update(long now) {
 		if(now-  start>=1*Math.pow(10,9)) {
-			explosed=true;
+			exploded=true;
 		}
 	}
 		
