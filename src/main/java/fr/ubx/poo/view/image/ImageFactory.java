@@ -66,6 +66,11 @@ public final class ImageFactory {
         return get(directions[direction.ordinal()]);
     }
     
+    /**
+     * 
+     * @param etat
+     * @return the image of the bomb following its etat
+     */
     public Image getBomb(int etat) {
     	return get(BombsStates[etat]);
     }
