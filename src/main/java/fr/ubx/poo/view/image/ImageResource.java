@@ -36,10 +36,10 @@ public enum ImageResource {
 	RANGEBOMBMOINS("bonus_bomb_range_dec.png"),
 	DOORCLOSED("door_closed.png"),
 	DOOROPEN("door_opened.png"),
-	MONSTER_UP("monster_up.png"),
-	MONSTER_DOWN("monster_down.png"),
-	MONSTER_LEFT("monster_left.png"),
-	MONSTER_RIGHT("monster_right.png")
+	MONSTER_UP("Reveillere.jpg"), //monster_up
+	MONSTER_DOWN("Reveillere.jpg"), //monster_down
+	MONSTER_LEFT("Reveillere.jpg"), //monster_left
+	MONSTER_RIGHT("Reveillere.jpg") //monster_right
     ;
 
     private final String FileName;

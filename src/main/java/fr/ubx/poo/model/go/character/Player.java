@@ -202,7 +202,6 @@ public class Player extends GameObject implements Movable {
     	
     	if(invincible && now-start>=Math.pow(10,9)) {
     		invincible = false;
-    		System.out.println("b");
     	}
         if (moveRequested) {
             if (canMove(direction)) {

@@ -31,13 +31,17 @@ public abstract class Decor extends Entity {
 	 */
 	public abstract void doPlayerGo(Player player) throws IOException;
 
+	/**
+	 * 
+	 * @return a boolean stating if this decor can explode or not
+	 */
 	public boolean canExplose() {
 		return true;
 	}
 
 	/**
 	 * 
-	 * @return A boolean stating if a monster is allowed to walk on this decor.
+	 * @return a boolean stating if a monster is allowed to walk on this decor.
 	 */
 	public boolean canMonsterGo() {
 		return true;

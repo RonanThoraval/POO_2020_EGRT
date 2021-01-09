@@ -162,7 +162,7 @@ public final class GameEngine {
      * 
      * @param p
      * @param level
-     * @return true if a monster is at the position p in level "level"
+     * @return true if a monster is at the position "p" in level "level"
      */
     private boolean isMonsterHere(Position p,int level) {
     	for (Monster monster : game.getMonsters(level)) {

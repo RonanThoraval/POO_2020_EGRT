@@ -128,13 +128,18 @@ public class World {
     
     /**
      * 
-     * @param boolean b
+     * @param b
      * Setter for changed.
      */
     public void setChanged(boolean b) {
     	this.changed=b;
     }
 
+    /**
+     * 
+     * @param position
+     * @return the decor who is at the position "position"
+     */
     public Decor get(Position position) {
         return grid.get(position);
     }
@@ -143,12 +148,20 @@ public class World {
     	return this.raw;
     }
     
-
+    /**
+     * Sets the decor "decor" at the position "position"
+     * @param position
+     * @param decor
+     */
     public void set(Position position, Decor decor) {
         grid.put(position, decor);
         changed=true;
     }
 
+    /**
+     * Deletes the decor at position "position"
+     * @param position
+     */
     public void clear(Position position) {
         grid.remove(position);
         changed=true;
@@ -163,10 +176,12 @@ public class World {
         return grid.values();
     }
 
-    public boolean isInside(Position position) {
-        return true; // to update
-    }
-
+   
+    /**
+     * 
+     * @param position
+     * @return true if there is not decor at position "position"
+     */
     public boolean isEmpty(Position position) {
         return grid.get(position) == null;
     }

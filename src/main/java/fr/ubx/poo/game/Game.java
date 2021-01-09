@@ -169,10 +169,9 @@ public class Game {
     }
     
     /**
-     * 
+     * Adds an monster in the level "level"
      * @param monster
      * @param level
-     * Adds an monster in the level "level".
      */
     public void addMonster(Monster monster, int level) {
     	monsters.get(current_level).add(monster);
